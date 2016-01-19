@@ -21,6 +21,12 @@ Module Description
 
 The oslo module is a thorough attempt to make Puppet capable of managing the entirety of oslo.  This includes manifests to provision region specific endpoint and database connections.  Types are shipped as part of the oslo module to assist in manipulation of configuration files.
 
+
+| Name        | oslo.config | oslo.concurrency | oslo.context | oslo.db | oslo.log | oslo.messaging | oslo.middleware | oslo.policy | oslo.reports | oslo.rootwrap | oslo.serialization | oslo.utils | oslo.versionedobjects | oslo.service | oslo.i18n | oslo.vmware |
+| ------------- |:-------------:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:|
+| Cinder | >=3.2.0 | >=2.3.0 | >=0.2.0 | >=4.1.0| >=1.14.0 | !=2.8.0,!=3.1.0,>2.6.1 | >=3.0.0 | >=0.5.0 | >=0.6.0 | >=2.0.0 | >=1.10.0 | >=3.2.0 | >=0.13.0 | >=1.0.0 | >=1.5.0 | >=1.16.0 |
+| Ceilometer | >=3.2.0 | >=2.3.0 | >=0.2.0 | >=4.1.0| >=1.14.0 | !=2.8.0,!=3.1.0,>2.6.1 | >=3.0.0 | >=0.5.0 | >=0.6.0 | >=2.0.0 | >=1.10.0 | >=3.4.0 | n/a | >=1.0.0 | >=1.5.0 | n/a |
+
 Setup
 -----
 
