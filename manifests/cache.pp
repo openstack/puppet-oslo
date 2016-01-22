@@ -25,11 +25,11 @@
 #
 # or add following code in glance::api:
 #
-#    create_resources(oslo::cache, $authtoken_config)
+#    create_resources(oslo::cache, $cache_config)
 #
 # Then in hiera should add this:
 #
-#   oslo::cache::cache_config:
+#   glance::api::cache_config:
 #     'glance_api_config':
 #       memcached_servers: '127.0.0.1'
 #       memcache_dead_retry: '100'
