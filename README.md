@@ -25,6 +25,7 @@ Following versions of oslo libraries are get from requirements.txt in each proje
 
 | Name | oslo.cache | oslo.config | oslo.concurrency | oslo.context | oslo.db | oslo.log | oslo.messaging | oslo.middleware | oslo.policy | oslo.reports | oslo.rootwrap | oslo.serialization | oslo.utils | oslo.versionedobjects | oslo.service | oslo.i18n | oslo.vmware |
 | ---- |:-------:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:| -----:|
+| Aodh | n/a | >=2.6.0 | n/a | >=0.2.0 | >=1.12.0 | >=1.2.0 | !=2.8.0,>2.6.1 | !=2.0.0,>=1.2.0 | >=0.5.0 | n/a | n/a | >=1.4.0 | >=1.9.0 | n/a | >=0.1.0 | >=1.5.0 | n/a |
 | Cinder | n/a | >=3.2.0 | >=2.3.0 | >=0.2.0 | >=4.1.0| >=1.14.0 | !=2.8.0,!=3.1.0,>2.6.1 | >=3.0.0 | >=0.5.0 | >=0.6.0 | >=2.0.0 | >=1.10.0 | >=3.2.0 | >=0.13.0 | >=1.0.0 | >=1.5.0 | >=1.16.0 |
 | Ceilometer | n/a | >=3.2.0 | >=2.3.0 | >=0.2.0 | >=4.1.0| >=1.14.0 | !=2.8.0,!=3.1.0,>2.6.1 | >=3.0.0 | >=0.5.0 | >=0.6.0 | >=2.0.0 | >=1.10.0 | >=3.4.0 | n/a | >=1.0.0 | >=1.5.0 | n/a |
 | Designate | n/a | >=3.2.0 | >=2.3.0 | >=0.2.0 | >=4.1.0| >=1.14.0 | !=2.8.0,!=3.1.0,>2.6.1 | >=3.0.0 | >=0.5.0 | >=0.6.0 | >=2.0.0 | >=1.10.0 | >=3.4.0 | n/a | >=1.0.0 | >=1.5.0 | n/a |
@@ -35,7 +36,6 @@ Following versions of oslo libraries are get from requirements.txt in each proje
 | Neutron | n/a | >=3.2.0 | >=2.3.0 | >=0.2.0 | >=4.1.0| >=1.14.0 | !=2.8.0,!=3.1.0,>2.6.1 | >=3.0.0 | >=0.5.0 | >=0.6.0 | >=2.0.0 | >=1.10.0 | >=3.4.0 | >= 0.13.0 | >=1.0.0 | >=1.5.0 | n/a |
 | Trove | n/a | >=3.2.0 | >=2.3.0 | >=0.2.0 | >=4.1.0| >=1.14.0 | !=2.8.0,!=3.1.0,>2.6.1 | >=3.0.0 | n/a | n/a | n/a | >=1.10.0 | >=3.4.0 | n/a | >=1.0.0 | >=1.5.0 | n/a |
 | Swift | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
-
 
 Setup
 -----
