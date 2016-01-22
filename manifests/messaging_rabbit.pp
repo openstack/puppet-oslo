@@ -141,6 +141,11 @@ define oslo::messaging_rabbit(
   $heartbeat_rate                       = $::os_service_default,
   $fake_rabbit                          = $::os_service_default,
 ){
+
+  if ! is_service_default($fake_rabbit) {
+    warning('fake_rabbit is deprecated, please use use rpc_backend=kombu+memory or rpc_backend=fake')
+  }
+
   create_resources($name, {'oslo_messaging_rabbit/kombu_ssl_version' => { value => $kombu_ssl_version }})
   create_resources($name, {'oslo_messaging_rabbit/kombu_ssl_keyfile' => { value => $kombu_ssl_keyfile }})
   create_resources($name, {'oslo_messaging_rabbit/kombu_ssl_certfile' => { value => $kombu_ssl_certfile }})
@@ -164,8 +169,5 @@ define oslo::messaging_rabbit(
   create_resources($name, {'oslo_messaging_rabbit/rabbit_transient_queues_ttl' => { value => $rabbit_transient_queues_ttl }})
   create_resources($name, {'oslo_messaging_rabbit/heartbeat_timeout_threshold' => { value => $heartbeat_timeout_threshold }})
   create_resources($name, {'oslo_messaging_rabbit/heartbeat_rate' => { value => $heartbeat_rate }})
-  if $fake_rabbit {
-    warning('fake_rabbit is deprecated, please use use rpc_backend=kombu+memory or rpc_backend=fake')
-    create_resources($name, {'oslo_messaging_rabbit/fake_rabbit' => { value => $fake_rabbit }})
-  }
+  create_resources($name, {'oslo_messaging_rabbit/fake_rabbit' => { value => $fake_rabbit }})
 }
