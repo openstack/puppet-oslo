@@ -43,6 +43,7 @@ Following versions of oslo libraries are get from requirements.txt in each proje
 | Sahara | n/a | >=3.2.0 | >=2.3.0 | >=0.2.0 | >=4.1.0 | >=1.14.0 | !=2.8.0,!=3.1.0,>2.6.1 | >=3.0.0 | >= 0.5.0 | n/a | >=2.0.0 | >=1.10.0 | >=3.4.0 | n/a | >=1.0.0 | >=1.5.0 | n/a |
 | Tempest | n/a | >=3.2.0 | >=2.3.0 | n/a | n/a | >=1.14.0 | n/a | n/a | n/a | n/a | n/a | >=1.10.0 | >=3.2.0 | n/a | >=1.0.0 | >=1.5.0 | n/a |
 | Trove | n/a | >=3.2.0 | >=2.3.0 | >=0.2.0 | >=4.1.0 | >=1.14.0 | !=2.8.0,!=3.1.0,>2.6.1 | >=3.0.0 | n/a | n/a | n/a | >=1.10.0 | >=3.4.0 | n/a | >=1.0.0 | >=1.5.0 | n/a |
+| Tuskar | n/a | >=2.3.0 | n/a | n/a | >=2.4.1 | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
 | Swift | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
 | Zaqar | >= 0.8.0 | >=3.2.0 | n/a | >=0.2.0 | n/a | >=1.14.0 | n/a | n/a | >= 0.5.0 | n/a | n/a | >=1.10.0 | >=3.2.0 | n/a | n/a | >=1.5.0 | n/a |
 
