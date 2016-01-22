@@ -165,7 +165,7 @@ define oslo::messaging_rabbit(
   create_resources($name, {'oslo_messaging_rabbit/heartbeat_timeout_threshold' => { value => $heartbeat_timeout_threshold }})
   create_resources($name, {'oslo_messaging_rabbit/heartbeat_rate' => { value => $heartbeat_rate }})
   if $fake_rabbit {
-    warning('fake_rabbit is depracted, please use use rpc_backend=kombu+memory or rpc_backend=fake')
+    warning('fake_rabbit is deprecated, please use use rpc_backend=kombu+memory or rpc_backend=fake')
     create_resources($name, {'oslo_messaging_rabbit/fake_rabbit' => { value => $fake_rabbit }})
   }
 }
