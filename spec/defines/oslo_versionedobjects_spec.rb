@@ -6,23 +6,22 @@ describe 'oslo::versionedobjects' do
 
   shared_examples 'shared examples' do
 
-    context 'with only required parameters' do
-      let :params do
-        required_params
+    context 'with default parameters' do
+      it 'configure oslo_versionedobjects default params' do
+       is_expected.to contain_keystone_config('oslo_versionedobjects/fatal_exception_format_errors').with_value('<SERVICE DEFAULT>')
       end
-
-      it { is_expected.to contain_keystone_config('oslo_versionedobjects/fatal_exception_format_errors').with_value('false') }
 
     end
 
     context 'with overridden parameters' do
       let :params do
-        required_params.merge(
           { :fatal_exception_format_errors => true,
           }
-        )
       end
-       it { is_expected.to contain_keystone_config('oslo_versionedobjects/fatal_exception_format_errors').with_value('false') }
+      it 'configure oslo_versionedobjects with overriden values' do
+        is_expected.to contain_keystone_config('oslo_versionedobjects/fatal_exception_format_errors').with_value(true)
+      end
+
     end
   end
 

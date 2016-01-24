@@ -26,10 +26,10 @@
 define oslo::policy(
   $policy_file         = $::os_service_default,
   $policy_default_rule = $::os_service_default,
-  $policy_file         = $::os_service_default,
+  $policy_dirs         = $::os_service_default,
 ) {
   create_resources($name, {'oslo_policy/policy_file' => { value => $policy_file }})
   create_resources($name, {'oslo_policy/policy_default_rule' => { value => $policy_default_rule }})
-  create_resources($name, {'oslo_policy/policy_file' => { value => $policy_file }})
+  create_resources($name, {'oslo_policy/policy_dirs' => { value => $policy_dirs }})
 }
 
