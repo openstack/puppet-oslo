@@ -189,13 +189,14 @@ define oslo::messaging_rabbit(
       $rabbit_ha_queues_orig = $rabbit_ha_queues
     }
     # Do not set rabbit_port and rabbit_host
-    $rabbit_port_orig  = $::os_service_default
-    $rabbit_host_orig  = $::os_service_default
+    $rabbit_port_orig = $::os_service_default
+    $rabbit_host_orig = $::os_service_default
   } else {
-    $rabbit_hosts_orig     = "${rabbit_host}:${rabbit_port}"
     $rabbit_port_orig      = $rabbit_port
     $rabbit_host_orig      = $rabbit_host
     $rabbit_ha_queues_orig = $rabbit_ha_queues
+    # Do not set rabbit_hosts if host or port or both are set
+    $rabbit_hosts_orig     = $::os_service_default
   }
 
   $rabbit_options = { 'oslo_messaging_rabbit/amqp_durable_queues' => { value => $amqp_durable_queues },

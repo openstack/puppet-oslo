@@ -15,6 +15,7 @@ describe 'oslo::messaging_rabbit' do
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_userid').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_password').with_value('<SERVICE DEFAULT>')
@@ -125,6 +126,33 @@ describe 'oslo::messaging_rabbit' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_certfile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_keyfile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_version').with_value('<SERVICE DEFAULT>')
+      end
+    end
+
+    context 'with rabbit host set without rabbit port' do
+      let :params do
+        { :rabbit_host => 'rabbit1' }
+      end
+
+      it 'configures rabbit' do
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('rabbit1')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
+      end
+    end
+
+    context 'with rabbit host and port' do
+      let :params do
+        { :rabbit_host => 'rabbit1',
+          :rabbit_port => '5673' }
+      end
+
+      it 'configures rabbit' do
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('rabbit1')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('5673')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
       end
     end
 
