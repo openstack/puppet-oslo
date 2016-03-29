@@ -1,4 +1,4 @@
-# == Define: oslo::messaging_rabbit
+# == Define: oslo::messaging::rabbit
 #
 # Configure oslo_messaging_rabbit options
 #
@@ -130,7 +130,7 @@
 #   Defaults to $::os_service_default
 #
 
-define oslo::messaging_rabbit(
+define oslo::messaging::rabbit(
   $amqp_durable_queues                  = $::os_service_default,
   $kombu_ssl_version                    = $::os_service_default,
   $kombu_ssl_keyfile                    = $::os_service_default,

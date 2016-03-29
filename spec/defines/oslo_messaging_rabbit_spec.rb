@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'oslo::messaging_rabbit' do
+describe 'oslo::messaging::rabbit' do
 
   let (:title) { 'keystone_config' }
 
