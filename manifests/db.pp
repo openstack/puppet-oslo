@@ -79,7 +79,7 @@
 # [*db_inc_retry_interval*]
 #   (Optional) If True, increases the interval between retries of
 #   a database operation up to db_max_retry_interval.
-#   Defaults to $::os_service_default.
+#   Defaults to $::os_service_default
 #
 # [*db_max_retry_interval*]
 #   (Optional) If db_inc_retry_interval is set, the maximum seconds between
@@ -119,10 +119,12 @@ define oslo::db(
   $use_tpool             = $::os_service_default,
 ){
 
+  include ::oslo::params
+
   if !is_service_default($connection) {
 
     validate_re($connection,
-      '^(sqlite|mysql(\+pymysql)?|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
+      '^(sqlite|mysql(\+pymysql)?|postgresql|mongodb):\/\/(\S+:\S+@\S+\/\S+)?')
 
     case $connection {
       /^mysql(\+pymysql)?:\/\//: {
@@ -138,6 +140,9 @@ define oslo::db(
         $backend_package = false
         require 'postgresql::lib::python'
       }
+      /^mongodb:\/\//: {
+        $backend_package = $::oslo::params::pymongo_package_name
+      }
       /^sqlite:\/\//: {
         $backend_package = $::oslo::params::sqlite_package_name
       }
@@ -150,30 +155,35 @@ define oslo::db(
       package { 'db_backend_package':
         ensure => present,
         name   => $backend_package,
+        tag    => 'openstack',
       }
     }
   }
 
-  create_resources($name, {'database/sqlite_db'             => { value => $sqlite_db }})
-  create_resources($name, {'database/sqlite_synchronous'    => { value => $sqlite_synchronous }})
-  create_resources($name, {'database/backend'               => { value => $backend }})
-  create_resources($name, {'database/connection'            => { value => $connection, secret => true }})
-  create_resources($name, {'database/slave_connection'      => { value => $slave_connection, secret => true }})
-  create_resources($name, {'database/mysql_sql_mode'        => { value => $mysql_sql_mode }})
-  create_resources($name, {'database/idle_timeout'          => { value => $idle_timeout }})
-  create_resources($name, {'database/min_pool_size'         => { value => $min_pool_size }})
-  create_resources($name, {'database/max_pool_size'         => { value => $max_pool_size }})
-  create_resources($name, {'database/max_retries'           => { value => $max_retries }})
-  create_resources($name, {'database/retry_interval'        => { value => $retry_interval }})
-  create_resources($name, {'database/max_overflow'          => { value => $max_overflow }})
-  create_resources($name, {'database/connection_debug'      => { value => $connection_debug }})
-  create_resources($name, {'database/connection_trace'      => { value => $connection_trace }})
-  create_resources($name, {'database/pool_timeout'          => { value => $pool_timeout }})
-  create_resources($name, {'database/use_db_reconnect'      => { value => $use_db_reconnect }})
-  create_resources($name, {'database/db_retry_interval'     => { value => $db_retry_interval }})
-  create_resources($name, {'database/db_inc_retry_interval' => { value => $db_inc_retry_interval }})
-  create_resources($name, {'database/db_max_retry_interval' => { value => $db_max_retry_interval }})
-  create_resources($name, {'database/db_max_retries'        => { value => $db_max_retries }})
-  create_resources($name, {'database/use_tpool'             => { value => $use_tpool }})
+  $database_options = {
+    'database/sqlite_db'             => { value => $sqlite_db },
+    'database/sqlite_synchronous'    => { value => $sqlite_synchronous },
+    'database/backend'               => { value => $backend },
+    'database/connection'            => { value => $connection, secret => true },
+    'database/slave_connection'      => { value => $slave_connection, secret => true },
+    'database/mysql_sql_mode'        => { value => $mysql_sql_mode },
+    'database/idle_timeout'          => { value => $idle_timeout },
+    'database/min_pool_size'         => { value => $min_pool_size },
+    'database/max_pool_size'         => { value => $max_pool_size },
+    'database/max_retries'           => { value => $max_retries },
+    'database/retry_interval'        => { value => $retry_interval },
+    'database/max_overflow'          => { value => $max_overflow },
+    'database/connection_debug'      => { value => $connection_debug },
+    'database/connection_trace'      => { value => $connection_trace },
+    'database/pool_timeout'          => { value => $pool_timeout },
+    'database/use_db_reconnect'      => { value => $use_db_reconnect },
+    'database/db_retry_interval'     => { value => $db_retry_interval },
+    'database/db_inc_retry_interval' => { value => $db_inc_retry_interval },
+    'database/db_max_retry_interval' => { value => $db_max_retry_interval },
+    'database/db_max_retries'        => { value => $db_max_retries },
+    'database/use_tpool'             => { value => $use_tpool },
+  }
+
+  create_resources($name, $database_options)
 
 }
