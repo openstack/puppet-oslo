@@ -43,10 +43,6 @@
 #   (Optional) Use syslog for logging (boolean value).
 #   Defaults to $::os_service_default
 #
-# [*use_syslog_rfc_format*]
-#   (Optional) Enables or disables syslog rfc5424 format for logging (boolean value).
-#   Defaults to $::os_service_default
-#
 # [*syslog_log_facility*]
 #   (Optional) Syslog facility to receive log lines.
 #   This option is ignored if log_config_append is set.
@@ -95,7 +91,7 @@
 #
 # [*publish_errors*]
 #   (Optional) Enables or disables publication of error events (boolean value).
-#   Defaults to $::os_service_default.
+#   Defaults to $::os_service_default
 #
 # [*instance_format*]
 #   (Optional) The format for an instance that is passed with the log message.
@@ -109,13 +105,7 @@
 #
 # [*fatal_deprecations*]
 #   (Optional) Enables or disables fatal status of deprecations (boolean value).
-#   Defaults to $::os_service_default.
-#
-# DEPRECATED:
-# [*log_format*]
-#   (Optional) DEPRECATED. A logging.Formatter log message format string which may use
-#   any of the available logging.LogRecord attributes.
-#   Defauls to $::os_service_default
+#   Defaults to $::os_service_default
 #
 define oslo::log(
   $debug                         = $::os_service_default,
@@ -126,7 +116,6 @@ define oslo::log(
   $log_dir                       = $::os_service_default,
   $watch_log_file                = $::os_service_default,
   $use_syslog                    = $::os_service_default,
-  $use_syslog_rfc_format         = $::os_service_default,
   $syslog_log_facility           = $::os_service_default,
   $use_stderr                    = $::os_service_default,
   $logging_context_format_string = $::os_service_default,
@@ -139,14 +128,7 @@ define oslo::log(
   $instance_format               = $::os_service_default,
   $instance_uuid_format          = $::os_service_default,
   $fatal_deprecations            = $::os_service_default,
-  # DEPRECATED
-  $log_format                    = $::os_service_default,
 ){
-
-  # Deprecated options
-  if ! is_service_default($log_format) {
-    warnning('This option is deprecated. Please use logging_context_format_string and logging_default_format_string instead.')
-  }
 
   if is_service_default($default_log_levels) {
     $default_log_levels_real = $default_log_levels
@@ -155,26 +137,28 @@ define oslo::log(
     $default_log_levels_real = join(sort(join_keys_to_values($default_log_levels, '=')), ',')
   }
 
-  create_resources($name, {'DEFAULT/debug'                         => { value => $debug }})
-  create_resources($name, {'DEFAULT/verbose'                       => { value => $verbose }})
-  create_resources($name, {'DEFAULT/log_config_append'             => { value => $log_config_append }})
-  create_resources($name, {'DEFAULT/log_date_format'               => { value => $log_date_format }})
-  create_resources($name, {'DEFAULT/log_file'                      => { value => $log_file }})
-  create_resources($name, {'DEFAULT/log_dir'                       => { value => $log_dir }})
-  create_resources($name, {'DEFAULT/watch_log_file'                => { value => $watch_log_file }})
-  create_resources($name, {'DEFAULT/use_syslog'                    => { value => $use_syslog }})
-  create_resources($name, {'DEFAULT/use_syslog_rfc_format'         => { value => $use_syslog_rfc_format }})
-  create_resources($name, {'DEFAULT/syslog_log_facility'           => { value => $syslog_log_facility }})
-  create_resources($name, {'DEFAULT/use_stderr'                    => { value => $use_stderr }})
-  create_resources($name, {'DEFAULT/logging_context_format_string' => { value => $logging_context_format_string }})
-  create_resources($name, {'DEFAULT/logging_default_format_string' => { value => $logging_default_format_string }})
-  create_resources($name, {'DEFAULT/logging_debug_format_suffix'   => { value => $logging_debug_format_suffix }})
-  create_resources($name, {'DEFAULT/logging_exception_prefix'      => { value => $logging_exception_prefix }})
-  create_resources($name, {'DEFAULT/logging_user_identity_format'  => { value => $logging_user_identity_format }})
-  create_resources($name, {'DEFAULT/default_log_levels'            => { value => $default_log_levels_real }})
-  create_resources($name, {'DEFAULT/publish_errors'                => { value => $publish_errors }})
-  create_resources($name, {'DEFAULT/instance_format'               => { value => $instance_format }})
-  create_resources($name, {'DEFAULT/instance_uuid_format'          => { value => $instance_uuid_format }})
-  create_resources($name, {'DEFAULT/fatal_deprecations'            => { value => $fatal_deprecations }})
-  create_resources($name, {'DEFAULT/log_format'                    => { value => $log_format }})
+  $log_options = {
+    'DEFAULT/debug'                         => { value => $debug },
+    'DEFAULT/verbose'                       => { value => $verbose },
+    'DEFAULT/log_config_append'             => { value => $log_config_append },
+    'DEFAULT/log_date_format'               => { value => $log_date_format },
+    'DEFAULT/log_file'                      => { value => $log_file },
+    'DEFAULT/log_dir'                       => { value => $log_dir },
+    'DEFAULT/watch_log_file'                => { value => $watch_log_file },
+    'DEFAULT/use_syslog'                    => { value => $use_syslog },
+    'DEFAULT/syslog_log_facility'           => { value => $syslog_log_facility },
+    'DEFAULT/use_stderr'                    => { value => $use_stderr },
+    'DEFAULT/logging_context_format_string' => { value => $logging_context_format_string },
+    'DEFAULT/logging_default_format_string' => { value => $logging_default_format_string },
+    'DEFAULT/logging_debug_format_suffix'   => { value => $logging_debug_format_suffix },
+    'DEFAULT/logging_exception_prefix'      => { value => $logging_exception_prefix },
+    'DEFAULT/logging_user_identity_format'  => { value => $logging_user_identity_format },
+    'DEFAULT/default_log_levels'            => { value => $default_log_levels_real },
+    'DEFAULT/publish_errors'                => { value => $publish_errors },
+    'DEFAULT/instance_format'               => { value => $instance_format },
+    'DEFAULT/instance_uuid_format'          => { value => $instance_uuid_format },
+    'DEFAULT/fatal_deprecations'            => { value => $fatal_deprecations },
+  }
+
+  create_resources($name, $log_options)
 }
