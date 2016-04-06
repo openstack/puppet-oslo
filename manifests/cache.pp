@@ -59,7 +59,7 @@
 # [*backend_argument*]
 #   (Optional) Arguments supplied to the backend module. Specify this option
 #   once per argument to be passed to the dogpile.cache backend.
-#   Example format: "<argname>:<value>". (string value)
+#   Example format: "<argname>:<value>". (list value)
 #   Defaults to $::os_service_default
 #
 # [*proxies*]
@@ -129,14 +129,20 @@ define oslo::cache(
   $memcache_pool_connection_get_timeout = $::os_service_default,
 ){
 
-  if !is_service_default($memcache_servers) and is_array($memcache_servers) {
-    $memcache_servers_orig = join($memcache_servers, ',')
+  if !is_service_default($backend_argument) {
+    $backend_argument_orig = join(any2array($backend_argument), ',')
+  } else {
+    $backend_argument_orig = $backend_argument
+  }
+
+  if !is_service_default($memcache_servers) {
+    $memcache_servers_orig = join(any2array($memcache_servers), ',')
   } else {
     $memcache_servers_orig = $memcache_servers
   }
 
-  if !is_service_default($proxies) and is_array($proxies) {
-    $proxies_orig = join($proxies, ',')
+  if !is_service_default($proxies) {
+    $proxies_orig = join(any2array($proxies), ',')
   } else {
     $proxies_orig = $proxies
   }
@@ -145,7 +151,7 @@ define oslo::cache(
     'cache/config_prefix'                        => { value => $config_prefix },
     'cache/expiration_time'                      => { value => $expiration_time },
     'cache/backend'                              => { value => $backend },
-    'cache/backend_argument'                     => { value => $backend_argument },
+    'cache/backend_argument'                     => { value => $backend_argument_orig },
     'cache/proxies'                              => { value => $proxies_orig },
     'cache/enabled'                              => { value => $enabled },
     'cache/debug_cache_backend'                  => { value => $debug_cache_backend },

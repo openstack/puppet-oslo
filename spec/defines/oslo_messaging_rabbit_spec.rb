@@ -156,14 +156,6 @@ describe 'oslo::messaging::rabbit' do
       end
     end
 
-    context 'with incorrect rabbit hosts' do
-      let :params do
-        { :rabbit_hosts => 'rabbit1:5672,rabbit2:5673' }
-      end
-
-      it { is_expected.to raise_error Puppet::Error, /Rabbit hosts should be an array/ }
-    end
-
     context 'with incorrect kombu compression' do
       let :params do
         { :kombu_compression => 'foo' }
@@ -194,6 +186,16 @@ describe 'oslo::messaging::rabbit' do
       end
 
       it { is_expected.to raise_error Puppet::Error, /The kombu_ssl_version parameter requires rabbit_use_ssl to be set to true/ }
+    end
+
+    context 'with string in list parameters' do
+      let :params do
+        { :rabbit_hosts => 'rabbit1:5672,rabbit2:5673' }
+      end
+
+      it 'configures rabbit with overriden list values as strings' do
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit1:5672,rabbit2:5673')
+      end
     end
   end
 
