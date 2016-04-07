@@ -105,6 +105,7 @@ define oslo::messaging::amqp(
                   'oslo_messaging_amqp/sasl_config_name' => { value => $sasl_config_name },
                   'oslo_messaging_amqp/username' => { value => $username },
                   'oslo_messaging_amqp/password' => { value => $password },
+                  'DEFAULT/rpc_backend' => { value => 'amqp' },
                 }
   create_resources($name, $amqp_options)
 }

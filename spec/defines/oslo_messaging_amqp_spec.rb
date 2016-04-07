@@ -24,6 +24,7 @@ describe 'oslo::messaging::amqp' do
        is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_config_name').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/username').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('DEFAULT/rpc_backend').with_value('amqp')
       end
 
     end
