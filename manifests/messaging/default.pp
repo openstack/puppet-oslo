@@ -6,6 +6,10 @@
 #
 # === Parameters:
 #
+# [*rpc_response_timeout*]
+#   (Optional) Seconds to wait for a response from a call. (integer value)
+#   Defaults to $::os_service_default.
+#
 # [*transport_url*]
 #   (Optional) A URL representing the messaging driver to use
 #   and its full configuration. If not set, we fall back to
@@ -21,13 +25,15 @@
 #
 
 define oslo::messaging::default(
-  $transport_url    = $::os_service_default,
-  $control_exchange = $::os_service_default,
+  $rpc_response_timeout = $::os_service_default,
+  $transport_url        = $::os_service_default,
+  $control_exchange     = $::os_service_default,
 ) {
 
   $default_options = {
-    'DEFAULT/transport_url'    => { value => $transport_url },
-    'DEFAULT/control_exchange' => { value => $control_exchange },
+    'DEFAULT/rpc_response_timeout' => { value => $rpc_response_timeout },
+    'DEFAULT/transport_url'        => { value => $transport_url },
+    'DEFAULT/control_exchange'     => { value => $control_exchange },
   }
 
   create_resources($name, $default_options)
