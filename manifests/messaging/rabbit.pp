@@ -177,12 +177,8 @@ define oslo::messaging::rabbit(
     fail('Unsupported Kombu compression. Possible values are gzip and bz2')
   }
 
-  if !is_service_default($rabbit_hosts) and !is_array($rabbit_hosts) {
-    fail('Rabbit hosts should be an array')
-  }
-
   if !is_service_default($rabbit_hosts) {
-    $rabbit_hosts_orig = join($rabbit_hosts, ',')
+    $rabbit_hosts_orig = join(any2array($rabbit_hosts), ',')
     if size($rabbit_hosts) > 1 and is_service_default($rabbit_ha_queues) {
       $rabbit_ha_queues_orig = true
     } else {

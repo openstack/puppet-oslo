@@ -17,15 +17,29 @@ describe 'oslo::messaging::notifications' do
 
     context 'with overridden parameters' do
       let :params do
-          { :driver        => 'messaging',
+          { :driver        => ['messaging'],
             :transport_url => 'some_protocol://some_url',
-            :topics        => 'notifications',
+            :topics        => ['notifications'],
           }
       end
 
       it 'configure oslo_messaging_notifications with overriden values' do
         is_expected.to contain_keystone_config('oslo_messaging_notifications/driver').with_value('messaging')
         is_expected.to contain_keystone_config('oslo_messaging_notifications/transport_url').with_value('some_protocol://some_url')
+        is_expected.to contain_keystone_config('oslo_messaging_notifications/topics').with_value('notifications')
+      end
+    end
+
+    context 'with string in list parameters' do
+      let :params do
+        {
+          :driver => 'messaging',
+          :topics => 'notifications',
+        }
+      end
+
+      it 'configures oslo_messaging_notifications section with overriden list values as strings' do
+        is_expected.to contain_keystone_config('oslo_messaging_notifications/driver').with_value('messaging')
         is_expected.to contain_keystone_config('oslo_messaging_notifications/topics').with_value('notifications')
       end
     end

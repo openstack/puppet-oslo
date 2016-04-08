@@ -8,7 +8,7 @@
 # === Parameters:
 #
 # [*fatal_exception_format_errors*]
-#  (Optional) Make exception message format errors fatal.
+#  (Optional) Make exception message format errors fatal. (boolean value)
 #  Defaults to $::os_service_default.
 #
 define oslo::versionedobjects(

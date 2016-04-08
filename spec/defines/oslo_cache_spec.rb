@@ -30,7 +30,7 @@ describe 'oslo::cache' do
           :config_prefix                        => 'cache.oslo',
           :expiration_time                      => '600',
           :backend                              => 'dogpile.cache.null',
-          :backend_argument                     => 'foo:bar',
+          :backend_argument                     => ['foo:bar'],
           :proxies                              => ['proxy1', 'proxy2'],
           :enabled                              => true,
           :debug_cache_backend                  => true,
@@ -43,7 +43,7 @@ describe 'oslo::cache' do
         }
       end
 
-      it 'configures cache setion' do
+      it 'configures cache section' do
         is_expected.to contain_keystone_config('cache/config_prefix').with_value('cache.oslo')
         is_expected.to contain_keystone_config('cache/expiration_time').with_value('600')
         is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.null')
@@ -57,6 +57,22 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_pool_maxsize').with_value('10')
         is_expected.to contain_keystone_config('cache/memcache_pool_unused_timeout').with_value('60')
         is_expected.to contain_keystone_config('cache/memcache_pool_connection_get_timeout').with_value('10')
+      end
+    end
+
+    context 'with string in list parameters' do
+      let :params do
+        {
+          :backend_argument => 'foo:bar',
+          :memcache_servers => 'host1:11211,host2:11211',
+          :proxies          => 'proxy1,proxy2',
+        }
+      end
+
+      it 'configures oslo_policy section with overriden list values as strings' do
+        is_expected.to contain_keystone_config('cache/backend_argument').with_value('foo:bar')
+        is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211')
+        is_expected.to contain_keystone_config('cache/proxies').with_value('proxy1,proxy2')
       end
     end
   end
