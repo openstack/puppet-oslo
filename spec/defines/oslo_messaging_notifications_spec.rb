@@ -4,7 +4,7 @@ describe 'oslo::messaging::notifications' do
 
   let (:title) { 'keystone_config' }
 
-  shared_examples 'notifications examples' do
+  shared_examples 'oslo-messaging-notifications' do
 
     context 'with default parameters' do
       it 'configure oslo_messaging_notifications default params' do
@@ -53,7 +53,7 @@ describe 'oslo::messaging::notifications' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'notifications examples'
+      it_behaves_like 'oslo-messaging-notifications'
     end
   end
 end

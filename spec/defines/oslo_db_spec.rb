@@ -4,7 +4,7 @@ describe 'oslo::db' do
 
   let (:title) { 'keystone_config' }
 
-  shared_examples 'shared examples' do
+  shared_examples 'oslo-db' do
 
     context 'with default parameters' do
       it 'configure oslo_db default params' do
@@ -137,15 +137,8 @@ describe 'oslo::db' do
     end
   end
 
-  context 'on Debian platforms' do
-    let :facts do
-      @default_facts.merge({ :osfamily => 'Debian',
-        :operatingsystem => 'Debian',
-        :operatingsystemrelease => 'jessie',
-      })
-    end
-
-    context 'using pymysql driver' do
+  shared_examples 'oslo-db on Debian' do
+   context 'using pymysql driver' do
       let :params do
         { :connection => 'mysql+pymysql:///db:db@localhost/db', }
       end
@@ -172,17 +165,9 @@ describe 'oslo::db' do
         )
       end
     end
-
-    include_examples 'shared examples'
   end
 
-  context 'on Redhat platforms' do
-    let :facts do
-      @default_facts.merge({ :osfamily => 'RedHat',
-        :operatingsystemrelease => '7.1',
-    })
-    end
-
+  shared_examples 'oslo-db on RedHat' do
     context 'using pymysql driver' do
       let :params do
         { :connection => 'mysql+pymysql:///db:db@localhost/db', }
@@ -190,7 +175,18 @@ describe 'oslo::db' do
 
       it { is_expected.not_to contain_package('db_backend_package') }
     end
+  end
 
-    include_examples 'shared examples'
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts())
+      end
+
+     it_behaves_like 'oslo-db'
+     it_behaves_like "oslo-db on #{facts[:osfamily]}"
+    end
   end
 end

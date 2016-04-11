@@ -4,7 +4,7 @@ describe 'oslo::versionedobjects' do
 
   let (:title) { 'keystone_config' }
 
-  shared_examples 'shared examples' do
+  shared_examples 'oslo-versionedobjects' do
 
     context 'with default parameters' do
       it 'configure oslo_versionedobjects default params' do
@@ -25,19 +25,16 @@ describe 'oslo::versionedobjects' do
     end
   end
 
-  context 'on a Debian osfamily' do
-    let :facts do
-      @default_facts.merge({ :osfamily => "Debian" })
-    end
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts())
+      end
 
-    include_examples 'shared examples'
+     it_behaves_like 'oslo-versionedobjects'
+    end
   end
 
-  context 'on a RedHat osfamily' do
-    let :facts do
-      @default_facts.merge({ :osfamily => 'RedHat' })
-    end
-
-    include_examples 'shared examples'
-  end
 end

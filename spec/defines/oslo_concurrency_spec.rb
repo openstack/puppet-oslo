@@ -4,7 +4,7 @@ describe 'oslo::concurrency' do
 
   let (:title) { 'keystone_config' }
 
-  shared_examples 'shared examples' do
+  shared_examples 'oslo-concurrency' do
 
     context 'with default parameters' do
       it 'configures oslo_concurrency default params' do
@@ -36,7 +36,7 @@ describe 'oslo::concurrency' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'shared examples'
+      it_behaves_like 'oslo-concurrency'
     end
   end
 end

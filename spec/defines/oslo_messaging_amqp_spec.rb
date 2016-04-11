@@ -4,7 +4,7 @@ describe 'oslo::messaging::amqp' do
 
   let (:title) { 'keystone_config' }
 
-  shared_examples 'shared examples' do
+  shared_examples 'oslo-messaging-amqp' do
 
     context 'with default parameters' do
       it 'configure oslo_messaging_amqp default params' do
@@ -47,19 +47,15 @@ describe 'oslo::messaging::amqp' do
     end
   end
 
-  context 'on a Debian osfamily' do
-    let :facts do
-      @default_facts.merge({ :osfamily => "Debian" })
+  on_supported_os({
+    :supported_os => OSDefaults.get_supported_os
+  }).each do |os,facts|
+    context "on #{os}" do
+      let (:facts) do
+        facts.merge!(OSDefaults.get_facts())
+      end
+
+     it_behaves_like 'oslo-messaging-amqp'
     end
-
-    include_examples 'shared examples'
-  end
-
-  context 'on a RedHat osfamily' do
-    let :facts do
-      @default_facts.merge({ :osfamily => 'RedHat' })
-    end
-
-    include_examples 'shared examples'
   end
 end
