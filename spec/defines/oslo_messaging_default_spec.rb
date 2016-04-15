@@ -4,7 +4,7 @@ describe 'oslo::messaging::default' do
 
   let (:title) { 'keystone_config' }
 
-  shared_examples 'DEFAULT examples' do
+  shared_examples 'oslo-messaging-default' do
 
     context 'with default parameters' do
       it 'configure DEFAULT default params' do
@@ -40,7 +40,7 @@ describe 'oslo::messaging::default' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'DEFAULT examples'
+      it_behaves_like 'oslo-messaging-default'
     end
   end
 end

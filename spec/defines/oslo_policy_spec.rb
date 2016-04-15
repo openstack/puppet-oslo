@@ -4,7 +4,7 @@ describe 'oslo::policy' do
 
   let (:title) { 'keystone_config' }
 
-  shared_examples 'shared examples' do
+  shared_examples 'oslo-policy' do
 
     context 'with default parameters' do
       it 'configure oslo_policy default params' do
@@ -51,7 +51,7 @@ describe 'oslo::policy' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-      it_behaves_like 'shared examples'
+      it_behaves_like 'oslo-policy'
     end
   end
 end
