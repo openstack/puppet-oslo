@@ -129,6 +129,8 @@ define oslo::cache(
   $memcache_pool_connection_get_timeout = $::os_service_default,
 ){
 
+  include ::oslo::params
+
   if !is_service_default($backend_argument) {
     $backend_argument_orig = join(any2array($backend_argument), ',')
   } else {
@@ -145,6 +147,20 @@ define oslo::cache(
     $proxies_orig = join(any2array($proxies), ',')
   } else {
     $proxies_orig = $proxies
+  }
+
+  if ($backend =~ /pylibmc/ ) {
+    ensure_packages('python-pylibmc', {
+      ensure => present,
+      name   => $::oslo::params::pylibmc_package_name,
+      tag    => 'openstack',
+    })
+  } elsif ($backend =~ /\.memcache/ ) {
+    ensure_packages('python-memcache', {
+      ensure => present,
+      name   => $::oslo::params::python_memcache_package_name,
+      tag    => ['openstack', 'keystone-package'],
+    })
   }
 
   $cache_options = {

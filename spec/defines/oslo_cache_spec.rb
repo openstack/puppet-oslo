@@ -60,6 +60,40 @@ describe 'oslo::cache' do
       end
     end
 
+    context 'with pylibmc backend' do
+      let :params do
+        {
+          :backend => 'dogpile.cache.pylibmc',
+        }
+      end
+
+      it 'configures cache backend' do
+        is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.pylibmc')
+        is_expected.to contain_package('python-pylibmc').with(
+          :ensure => 'present',
+          :name   => platform_params[:pylibmc_package_name],
+          :tag    => 'openstack',
+        )
+      end
+    end
+
+    context 'with memcache backend' do
+      let :params do
+        {
+          :backend => 'dogpile.cache.memcache',
+        }
+      end
+
+      it 'configures cache backend' do
+        is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.memcache')
+        is_expected.to contain_package('python-memcache').with(
+          :ensure => 'present',
+          :name   => platform_params[:python_memcache_package_name],
+          :tag    => ['openstack', 'keystone-package'],
+        )
+      end
+    end
+
     context 'with string in list parameters' do
       let :params do
         {
@@ -84,6 +118,19 @@ describe 'oslo::cache' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
+      let(:platform_params) do
+        platform_params = { :pylibmc_package_name => 'python-pylibmc' }
+
+        case facts[:osfamily]
+        when 'Debian'
+          platform_params[:python_memcache_package_name] = 'python-memcache'
+        when 'RedHat'
+          platform_params[:python_memcache_package_name] = 'python-memcached'
+        end
+
+        platform_params
+      end
+
       it_behaves_like 'oslo-cache'
     end
   end
