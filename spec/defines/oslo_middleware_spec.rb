@@ -9,17 +9,21 @@ describe 'oslo::middleware' do
     context 'with default parameters' do
       it 'configure oslo_middleware default params' do
        is_expected.to contain_keystone_config('oslo_middleware/max_request_body_size').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
       end
 
     end
 
     context 'with overridden parameters' do
       let :params do
-          { :max_request_body_size => 114600,
+          {
+            :max_request_body_size => 114600,
+            :enable_proxy_headers_parsing => true,
           }
       end
       it 'configure oslo_middleware with overriden values' do
         is_expected.to contain_keystone_config('oslo_middleware/max_request_body_size').with_value(114600)
+        is_expected.to contain_keystone_config('oslo_middleware/enable_proxy_headers_parsing').with_value(true)
       end
 
     end
