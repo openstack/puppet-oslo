@@ -14,6 +14,8 @@
 #   (Optional) A URL representing the messaging driver to use
 #   and its full configuration. If not set, we fall back to
 #   the rpc_backend option and driver specific configuration.
+#   Transport URLs take the form:
+#      transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #   (string value)
 #   Defaults to $::os_service_default.
 #

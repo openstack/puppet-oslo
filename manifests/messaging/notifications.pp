@@ -17,6 +17,8 @@
 #   (Optional) A URL representing the messaging driver to use for
 #   notifications. If not set, we fall back to the same
 #   configuration used for RPC.
+#   Transport URLs take the form::
+#      transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #   (string value)
 #   Defaults to $::os_service_default.
 #
