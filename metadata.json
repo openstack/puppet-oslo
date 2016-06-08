@@ -1,5 +1,5 @@
 {
-  "name": "puppet-oslo",
+  "name": "openstack-oslo",
   "version": "9.0.0",
   "author": "OpenStack Contributors",
   "summary": "Puppet module for OpenStack Oslo",
