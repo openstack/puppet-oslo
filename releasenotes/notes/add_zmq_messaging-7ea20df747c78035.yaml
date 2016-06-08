@@ -1,0 +1,3 @@
+---
+features:
+  - Add possibility to configure ZeroMQ messaging system.
