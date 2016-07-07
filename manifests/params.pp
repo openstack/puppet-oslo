@@ -1,6 +1,7 @@
 # Parameters for puppet-oslo
 #
 class oslo::params {
+  include ::openstacklib::defaults
 
   case $::osfamily {
     'RedHat': {
