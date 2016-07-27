@@ -159,7 +159,7 @@ define oslo::cache(
     ensure_packages('python-memcache', {
       ensure => present,
       name   => $::oslo::params::python_memcache_package_name,
-      tag    => ['openstack', 'keystone-package'],
+      tag    => ['openstack'],
     })
   }
 

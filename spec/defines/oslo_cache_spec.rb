@@ -89,7 +89,7 @@ describe 'oslo::cache' do
         is_expected.to contain_package('python-memcache').with(
           :ensure => 'present',
           :name   => platform_params[:python_memcache_package_name],
-          :tag    => ['openstack', 'keystone-package'],
+          :tag    => ['openstack'],
         )
       end
     end
