@@ -102,12 +102,6 @@
 #   (Optional) Enables or disables fatal status of deprecations (boolean value).
 #   Defaults to $::os_service_default
 #
-# DEPRECATED
-#
-# [*verbose*]
-#   (Optional) Deprecated. Should the daemons log verbose messages
-#   Defaults to undef.
-#
 define oslo::log(
   $debug                         = $::os_service_default,
   $log_config_append             = $::os_service_default,
@@ -128,13 +122,7 @@ define oslo::log(
   $instance_format               = $::os_service_default,
   $instance_uuid_format          = $::os_service_default,
   $fatal_deprecations            = $::os_service_default,
-  # DEPRECATED
-  $verbose                       = undef,
 ){
-
-  if $verbose {
-    warning('verbose is deprecated, has no effect and will be removed.')
-  }
 
   if is_service_default($default_log_levels) {
     $default_log_levels_real = $default_log_levels
