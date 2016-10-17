@@ -1,0 +1,6 @@
+---
+features:
+  - Allow setting the desired state of the backend
+    database package. This will default to present
+    which maintains original behavior but allows
+    for more flexibility.

@@ -19,6 +19,11 @@
 #   (Optional) The back end to use for the database.
 #   Defaults to $::os_service_default
 #
+# [*backend_package_ensure*]
+#   (Optional) Desired ensure state of the backend database package,
+#   accepts latest or specific versions.
+#   Defaults to present.
+#
 # [*connection*]
 #   (Optional) The SQLAlchemy connection string to use to connect to the database.
 #   Defaults to $::os_service_default
@@ -96,27 +101,28 @@
 #   Defaults to $::os_service_default
 #
 define oslo::db(
-  $sqlite_db             = $::os_service_default,
-  $sqlite_synchronous    = $::os_service_default,
-  $backend               = $::os_service_default,
-  $connection            = $::os_service_default,
-  $slave_connection      = $::os_service_default,
-  $mysql_sql_mode        = $::os_service_default,
-  $idle_timeout          = $::os_service_default,
-  $min_pool_size         = $::os_service_default,
-  $max_pool_size         = $::os_service_default,
-  $max_retries           = $::os_service_default,
-  $retry_interval        = $::os_service_default,
-  $max_overflow          = $::os_service_default,
-  $connection_debug      = $::os_service_default,
-  $connection_trace      = $::os_service_default,
-  $pool_timeout          = $::os_service_default,
-  $use_db_reconnect      = $::os_service_default,
-  $db_retry_interval     = $::os_service_default,
-  $db_inc_retry_interval = $::os_service_default,
-  $db_max_retry_interval = $::os_service_default,
-  $db_max_retries        = $::os_service_default,
-  $use_tpool             = $::os_service_default,
+  $sqlite_db              = $::os_service_default,
+  $sqlite_synchronous     = $::os_service_default,
+  $backend                = $::os_service_default,
+  $backend_package_ensure = present,
+  $connection             = $::os_service_default,
+  $slave_connection       = $::os_service_default,
+  $mysql_sql_mode         = $::os_service_default,
+  $idle_timeout           = $::os_service_default,
+  $min_pool_size          = $::os_service_default,
+  $max_pool_size          = $::os_service_default,
+  $max_retries            = $::os_service_default,
+  $retry_interval         = $::os_service_default,
+  $max_overflow           = $::os_service_default,
+  $connection_debug       = $::os_service_default,
+  $connection_trace       = $::os_service_default,
+  $pool_timeout           = $::os_service_default,
+  $use_db_reconnect       = $::os_service_default,
+  $db_retry_interval      = $::os_service_default,
+  $db_inc_retry_interval  = $::os_service_default,
+  $db_max_retry_interval  = $::os_service_default,
+  $db_max_retries         = $::os_service_default,
+  $use_tpool              = $::os_service_default,
 ){
 
   include ::oslo::params
@@ -153,7 +159,7 @@ define oslo::db(
 
     if $backend_package and !defined(Package[$backend_package]) {
       package { 'db_backend_package':
-        ensure => present,
+        ensure => $backend_package_ensure,
         name   => $backend_package,
         tag    => 'openstack',
       }
