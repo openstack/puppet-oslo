@@ -177,6 +177,12 @@ define oslo::messaging::rabbit(
     fail('Unsupported Kombu compression. Possible values are gzip and bz2')
   }
 
+  if !is_service_default($rabbit_hosts) or !is_service_default($rabbit_host) {
+    warning("The oslo_messaging rabbit_host, rabbit_hosts, rabbit_port, rabbit_userid, \
+rabbit_password, rabbit_virtual_host parameters have been deprecated by the \
+[DEFAULT]\transport_url. Please use oslo::messaging::default::transport_url instead.")
+  }
+
   if !is_service_default($rabbit_hosts) {
     $rabbit_hosts_orig = join(any2array($rabbit_hosts), ',')
     if size($rabbit_hosts) > 1 and is_service_default($rabbit_ha_queues) {

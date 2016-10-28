@@ -1,0 +1,6 @@
+---
+deprecations:
+  - The rabbitmq connection paramters have been deprecated in favor of
+    transport_url which is provided by the oslo::messaging::default class.
+    This affects, rabbit_host, rabbit_port, rabbit_hosts, rabbit_userid,
+    rabbit_password and rabbit_virtual_host.
