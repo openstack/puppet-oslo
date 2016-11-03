@@ -180,7 +180,7 @@ define oslo::messaging::rabbit(
   if !is_service_default($rabbit_hosts) or !is_service_default($rabbit_host) {
     warning("The oslo_messaging rabbit_host, rabbit_hosts, rabbit_port, rabbit_userid, \
 rabbit_password, rabbit_virtual_host parameters have been deprecated by the \
-[DEFAULT]\transport_url. Please use oslo::messaging::default::transport_url instead.")
+[DEFAULT]\\transport_url. Please use oslo::messaging::default::transport_url instead.")
   }
 
   if !is_service_default($rabbit_hosts) {
