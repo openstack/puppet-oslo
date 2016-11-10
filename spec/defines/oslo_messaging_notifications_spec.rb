@@ -25,7 +25,7 @@ describe 'oslo::messaging::notifications' do
 
       it 'configure oslo_messaging_notifications with overriden values' do
         is_expected.to contain_keystone_config('oslo_messaging_notifications/driver').with_value('messaging')
-        is_expected.to contain_keystone_config('oslo_messaging_notifications/transport_url').with_value('some_protocol://some_url')
+        is_expected.to contain_keystone_config('oslo_messaging_notifications/transport_url').with_value('some_protocol://some_url').with_secret(true)
         is_expected.to contain_keystone_config('oslo_messaging_notifications/topics').with_value('notifications')
       end
     end

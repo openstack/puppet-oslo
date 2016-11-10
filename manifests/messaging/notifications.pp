@@ -46,7 +46,7 @@ define oslo::messaging::notifications(
 
   $notification_options = {
     'oslo_messaging_notifications/driver'        => { value => $driver_orig },
-    'oslo_messaging_notifications/transport_url' => { value => $transport_url },
+    'oslo_messaging_notifications/transport_url' => { value => $transport_url, secret => true },
     'oslo_messaging_notifications/topics'        => { value => $topics_orig },
   }
 

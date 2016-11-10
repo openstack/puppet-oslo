@@ -26,7 +26,7 @@ describe 'oslo::messaging::default' do
 
       it 'configure DEFAULT with overriden values' do
         is_expected.to contain_keystone_config('DEFAULT/rpc_response_timeout').with_value('42')
-        is_expected.to contain_keystone_config('DEFAULT/transport_url').with_value('proto://url')
+        is_expected.to contain_keystone_config('DEFAULT/transport_url').with_value('proto://url').with_secret(true)
         is_expected.to contain_keystone_config('DEFAULT/control_exchange').with_value('openstack')
       end
     end

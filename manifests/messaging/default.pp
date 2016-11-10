@@ -34,7 +34,7 @@ define oslo::messaging::default(
 
   $default_options = {
     'DEFAULT/rpc_response_timeout' => { value => $rpc_response_timeout },
-    'DEFAULT/transport_url'        => { value => $transport_url },
+    'DEFAULT/transport_url'        => { value => $transport_url, secret => true },
     'DEFAULT/control_exchange'     => { value => $control_exchange },
   }
 
