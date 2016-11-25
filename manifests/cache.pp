@@ -156,11 +156,10 @@ define oslo::cache(
       tag    => 'openstack',
     })
   } elsif ($backend =~ /\.memcache/ ) {
-    ensure_packages('python-memcache', {
-      ensure => present,
+    ensure_resources('package', { 'python-memcache' => {
       name   => $::oslo::params::python_memcache_package_name,
       tag    => ['openstack'],
-    })
+    }})
   }
 
   $cache_options = {

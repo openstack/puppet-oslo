@@ -87,7 +87,6 @@ describe 'oslo::cache' do
       it 'configures cache backend' do
         is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.memcache')
         is_expected.to contain_package('python-memcache').with(
-          :ensure => 'present',
           :name   => platform_params[:python_memcache_package_name],
           :tag    => ['openstack'],
         )
