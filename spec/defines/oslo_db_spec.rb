@@ -58,7 +58,7 @@ describe 'oslo::db' do
 
       it 'configures database parameters' do
         is_expected.to contain_keystone_config('database/backend').with_value('sqlalchemy')
-        is_expected.to contain_keystone_config('database/connection').with_value('mysql+pymysql://db:db@localhost/db')
+        is_expected.to contain_keystone_config('database/connection').with_value('mysql+pymysql://db:db@localhost/db').with_secret(true)
         is_expected.to contain_keystone_config('database/mysql_sql_mode').with_value('TRADITIONAL')
         is_expected.to contain_keystone_config('database/idle_timeout').with_value('3601')
         is_expected.to contain_keystone_config('database/min_pool_size').with_value('2')
