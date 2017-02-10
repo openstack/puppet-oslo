@@ -7,16 +7,54 @@
 #
 # === Parameters:
 #
+# [*addressing_mode*]
+#   (Optional) Indicates the addressing mode used by the driver
+#   Defaults to $::os_service_default.
+#
 # [*server_request_prefix*]
 #   (Optional) Address prefix used when sending to a specific server
 #   Defaults to $::os_service_default.
 #
 # [*broadcast_prefix*]
-#   (Optional) address prefix used when broadcasting to all servers
+#   (Optional) Address prefix used when broadcasting to all servers
 #   Defaults to $::os_service_default.
 #
 # [*group_request_prefix*]
-#   (Optional) address prefix when sending to any server in group
+#   (Optional) Address prefix when sending to any server in group
+#   Defaults to $::os_service_default.
+#
+# [*rpc_address_prefix*]
+#   (Optional) Address prefix for all generated RPC addresses
+#   Defaults to $::os_service_default.
+#
+# [*notify_address_prefix*]
+#   (Optional) Address prefix for all generated Notification addresses
+#   Defaults to $::os_service_default.
+#
+# [*multicast_address*]
+#   (Optional) Appended to address prefix when sending fanout message
+#   Defaults to $::os_service_default.
+#
+# [*unicast_address*]
+#   (Optional) Appended to address prefix when sending to a
+#   particular RPC/Notification server.
+#   Defaults to $::os_service_default.
+#
+# [*anycast_address*]
+#   (Optional) Appended to address prefix when sending to a
+#   group of consumers.
+#   Defaults to $::os_service_default.
+#
+# [*default_notification_exchange*]
+#   (Optional) Exchange name used in notification addreses
+#   Defaults to $::os_service_default.
+#
+# [*default_rpc_exchange*]
+#   (Optional) Exchange name used in RPC addreses
+#   Defaults to $::os_service_default.
+#
+# [*pre_settled*]
+#   (Optional) Send messages of this type pre-settled
 #   Defaults to $::os_service_default.
 #
 # [*container_name*]
@@ -71,27 +109,55 @@
 #   (Optional) Password for message broker authentication
 #   Defaults to $::os_service_default.
 #
+# [*default_send_timeout*]
+#   (Optional) The deadline for an rpc cast or call message delivery
+#   Defaults to $::os_service_default.
+#
+# [*default_notify_timeout*]
+#   (Optional) The deadline for a sent notification message delivery
+#   Defaults to $::os_service_default.
+#
 define oslo::messaging::amqp(
-  $server_request_prefix   = $::os_service_default,
-  $broadcast_prefix        = $::os_service_default,
-  $group_request_prefix    = $::os_service_default,
-  $container_name          = $::os_service_default,
-  $idle_timeout            = $::os_service_default,
-  $trace                   = $::os_service_default,
-  $ssl_ca_file             = $::os_service_default,
-  $ssl_cert_file           = $::os_service_default,
-  $ssl_key_file            = $::os_service_default,
-  $ssl_key_password        = $::os_service_default,
-  $allow_insecure_clients  = $::os_service_default,
-  $sasl_mechanisms         = $::os_service_default,
-  $sasl_config_dir         = $::os_service_default,
-  $sasl_config_name        = $::os_service_default,
-  $username                = $::os_service_default,
-  $password                = $::os_service_default,
+  $addressing_mode               = $::os_service_default,
+  $server_request_prefix         = $::os_service_default,
+  $broadcast_prefix              = $::os_service_default,
+  $group_request_prefix          = $::os_service_default,
+  $rpc_address_prefix            = $::os_service_default,
+  $notify_address_prefix         = $::os_service_default,
+  $multicast_address             = $::os_service_default,
+  $unicast_address               = $::os_service_default,
+  $anycast_address               = $::os_service_default,
+  $default_notification_exchange = $::os_service_default,
+  $default_rpc_exchange          = $::os_service_default,
+  $pre_settled                   = $::os_service_default,
+  $container_name                = $::os_service_default,
+  $idle_timeout                  = $::os_service_default,
+  $trace                         = $::os_service_default,
+  $ssl_ca_file                   = $::os_service_default,
+  $ssl_cert_file                 = $::os_service_default,
+  $ssl_key_file                  = $::os_service_default,
+  $ssl_key_password              = $::os_service_default,
+  $allow_insecure_clients        = $::os_service_default,
+  $sasl_mechanisms               = $::os_service_default,
+  $sasl_config_dir               = $::os_service_default,
+  $sasl_config_name              = $::os_service_default,
+  $username                      = $::os_service_default,
+  $password                      = $::os_service_default,
+  $default_send_timeout          = $::os_service_default,
+  $default_notify_timeout        = $::os_service_default,
 ){
-  $amqp_options={ 'oslo_messaging_amqp/server_request_prefix' => { value => $server_request_prefix },
+  $amqp_options={ 'oslo_messaging_amqp/addressing_mode' => { value => $addressing_mode },
+                  'oslo_messaging_amqp/server_request_prefix' => { value => $server_request_prefix },
                   'oslo_messaging_amqp/broadcast_prefix' => { value => $broadcast_prefix },
                   'oslo_messaging_amqp/group_request_prefix' => { value => $group_request_prefix },
+                  'oslo_messaging_amqp/rpc_address_prefix' => { value => $rpc_address_prefix },
+                  'oslo_messaging_amqp/notify_address_prefix' => { value => $notify_address_prefix },
+                  'oslo_messaging_amqp/multicast_address' => { value => $multicast_address },
+                  'oslo_messaging_amqp/unicast_address' => { value => $unicast_address },
+                  'oslo_messaging_amqp/anycast_address' => { value => $anycast_address },
+                  'oslo_messaging_amqp/default_notification_exchange' => { value => $default_notification_exchange },
+                  'oslo_messaging_amqp/default_rpc_exchange' => { value => $default_rpc_exchange },
+                  'oslo_messaging_amqp/pre_settled' => { value => join(any2array($pre_settled),',') },
                   'oslo_messaging_amqp/container_name' => { value => $container_name },
                   'oslo_messaging_amqp/idle_timeout' => { value => $idle_timeout },
                   'oslo_messaging_amqp/trace' => { value => $trace },
@@ -105,6 +171,8 @@ define oslo::messaging::amqp(
                   'oslo_messaging_amqp/sasl_config_name' => { value => $sasl_config_name },
                   'oslo_messaging_amqp/username' => { value => $username },
                   'oslo_messaging_amqp/password' => { value => $password },
+                  'oslo_messaging_amqp/default_send_timeout' => { value => $default_send_timeout },
+                  'oslo_messaging_amqp/default_notify_timeout' => { value => $default_notify_timeout },
                   'DEFAULT/rpc_backend' => { value => 'amqp' },
                 }
   create_resources($name, $amqp_options)

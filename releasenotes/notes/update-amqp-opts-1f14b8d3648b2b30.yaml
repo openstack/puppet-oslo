@@ -1,0 +1,3 @@
+---
+features:
+  - Add new configuration options for amqp 1.0 messaging driver

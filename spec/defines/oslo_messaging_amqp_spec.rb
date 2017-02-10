@@ -8,9 +8,18 @@ describe 'oslo::messaging::amqp' do
 
     context 'with default parameters' do
       it 'configure oslo_messaging_amqp default params' do
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/addressing_mode').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/server_request_prefix').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/broadcast_prefix').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/group_request_prefix').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/rpc_address_prefix').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/notify_address_prefix').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/multicast_address').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/unicast_address').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/anycast_address').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/default_notification_exchange').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/default_rpc_exchange').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/pre_settled').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/container_name').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/idle_timeout').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/trace').with_value('<SERVICE DEFAULT>')
@@ -24,6 +33,8 @@ describe 'oslo::messaging::amqp' do
        is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_config_name').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/username').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/default_send_timeout').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/default_notify_timeout').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('DEFAULT/rpc_backend').with_value('amqp')
       end
 
