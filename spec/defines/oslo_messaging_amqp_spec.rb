@@ -42,10 +42,10 @@ describe 'oslo::messaging::amqp' do
 
     context 'with overridden parameters' do
       let :params do
-          { :idle_timeout => 2000,
+          { :idle_timeout   => 2000,
             :container_name => 'openstack',
-            :username => 'newuser',
-            :password => 'p@ssw0rd',
+            :username       => 'newuser',
+            :password       => 'p@ssw0rd',
           }
       end
       it 'configure oslo_messaging_amqp with overriden values' do

@@ -28,10 +28,10 @@ describe 'oslo::messaging::zmq' do
 
     context 'with overridden parameters' do
       let :params do
-          { :rpc_zmq_bind_address => '0.0.0.0',
+          { :rpc_zmq_bind_address      => '0.0.0.0',
             :rpc_zmq_bind_port_retries => '10',
-            :rpc_zmq_concurrency => 'native',
-            :rpc_zmq_contexts => '2',
+            :rpc_zmq_concurrency       => 'native',
+            :rpc_zmq_contexts          => '2',
           }
       end
 

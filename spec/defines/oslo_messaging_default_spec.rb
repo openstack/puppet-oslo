@@ -18,9 +18,9 @@ describe 'oslo::messaging::default' do
     context 'with overridden parameters' do
       let :params do
           {
-            :rpc_response_timeout    => '42',
-            :transport_url           => 'proto://url',
-            :control_exchange        => 'openstack',
+            :rpc_response_timeout => '42',
+            :transport_url        => 'proto://url',
+            :control_exchange     => 'openstack',
           }
       end
 
