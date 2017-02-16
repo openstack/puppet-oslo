@@ -157,7 +157,7 @@ define oslo::messaging::amqp(
                   'oslo_messaging_amqp/anycast_address' => { value => $anycast_address },
                   'oslo_messaging_amqp/default_notification_exchange' => { value => $default_notification_exchange },
                   'oslo_messaging_amqp/default_rpc_exchange' => { value => $default_rpc_exchange },
-                  'oslo_messaging_amqp/pre_settled' => { value => join(any2array($pre_settled),',') },
+                  'oslo_messaging_amqp/pre_settled' => { value => any2array($pre_settled) },
                   'oslo_messaging_amqp/container_name' => { value => $container_name },
                   'oslo_messaging_amqp/idle_timeout' => { value => $idle_timeout },
                   'oslo_messaging_amqp/trace' => { value => $trace },
@@ -173,7 +173,6 @@ define oslo::messaging::amqp(
                   'oslo_messaging_amqp/password' => { value => $password },
                   'oslo_messaging_amqp/default_send_timeout' => { value => $default_send_timeout },
                   'oslo_messaging_amqp/default_notify_timeout' => { value => $default_notify_timeout },
-                  'DEFAULT/rpc_backend' => { value => 'amqp' },
                 }
   create_resources($name, $amqp_options)
 }

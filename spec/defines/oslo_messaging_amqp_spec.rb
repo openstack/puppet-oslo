@@ -19,7 +19,7 @@ describe 'oslo::messaging::amqp' do
        is_expected.to contain_keystone_config('oslo_messaging_amqp/anycast_address').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/default_notification_exchange').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/default_rpc_exchange').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_amqp/pre_settled').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/pre_settled').with_value(['<SERVICE DEFAULT>'])
        is_expected.to contain_keystone_config('oslo_messaging_amqp/container_name').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/idle_timeout').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/trace').with_value('<SERVICE DEFAULT>')
@@ -35,7 +35,6 @@ describe 'oslo::messaging::amqp' do
        is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/default_send_timeout').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/default_notify_timeout').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('DEFAULT/rpc_backend').with_value('amqp')
       end
 
     end
@@ -46,6 +45,7 @@ describe 'oslo::messaging::amqp' do
             :container_name => 'openstack',
             :username       => 'newuser',
             :password       => 'p@ssw0rd',
+            :pre_settled    => ['rpc-cast','rpc-reply','notify'],
           }
       end
       it 'configure oslo_messaging_amqp with overriden values' do
@@ -53,6 +53,7 @@ describe 'oslo::messaging::amqp' do
         is_expected.to contain_keystone_config('oslo_messaging_amqp/container_name').with_value('openstack')
         is_expected.to contain_keystone_config('oslo_messaging_amqp/username').with_value('newuser')
         is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('p@ssw0rd')
+        is_expected.to contain_keystone_config('oslo_messaging_amqp/pre_settled').with_value(['rpc-cast','rpc-reply','notify'])
       end
 
     end
