@@ -16,7 +16,7 @@ describe 'oslo::messaging::rabbit' do
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_userid').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_password').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_login_method').with_value('<SERVICE DEFAULT>')
@@ -107,11 +107,11 @@ describe 'oslo::messaging::rabbit' do
       end
 
       it 'configures rabbit' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true)
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_ca_certs').with_value('/etc/ca.cert')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_certfile').with_value('/etc/certfile')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_keyfile').with_value('/etc/key')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_version').with_value('TLSv1')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl').with_value(true)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl_ca_file').with_value('/etc/ca.cert')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl_cert_file').with_value('/etc/certfile')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl_key_file').with_value('/etc/key')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl_version').with_value('TLSv1')
       end
     end
 
@@ -121,11 +121,11 @@ describe 'oslo::messaging::rabbit' do
       end
 
       it 'configures rabbit' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(true)
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_ca_certs').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_certfile').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_keyfile').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_ssl_version').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl').with_value(true)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl_ca_file').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl_cert_file').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl_key_file').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl_version').with_value('<SERVICE DEFAULT>')
       end
     end
 
