@@ -8,7 +8,6 @@ describe 'oslo::db' do
 
     context 'with default parameters' do
       it 'configure oslo_db default params' do
-        is_expected.to contain_keystone_config('database/sqlite_db').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/sqlite_synchronous').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/backend').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/connection').with_value('<SERVICE DEFAULT>')
