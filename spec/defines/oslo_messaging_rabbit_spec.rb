@@ -18,7 +18,7 @@ describe 'oslo::messaging::rabbit' do
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_userid').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_password').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_password').with_value('<SERVICE DEFAULT>').with_secret(true)
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_login_method').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_retry_interval').with_value('<SERVICE DEFAULT>')

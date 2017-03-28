@@ -26,13 +26,13 @@ describe 'oslo::messaging::amqp' do
        is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl_ca_file').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl_cert_file').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl_key_file').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl_key_password').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl_key_password').with_value('<SERVICE DEFAULT>').with_secret(true)
        is_expected.to contain_keystone_config('oslo_messaging_amqp/allow_insecure_clients').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_mechanisms').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_config_dir').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_config_name').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/username').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('<SERVICE DEFAULT>').with_secret(true)
        is_expected.to contain_keystone_config('oslo_messaging_amqp/default_send_timeout').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/default_notify_timeout').with_value('<SERVICE DEFAULT>')
       end
@@ -52,7 +52,7 @@ describe 'oslo::messaging::amqp' do
         is_expected.to contain_keystone_config('oslo_messaging_amqp/idle_timeout').with_value(2000)
         is_expected.to contain_keystone_config('oslo_messaging_amqp/container_name').with_value('openstack')
         is_expected.to contain_keystone_config('oslo_messaging_amqp/username').with_value('newuser')
-        is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('p@ssw0rd')
+        is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('p@ssw0rd').with_secret(true)
         is_expected.to contain_keystone_config('oslo_messaging_amqp/pre_settled').with_value(['rpc-cast','rpc-reply','notify'])
       end
 

@@ -9,7 +9,7 @@ describe 'oslo::messaging::notifications' do
     context 'with default parameters' do
       it 'configure oslo_messaging_notifications default params' do
         is_expected.to contain_keystone_config('oslo_messaging_notifications/driver').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_notifications/transport_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_notifications/transport_url').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_keystone_config('oslo_messaging_notifications/topics').with_value('<SERVICE DEFAULT>')
       end
 

@@ -9,7 +9,7 @@ describe 'oslo::messaging::default' do
     context 'with default parameters' do
       it 'configure DEFAULT default params' do
         is_expected.to contain_keystone_config('DEFAULT/rpc_response_timeout').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_keystone_config('DEFAULT/control_exchange').with_value('<SERVICE DEFAULT>')
       end
 
