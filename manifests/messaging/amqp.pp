@@ -69,6 +69,10 @@
 #   (Optional) Debug: dump AMQP frames to stdout
 #   Defaults to $::os_service_default.
 #
+# [*ssl*]
+#   (Optional) Attempt to connect via SSL.
+#   Defaults to $::os_service_default.
+#
 # [*ssl_ca_file*]
 #   (Optional) CA certificate PEM file to verify server certificate
 #   Defaults to $::os_service_default.
@@ -133,6 +137,7 @@ define oslo::messaging::amqp(
   $container_name                = $::os_service_default,
   $idle_timeout                  = $::os_service_default,
   $trace                         = $::os_service_default,
+  $ssl                           = $::os_service_default,
   $ssl_ca_file                   = $::os_service_default,
   $ssl_cert_file                 = $::os_service_default,
   $ssl_key_file                  = $::os_service_default,
@@ -161,6 +166,7 @@ define oslo::messaging::amqp(
                   'oslo_messaging_amqp/container_name'                => { value => $container_name },
                   'oslo_messaging_amqp/idle_timeout'                  => { value => $idle_timeout },
                   'oslo_messaging_amqp/trace'                         => { value => $trace },
+                  'oslo_messaging_amqp/ssl'                           => { value => $ssl },
                   'oslo_messaging_amqp/ssl_ca_file'                   => { value => $ssl_ca_file },
                   'oslo_messaging_amqp/ssl_cert_file'                 => { value => $ssl_cert_file },
                   'oslo_messaging_amqp/ssl_key_file'                  => { value => $ssl_key_file },

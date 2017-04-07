@@ -23,6 +23,7 @@ describe 'oslo::messaging::amqp' do
        is_expected.to contain_keystone_config('oslo_messaging_amqp/container_name').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/idle_timeout').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/trace').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl_ca_file').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl_cert_file').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl_key_file').with_value('<SERVICE DEFAULT>')
@@ -46,6 +47,7 @@ describe 'oslo::messaging::amqp' do
             :username       => 'newuser',
             :password       => 'p@ssw0rd',
             :pre_settled    => ['rpc-cast','rpc-reply','notify'],
+            :ssl            => true,
           }
       end
       it 'configure oslo_messaging_amqp with overriden values' do
@@ -54,6 +56,7 @@ describe 'oslo::messaging::amqp' do
         is_expected.to contain_keystone_config('oslo_messaging_amqp/username').with_value('newuser')
         is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('p@ssw0rd').with_secret(true)
         is_expected.to contain_keystone_config('oslo_messaging_amqp/pre_settled').with_value(['rpc-cast','rpc-reply','notify'])
+        is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl').with_value(true)
       end
 
     end
