@@ -105,6 +105,10 @@
 #   (Optional) Name of configuration file (without .conf suffix)
 #   Defaults to $::os_service_default.
 #
+# [*sasl_default_realm*]
+#   (Optional) SASL realm to use if not realm present in username
+#   Defaults to $:os_service_default.
+#
 # [*username*]
 #   (Optional) User name for message broker authentication
 #   Defaults to $::os_service_default.
@@ -146,6 +150,7 @@ define oslo::messaging::amqp(
   $sasl_mechanisms               = $::os_service_default,
   $sasl_config_dir               = $::os_service_default,
   $sasl_config_name              = $::os_service_default,
+  $sasl_default_realm            = $::os_service_default,
   $username                      = $::os_service_default,
   $password                      = $::os_service_default,
   $default_send_timeout          = $::os_service_default,
@@ -175,6 +180,7 @@ define oslo::messaging::amqp(
                   'oslo_messaging_amqp/sasl_mechanisms'               => { value => $sasl_mechanisms },
                   'oslo_messaging_amqp/sasl_config_dir'               => { value => $sasl_config_dir },
                   'oslo_messaging_amqp/sasl_config_name'              => { value => $sasl_config_name },
+                  'oslo_messaging_amqp/sasl_default_realm'            => { value => $sasl_default_realm },
                   'oslo_messaging_amqp/username'                      => { value => $username },
                   'oslo_messaging_amqp/password'                      => { value => $password, secret => true },
                   'oslo_messaging_amqp/default_send_timeout'          => { value => $default_send_timeout },

@@ -32,6 +32,7 @@ describe 'oslo::messaging::amqp' do
        is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_mechanisms').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_config_dir').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_config_name').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_default_realm').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/username').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('<SERVICE DEFAULT>').with_secret(true)
        is_expected.to contain_keystone_config('oslo_messaging_amqp/default_send_timeout').with_value('<SERVICE DEFAULT>')
@@ -42,12 +43,13 @@ describe 'oslo::messaging::amqp' do
 
     context 'with overridden parameters' do
       let :params do
-          { :idle_timeout   => 2000,
-            :container_name => 'openstack',
-            :username       => 'newuser',
-            :password       => 'p@ssw0rd',
-            :pre_settled    => ['rpc-cast','rpc-reply','notify'],
-            :ssl            => true,
+          { :idle_timeout       => 2000,
+            :container_name     => 'openstack',
+            :username           => 'newuser',
+            :password           => 'p@ssw0rd',
+            :pre_settled        => ['rpc-cast','rpc-reply','notify'],
+            :ssl                => true,
+            :sasl_default_realm => 'overcloud-1'
           }
       end
       it 'configure oslo_messaging_amqp with overriden values' do
@@ -57,6 +59,7 @@ describe 'oslo::messaging::amqp' do
         is_expected.to contain_keystone_config('oslo_messaging_amqp/password').with_value('p@ssw0rd').with_secret(true)
         is_expected.to contain_keystone_config('oslo_messaging_amqp/pre_settled').with_value(['rpc-cast','rpc-reply','notify'])
         is_expected.to contain_keystone_config('oslo_messaging_amqp/ssl').with_value(true)
+        is_expected.to contain_keystone_config('oslo_messaging_amqp/sasl_default_realm').with_value('overcloud-1')
       end
 
     end
