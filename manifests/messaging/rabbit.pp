@@ -63,6 +63,10 @@
 #   (port value)
 #   Defaults to $::os_service_default
 #
+# [*rabbit_qos_prefetch_count*]
+#   (Optional) Specifies the number of messages to prefetch
+#   Defaults to $::os_service_default
+#
 # [*rabbit_hosts*]
 #   (Optional) RabbitMQ HA cluster host:port pairs. (array value)
 #   Defaults to $::os_service_default
@@ -142,6 +146,7 @@ define oslo::messaging::rabbit(
   $kombu_compression                    = $::os_service_default,
   $rabbit_host                          = $::os_service_default,
   $rabbit_port                          = $::os_service_default,
+  $rabbit_qos_prefetch_count            = $::os_service_default,
   $rabbit_hosts                         = $::os_service_default,
   $rabbit_use_ssl                       = $::os_service_default,
   $rabbit_userid                        = $::os_service_default,
@@ -220,6 +225,7 @@ rabbit_password, rabbit_virtual_host parameters have been deprecated by the \
                       'oslo_messaging_rabbit/rabbit_virtual_host' => { value => $rabbit_virtual_host },
                       'oslo_messaging_rabbit/rabbit_hosts' => { value => $rabbit_hosts_orig },
                       'oslo_messaging_rabbit/rabbit_port' => { value => $rabbit_port_orig },
+                      'oslo_messaging_rabbit/rabbit_qos_prefetch_count' => { value => $rabbit_qos_prefetch_count },
                       'oslo_messaging_rabbit/rabbit_host' => { value => $rabbit_host_orig },
                       'oslo_messaging_rabbit/rabbit_ha_queues' => { value => $rabbit_ha_queues_orig },
                       'oslo_messaging_rabbit/ssl_ca_file' => { value => $kombu_ssl_ca_certs },

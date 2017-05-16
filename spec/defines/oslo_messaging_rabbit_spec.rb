@@ -15,6 +15,7 @@ describe 'oslo::messaging::rabbit' do
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_qos_prefetch_count').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_userid').with_value('<SERVICE DEFAULT>')
@@ -38,6 +39,7 @@ describe 'oslo::messaging::rabbit' do
         { :rabbit_host                 => 'rabbit',
           :rabbit_userid               => 'rabbit_user',
           :rabbit_port                 => '5673',
+          :rabbit_qos_prefetch_count   => '10',
           :rabbit_password             => 'password',
           :heartbeat_timeout_threshold => '60',
           :heartbeat_rate              => '10',
@@ -49,6 +51,7 @@ describe 'oslo::messaging::rabbit' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('rabbit')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_password').with_value('password').with_secret(true)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('5673')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_qos_prefetch_count').with_value('10')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_userid').with_value('rabbit_user')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('/')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('60')
