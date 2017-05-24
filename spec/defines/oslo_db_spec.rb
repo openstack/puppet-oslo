@@ -83,7 +83,7 @@ describe 'oslo::db' do
       end
 
       it 'install the proper backend package' do
-        is_expected.to contain_package('db_backend_package').with(
+        is_expected.to contain_package('python-pymongo').with(
           :ensure => 'present',
           :name   => 'python-pymongo',
           :tag    => 'openstack'
@@ -143,7 +143,7 @@ describe 'oslo::db' do
       end
 
       it 'install the proper backend package' do
-        is_expected.to contain_package('db_backend_package').with(
+        is_expected.to contain_package('python-pymysql').with(
           :ensure => 'present',
           :name   => 'python-pymysql',
           :tag    => 'openstack'
@@ -157,7 +157,7 @@ describe 'oslo::db' do
       end
 
       it 'install the proper backend package' do
-        is_expected.to contain_package('db_backend_package').with(
+        is_expected.to contain_package('python-pysqlite2').with(
           :ensure => 'present',
           :name   => 'python-pysqlite2',
           :tag    => 'openstack'
@@ -171,8 +171,6 @@ describe 'oslo::db' do
       let :params do
         { :connection => 'mysql+pymysql:///db:db@localhost/db', }
       end
-
-      it { is_expected.not_to contain_package('db_backend_package') }
     end
   end
 
