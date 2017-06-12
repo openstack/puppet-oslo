@@ -105,10 +105,6 @@
 #   (Optional) Maximum interval of RabbitMQ connection retries. (integer value)
 #   Defaults to $::os_service_default
 #
-# [*rabbit_max_retries*]
-#   (Optional) Maximum number of RabbitMQ connection retries. (integer value)
-#   Defaults to $::os_service_default
-#
 # [*rabbit_ha_queues*]
 #   (Optional) Use HA queues in RabbitMQ (x-ha-policy: all). If you change this
 #   option, you must wipe the RabbitMQ database. (boolean value)
@@ -133,7 +129,12 @@
 #   we check the heartbeat. (integer value)
 #   Defaults to $::os_service_default
 #
-
+# DEPRECATED PARAMETERS
+#
+# [*rabbit_max_retries*]
+#   (Optional) Maximum number of RabbitMQ connection retries. (integer value)
+#   Defaults to undef
+#
 define oslo::messaging::rabbit(
   $amqp_durable_queues                  = $::os_service_default,
   $kombu_ssl_version                    = $::os_service_default,
@@ -156,11 +157,12 @@ define oslo::messaging::rabbit(
   $rabbit_retry_interval                = $::os_service_default,
   $rabbit_retry_backoff                 = $::os_service_default,
   $rabbit_interval_max                  = $::os_service_default,
-  $rabbit_max_retries                   = $::os_service_default,
   $rabbit_ha_queues                     = $::os_service_default,
   $rabbit_transient_queues_ttl          = $::os_service_default,
   $heartbeat_timeout_threshold          = $::os_service_default,
   $heartbeat_rate                       = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $rabbit_max_retries                   = undef,
 ){
 
   if $rabbit_use_ssl != true {
@@ -176,6 +178,10 @@ define oslo::messaging::rabbit(
     if !is_service_default($kombu_ssl_version) and ($kombu_ssl_version) {
       fail('The kombu_ssl_version parameter requires rabbit_use_ssl to be set to true')
     }
+  }
+
+  if $rabbit_max_retries {
+    warning('The rabbit_max_retries parameter has been deprecated and will be removed in the future release.')
   }
 
   if !is_service_default($kombu_compression) and !($kombu_compression in ['gzip','bz2']) {
@@ -215,7 +221,6 @@ rabbit_password, rabbit_virtual_host parameters have been deprecated by the \
                       'oslo_messaging_rabbit/kombu_reconnect_delay' => { value => $kombu_reconnect_delay },
                       'oslo_messaging_rabbit/rabbit_interval_max' => { value => $rabbit_interval_max },
                       'oslo_messaging_rabbit/rabbit_login_method' => { value => $rabbit_login_method },
-                      'oslo_messaging_rabbit/rabbit_max_retries' => { value => $rabbit_max_retries },
                       'oslo_messaging_rabbit/rabbit_password' => { value => $rabbit_password, secret => true },
                       'oslo_messaging_rabbit/rabbit_retry_backoff' => { value => $rabbit_retry_backoff },
                       'oslo_messaging_rabbit/rabbit_retry_interval' => { value => $rabbit_retry_interval },
