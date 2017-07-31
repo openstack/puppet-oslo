@@ -112,7 +112,6 @@ define oslo::messaging::zmq(
     'DEFAULT/rpc_zmq_topic_backlog' => { value => $rpc_zmq_topic_backlog },
     'DEFAULT/use_pub_sub' => { value => $use_pub_sub },
     'DEFAULT/zmq_target_expire' => { value => $zmq_target_expire },
-    'DEFAULT/rpc_backend' => { value => 'zmq' },
   }
 
   create_resources($name, $zmq_options)

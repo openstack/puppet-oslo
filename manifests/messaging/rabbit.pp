@@ -237,7 +237,6 @@ rabbit_password, rabbit_virtual_host parameters have been deprecated by the \
                       'oslo_messaging_rabbit/ssl_cert_file' => { value => $kombu_ssl_certfile },
                       'oslo_messaging_rabbit/ssl_key_file' => { value => $kombu_ssl_keyfile },
                       'oslo_messaging_rabbit/ssl_version' => { value => $kombu_ssl_version },
-                      'DEFAULT/rpc_backend' => { value => 'rabbit' },
                     }
 
   create_resources($name, $rabbit_options)
