@@ -29,7 +29,6 @@ describe 'oslo::messaging::rabbit' do
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_transient_queues_ttl').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('DEFAULT/rpc_backend').with_value('rabbit')
       end
     end
 
