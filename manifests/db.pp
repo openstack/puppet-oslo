@@ -15,6 +15,10 @@
 #   (Optional) The back end to use for the database.
 #   Defaults to $::os_service_default
 #
+# [*manage_backend_package*]
+#   (Optional) Whether to install the backend package.
+#   Defaults to true.
+#
 # [*backend_package_ensure*]
 #   (Optional) Desired ensure state of the backend database package,
 #   accepts latest or specific versions.
@@ -105,6 +109,7 @@
 define oslo::db(
   $sqlite_synchronous     = $::os_service_default,
   $backend                = $::os_service_default,
+  $manage_backend_package = true,
   $backend_package_ensure = present,
   $connection             = $::os_service_default,
   $slave_connection       = $::os_service_default,
@@ -135,36 +140,38 @@ define oslo::db(
     validate_re($connection,
       '^(sqlite|mysql(\+pymysql)?|postgresql|mongodb):\/\/(\S+:\S+@\S+\/\S+)?')
 
-    case $connection {
-      /^mysql(\+pymysql)?:\/\//: {
-        require '::mysql::bindings'
-        require '::mysql::bindings::python'
-        if $connection =~ /^mysql\+pymysql/ {
-          $backend_package = $::oslo::params::pymysql_package_name
-        } else {
+    if $manage_backend_package {
+      case $connection {
+        /^mysql(\+pymysql)?:\/\//: {
+          require '::mysql::bindings'
+          require '::mysql::bindings::python'
+          if $connection =~ /^mysql\+pymysql/ {
+            $backend_package = $::oslo::params::pymysql_package_name
+          } else {
+            $backend_package = false
+          }
+        }
+        /^postgresql:\/\//: {
           $backend_package = false
+          require '::postgresql::lib::python'
+        }
+        /^mongodb:\/\//: {
+          $backend_package = $::oslo::params::pymongo_package_name
+        }
+        /^sqlite:\/\//: {
+          $backend_package = $::oslo::params::sqlite_package_name
+        }
+        default: {
+          fail('Unsupported backend configured')
         }
       }
-      /^postgresql:\/\//: {
-        $backend_package = false
-        require '::postgresql::lib::python'
-      }
-      /^mongodb:\/\//: {
-        $backend_package = $::oslo::params::pymongo_package_name
-      }
-      /^sqlite:\/\//: {
-        $backend_package = $::oslo::params::sqlite_package_name
-      }
-      default: {
-        fail('Unsupported backend configured')
-      }
-    }
 
-    if $backend_package and !defined(Package[$backend_package]) {
-      package { $backend_package:
-        ensure => $backend_package_ensure,
-        name   => $backend_package,
-        tag    => 'openstack',
+      if $backend_package and !defined(Package[$backend_package]) {
+        package { $backend_package:
+          ensure => $backend_package_ensure,
+          name   => $backend_package,
+          tag    => 'openstack',
+        }
       }
     }
   }

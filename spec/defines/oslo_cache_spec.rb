@@ -75,6 +75,18 @@ describe 'oslo::cache' do
           :tag    => 'openstack',
         )
       end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-pylibmc')
+        end
+      end
     end
 
     context 'with memcache backend' do
@@ -90,6 +102,18 @@ describe 'oslo::cache' do
           :name   => platform_params[:python_memcache_package_name],
           :tag    => ['openstack'],
         )
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-memcache')
+        end
       end
     end
 

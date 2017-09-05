@@ -89,6 +89,18 @@ describe 'oslo::db' do
           :tag    => 'openstack'
         )
       end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-pymongo')
+        end
+      end
     end
 
     context 'with specific mongodb connection string' do
@@ -116,6 +128,18 @@ describe 'oslo::db' do
 
       it 'install the proper backend package' do
         is_expected.to contain_package('python-psycopg2').with(:ensure => 'present')
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-psycopg2')
+        end
       end
     end
 
@@ -149,6 +173,18 @@ describe 'oslo::db' do
           :tag    => 'openstack'
         )
       end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-pymysql')
+        end
+      end
     end
 
     context 'with sqlite backend' do
@@ -162,6 +198,18 @@ describe 'oslo::db' do
           :name   => 'python-pysqlite2',
           :tag    => 'openstack'
         )
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-pysqlite2')
+        end
       end
     end
   end

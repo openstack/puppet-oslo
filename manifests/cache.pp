@@ -113,6 +113,10 @@
 #   client connection. (integer value)
 #   Defaults to $::os_service_default
 #
+# [*manage_backend_package*]
+#   (Optional) Whether to install the backend package.
+#   Defaults to true.
+#
 define oslo::cache(
   $config_prefix                        = $::os_service_default,
   $expiration_time                      = $::os_service_default,
@@ -127,6 +131,7 @@ define oslo::cache(
   $memcache_pool_maxsize                = $::os_service_default,
   $memcache_pool_unused_timeout         = $::os_service_default,
   $memcache_pool_connection_get_timeout = $::os_service_default,
+  $manage_backend_package               = true,
 ){
 
   include ::oslo::params
@@ -149,17 +154,19 @@ define oslo::cache(
     $proxies_orig = $proxies
   }
 
-  if ($backend =~ /pylibmc/ ) {
-    ensure_packages('python-pylibmc', {
-      ensure => present,
-      name   => $::oslo::params::pylibmc_package_name,
-      tag    => 'openstack',
-    })
-  } elsif ($backend =~ /\.memcache/ ) {
-    ensure_resources('package', { 'python-memcache' => {
-      name   => $::oslo::params::python_memcache_package_name,
-      tag    => ['openstack'],
-    }})
+  if $manage_backend_package {
+    if ($backend =~ /pylibmc/ ) {
+      ensure_packages('python-pylibmc', {
+        ensure => present,
+        name   => $::oslo::params::pylibmc_package_name,
+        tag    => 'openstack',
+      })
+    } elsif ($backend =~ /\.memcache/ ) {
+      ensure_resources('package', { 'python-memcache' => {
+        name   => $::oslo::params::python_memcache_package_name,
+        tag    => ['openstack'],
+      }})
+    }
   }
 
   $cache_options = {
