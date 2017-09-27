@@ -131,8 +131,16 @@ define oslo::log(
     $default_log_levels_real = join(sort(join_keys_to_values($default_log_levels, '=')), ',')
   }
 
+  # NOTE(mwhahaha): oslo.log doesn't like it when debug is not a proper python
+  # boolean. See LP#1719929
+  if !is_service_default($debug) {
+    $debug_real = any2bool($debug)
+  } else {
+    $debug_real = $debug
+  }
+
   $log_options = {
-    'DEFAULT/debug'                         => { value => $debug },
+    'DEFAULT/debug'                         => { value => $debug_real },
     'DEFAULT/log_config_append'             => { value => $log_config_append },
     'DEFAULT/log_date_format'               => { value => $log_date_format },
     'DEFAULT/log_file'                      => { value => $log_file },

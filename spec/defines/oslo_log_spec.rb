@@ -84,6 +84,15 @@ describe 'oslo::log' do
         is_expected.to contain_keystone_config('DEFAULT/fatal_deprecations').with_value(true)
       end
     end
+
+    context 'with debug as an empty string' do
+      let :params do
+        { :debug => '' }
+      end
+      it {
+        is_expected.to contain_keystone_config('DEFAULT/debug').with_value(false)
+      }
+    end
   end
 
   on_supported_os({

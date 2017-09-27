@@ -1,0 +1,11 @@
+---
+upgrade:
+  - |
+    Bump minimum version of puppetlabs-stdlib to 4.13.0 as we are using the
+    any2bool function.
+fixes:
+  - |
+    oslo.log fails if the debug setting is the configuration file is not a
+    boolean. So we've added boolean conversion to the setting to ensure that
+    we are either passing a proper boolean or $::os_service_default.  We are
+    leveraging puppetlabs-stdlib any2bool for the conversion. LP#1719929
