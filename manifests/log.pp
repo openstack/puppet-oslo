@@ -39,6 +39,10 @@
 #   (Optional) Use syslog for logging (boolean value).
 #   Defaults to $::os_service_default
 #
+# [*use_journal*]
+#   (Optional) Use journald for logging (boolean value).
+#   Defaults to $::os_service_default
+#
 # [*syslog_log_facility*]
 #   (Optional) Syslog facility to receive log lines.
 #   This option is ignored if log_config_append is set.
@@ -110,6 +114,7 @@ define oslo::log(
   $log_dir                       = $::os_service_default,
   $watch_log_file                = $::os_service_default,
   $use_syslog                    = $::os_service_default,
+  $use_journal                   = $::os_service_default,
   $syslog_log_facility           = $::os_service_default,
   $use_stderr                    = $::os_service_default,
   $logging_context_format_string = $::os_service_default,
@@ -147,6 +152,7 @@ define oslo::log(
     'DEFAULT/log_dir'                       => { value => $log_dir },
     'DEFAULT/watch_log_file'                => { value => $watch_log_file },
     'DEFAULT/use_syslog'                    => { value => $use_syslog },
+    'DEFAULT/use_journal'                   => { value => $use_journal },
     'DEFAULT/syslog_log_facility'           => { value => $syslog_log_facility },
     'DEFAULT/use_stderr'                    => { value => $use_stderr },
     'DEFAULT/logging_context_format_string' => { value => $logging_context_format_string },
