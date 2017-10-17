@@ -57,5 +57,5 @@
     ],
     "source": "git://github.com/openstack/puppet-oslo.git",
     "summary": "Puppet module for OpenStack Oslo",
-    "version": "12.0.0-dev"
+    "version": "12.0.0"
 }
