@@ -1,0 +1,5 @@
+---
+features:
+  - allow to specify a full dbname+drivername://
+    protocol URL for postgresql databases.
+

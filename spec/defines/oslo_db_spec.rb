@@ -143,6 +143,14 @@ describe 'oslo::db' do
       end
     end
 
+    context 'with postgresql backend + drivername' do
+      let :params do
+        { :connection => 'postgresql+psycopg2://db:db@localhost/db' }
+      end
+
+      it { is_expected.to contain_keystone_config('database/connection').with_value('postgresql+psycopg2://db:db@localhost/db').with_secret(true) }
+    end
+
     context 'with incorrect database_connection string' do
       let :params do
         { :connection => 'foo://db:db@localhost/db', }
