@@ -48,6 +48,10 @@
 #   This option is ignored if log_config_append is set.
 #   Defaults to $::os_service_default
 #
+# [*use_json*]
+#   (Optional) Use JSON format for logging (boolean value).
+#   Defaults to $::os_service_default
+#
 # [*use_stderr*]
 #   (Optional) Log output to standard error.
 #   This option is ignored if log_config_append is set.
@@ -115,6 +119,7 @@ define oslo::log(
   $watch_log_file                = $::os_service_default,
   $use_syslog                    = $::os_service_default,
   $use_journal                   = $::os_service_default,
+  $use_json                      = $::os_service_default,
   $syslog_log_facility           = $::os_service_default,
   $use_stderr                    = $::os_service_default,
   $logging_context_format_string = $::os_service_default,
@@ -153,6 +158,7 @@ define oslo::log(
     'DEFAULT/watch_log_file'                => { value => $watch_log_file },
     'DEFAULT/use_syslog'                    => { value => $use_syslog },
     'DEFAULT/use_journal'                   => { value => $use_journal },
+    'DEFAULT/use_json'                      => { value => $use_json },
     'DEFAULT/syslog_log_facility'           => { value => $syslog_log_facility },
     'DEFAULT/use_stderr'                    => { value => $use_stderr },
     'DEFAULT/logging_context_format_string' => { value => $logging_context_format_string },
