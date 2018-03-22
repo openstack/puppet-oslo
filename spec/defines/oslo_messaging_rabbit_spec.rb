@@ -194,7 +194,7 @@ describe 'oslo::messaging::rabbit' do
         { :rabbit_hosts => 'rabbit1:5672,rabbit2:5673' }
       end
 
-      it 'configures rabbit with overriden list values as strings' do
+      it 'configures rabbit with overridden list values as strings' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit1:5672,rabbit2:5673')
       end
     end

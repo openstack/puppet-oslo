@@ -37,7 +37,7 @@ describe 'oslo::policy' do
         }
       end
 
-      it 'configures oslo_policy section with overriden list values as strings' do
+      it 'configures oslo_policy section with overridden list values as strings' do
         is_expected.to contain_keystone_config('oslo_policy/policy_dirs').with_value('dir1,/dir/2')
       end
     end

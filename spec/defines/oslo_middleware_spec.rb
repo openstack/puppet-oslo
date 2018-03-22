@@ -21,7 +21,7 @@ describe 'oslo::middleware' do
             :enable_proxy_headers_parsing => true,
           }
       end
-      it 'configure oslo_middleware with overriden values' do
+      it 'configure oslo_middleware with overridden values' do
         is_expected.to contain_keystone_config('oslo_middleware/max_request_body_size').with_value(114600)
         is_expected.to contain_keystone_config('oslo_middleware/enable_proxy_headers_parsing').with_value(true)
       end

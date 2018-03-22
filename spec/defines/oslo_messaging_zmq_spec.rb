@@ -35,7 +35,7 @@ describe 'oslo::messaging::zmq' do
           }
       end
 
-      it 'configure zmq with overriden values' do
+      it 'configure zmq with overridden values' do
        is_expected.to contain_keystone_config('DEFAULT/rpc_zmq_bind_address').with_value('0.0.0.0')
        is_expected.to contain_keystone_config('DEFAULT/rpc_zmq_bind_port_retries').with_value('10')
        is_expected.to contain_keystone_config('DEFAULT/rpc_zmq_concurrency').with_value('native')

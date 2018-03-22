@@ -52,7 +52,7 @@ describe 'oslo::messaging::amqp' do
             :sasl_default_realm => 'overcloud-1'
           }
       end
-      it 'configure oslo_messaging_amqp with overriden values' do
+      it 'configure oslo_messaging_amqp with overridden values' do
         is_expected.to contain_keystone_config('oslo_messaging_amqp/idle_timeout').with_value(2000)
         is_expected.to contain_keystone_config('oslo_messaging_amqp/container_name').with_value('openstack')
         is_expected.to contain_keystone_config('oslo_messaging_amqp/username').with_value('newuser')

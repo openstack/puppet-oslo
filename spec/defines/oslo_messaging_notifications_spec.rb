@@ -23,7 +23,7 @@ describe 'oslo::messaging::notifications' do
           }
       end
 
-      it 'configure oslo_messaging_notifications with overriden values' do
+      it 'configure oslo_messaging_notifications with overridden values' do
         is_expected.to contain_keystone_config('oslo_messaging_notifications/driver').with_value('messaging')
         is_expected.to contain_keystone_config('oslo_messaging_notifications/transport_url').with_value('some_protocol://some_url').with_secret(true)
         is_expected.to contain_keystone_config('oslo_messaging_notifications/topics').with_value('notifications')
@@ -38,7 +38,7 @@ describe 'oslo::messaging::notifications' do
         }
       end
 
-      it 'configures oslo_messaging_notifications section with overriden list values as strings' do
+      it 'configures oslo_messaging_notifications section with overridden list values as strings' do
         is_expected.to contain_keystone_config('oslo_messaging_notifications/driver').with_value('messaging')
         is_expected.to contain_keystone_config('oslo_messaging_notifications/topics').with_value('notifications')
       end

@@ -18,7 +18,7 @@ describe 'oslo::versionedobjects' do
           { :fatal_exception_format_errors => true,
           }
       end
-      it 'configure oslo_versionedobjects with overriden values' do
+      it 'configure oslo_versionedobjects with overridden values' do
         is_expected.to contain_keystone_config('oslo_versionedobjects/fatal_exception_format_errors').with_value(true)
       end
 
