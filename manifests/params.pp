@@ -5,8 +5,13 @@
 class oslo::params {
   include ::openstacklib::defaults
 
-  $pymongo_package_name = 'python-pymongo'
-  $pylibmc_package_name = 'python-pylibmc'
+  if ($::os_package_type == 'debian') {
+    $pyvers = '3'
+  } else {
+    $pyvers = ''
+  }
+  $pymongo_package_name = "python${pyvers}-pymongo"
+  $pylibmc_package_name = "python${pyvers}-pylibmc"
 
   case $::osfamily {
     'RedHat': {
