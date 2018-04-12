@@ -21,7 +21,7 @@ oslo
 Overview
 --------
 
-The oslo module is a part of [OpenStack](https://www.openstack.org), an effort by the OpenStack infrastructure team to provide continuous integration testing and code review for OpenStack and OpenStack community projects not part of the core software.  The module its self is used to flexibly configure and manage the FIXME service for OpenStack.
+The oslo module is a part of [OpenStack](https://www.openstack.org), an effort by the OpenStack infrastructure team to provide continuous integration testing and code review for OpenStack and OpenStack community projects not part of the core software.  The module its self is used to flexibly configure and manage the Puppet OpenStack common module for OpenStack.
 
 Module Description
 ------------------
@@ -59,7 +59,7 @@ Setup
 
 **What the oslo module affects**
 
-* [Oslo](https://wiki.openstack.org/wiki/Oslo), the FIXME service for OpenStack.
+* [Oslo](https://wiki.openstack.org/wiki/Oslo), the oslo libraries for OpenStack.
 
 ### Installing oslo
 
