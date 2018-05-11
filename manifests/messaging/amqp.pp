@@ -107,7 +107,7 @@
 #
 # [*sasl_default_realm*]
 #   (Optional) SASL realm to use if not realm present in username
-#   Defaults to $:os_service_default.
+#   Defaults to $::os_service_default.
 #
 # [*username*]
 #   (Optional) User name for message broker authentication
