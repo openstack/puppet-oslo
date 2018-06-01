@@ -1,0 +1,3 @@
+---
+upgrade:
+  - Deprecated rabbit_max_retries option has been removed.

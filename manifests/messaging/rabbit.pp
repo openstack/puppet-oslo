@@ -129,12 +129,6 @@
 #   we check the heartbeat. (integer value)
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*rabbit_max_retries*]
-#   (Optional) Maximum number of RabbitMQ connection retries. (integer value)
-#   Defaults to undef
-#
 define oslo::messaging::rabbit(
   $amqp_durable_queues                  = $::os_service_default,
   $kombu_ssl_version                    = $::os_service_default,
@@ -161,8 +155,6 @@ define oslo::messaging::rabbit(
   $rabbit_transient_queues_ttl          = $::os_service_default,
   $heartbeat_timeout_threshold          = $::os_service_default,
   $heartbeat_rate                       = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $rabbit_max_retries                   = undef,
 ){
 
   if $rabbit_use_ssl != true {
@@ -178,10 +170,6 @@ define oslo::messaging::rabbit(
     if !is_service_default($kombu_ssl_version) and ($kombu_ssl_version) {
       fail('The kombu_ssl_version parameter requires rabbit_use_ssl to be set to true')
     }
-  }
-
-  if $rabbit_max_retries {
-    warning('The rabbit_max_retries parameter has been deprecated and will be removed in the future release.')
   }
 
   if !is_service_default($kombu_compression) and !($kombu_compression in ['gzip','bz2']) {
