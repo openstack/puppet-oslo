@@ -100,12 +100,6 @@
 #   (Optional) Enable the experimental use of thread pooling for all DB API calls (boolean value)
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*sqlite_db*]
-#   (Optional) The file name to use with SQLite.
-#   Defaults to undef
-#
 define oslo::db(
   $sqlite_synchronous     = $::os_service_default,
   $backend                = $::os_service_default,
@@ -129,8 +123,6 @@ define oslo::db(
   $db_max_retry_interval  = $::os_service_default,
   $db_max_retries         = $::os_service_default,
   $use_tpool              = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $sqlite_db              = undef,
 ){
 
   include ::oslo::params
@@ -174,12 +166,6 @@ define oslo::db(
         }
       }
     }
-  }
-
-  if $sqlite_db {
-    warning("The sqlite_db parameter is now deprecated and will be removed in the \
-future release. Please use configuration option connection or slave_connection \
-to connect to the database.")
   }
 
   $database_options = {
