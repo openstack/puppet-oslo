@@ -109,3 +109,8 @@ Contributors
 ------------
 
 * https://github.com/openstack/puppet-oslo/graphs/contributors
+
+Release Notes
+-------------
+
+* https://docs.openstack.org/releasenotes/puppet-oslo
