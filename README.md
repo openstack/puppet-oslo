@@ -114,3 +114,8 @@ Release Notes
 -------------
 
 * https://docs.openstack.org/releasenotes/puppet-oslo
+
+Repository
+-------------
+
+* https://git.openstack.org/cgit/openstack/puppet-oslo
