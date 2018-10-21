@@ -53,42 +53,16 @@
 #   (string value)
 #   Defaults to $::os_service_default
 #
-# [*rabbit_host*]
-#   (Optional) The RabbitMQ broker address where a single node is used.
-#   (string value)
-#   Defaults to $::os_service_default
-#
-# [*rabbit_port*]
-#   (Optional) The RabbitMQ broker port where a single node is used.
-#   (port value)
-#   Defaults to $::os_service_default
-#
 # [*rabbit_qos_prefetch_count*]
 #   (Optional) Specifies the number of messages to prefetch
-#   Defaults to $::os_service_default
-#
-# [*rabbit_hosts*]
-#   (Optional) RabbitMQ HA cluster host:port pairs. (array value)
 #   Defaults to $::os_service_default
 #
 # [*rabbit_use_ssl*]
 #   (Optional) Connect over SSL for RabbitMQ. (boolean value)
 #   Defaults to $::os_service_default
 #
-# [*rabbit_userid*]
-#   (Optional) The RabbitMQ userid. (string value)
-#   Defaults to $::os_service_default
-#
-# [*rabbit_password*]
-#   (Optional) The RabbitMQ password. (string value)
-#   Defaults to $::os_service_default
-#
 # [*rabbit_login_method*]
 #   (Optional) The RabbitMQ login method. (string value)
-#   Defaults to $::os_service_default
-#
-# [*rabbit_virtual_host*]
-#   (Optional) The RabbitMQ virtual host. (string value)
 #   Defaults to $::os_service_default
 #
 # [*rabbit_retry_interval*]
@@ -139,15 +113,9 @@ define oslo::messaging::rabbit(
   $kombu_missing_consumer_retry_timeout = $::os_service_default,
   $kombu_failover_strategy              = $::os_service_default,
   $kombu_compression                    = $::os_service_default,
-  $rabbit_host                          = $::os_service_default,
-  $rabbit_port                          = $::os_service_default,
   $rabbit_qos_prefetch_count            = $::os_service_default,
-  $rabbit_hosts                         = $::os_service_default,
   $rabbit_use_ssl                       = $::os_service_default,
-  $rabbit_userid                        = $::os_service_default,
-  $rabbit_password                      = $::os_service_default,
   $rabbit_login_method                  = $::os_service_default,
-  $rabbit_virtual_host                  = $::os_service_default,
   $rabbit_retry_interval                = $::os_service_default,
   $rabbit_retry_backoff                 = $::os_service_default,
   $rabbit_interval_max                  = $::os_service_default,
@@ -176,30 +144,6 @@ define oslo::messaging::rabbit(
     fail('Unsupported Kombu compression. Possible values are gzip and bz2')
   }
 
-  if !is_service_default($rabbit_hosts) or !is_service_default($rabbit_host) {
-    warning("The oslo_messaging rabbit_host, rabbit_hosts, rabbit_port, rabbit_userid, \
-rabbit_password, rabbit_virtual_host parameters have been deprecated by the \
-[DEFAULT]\\transport_url. Please use oslo::messaging::default::transport_url instead.")
-  }
-
-  if !is_service_default($rabbit_hosts) {
-    $rabbit_hosts_orig = join(any2array($rabbit_hosts), ',')
-    if size($rabbit_hosts) > 1 and is_service_default($rabbit_ha_queues) {
-      $rabbit_ha_queues_orig = true
-    } else {
-      $rabbit_ha_queues_orig = $rabbit_ha_queues
-    }
-    # Do not set rabbit_port and rabbit_host
-    $rabbit_port_orig = $::os_service_default
-    $rabbit_host_orig = $::os_service_default
-  } else {
-    $rabbit_port_orig      = $rabbit_port
-    $rabbit_host_orig      = $rabbit_host
-    $rabbit_ha_queues_orig = $rabbit_ha_queues
-    # Do not set rabbit_hosts if host or port or both are set
-    $rabbit_hosts_orig     = $::os_service_default
-  }
-
   $rabbit_options = { 'oslo_messaging_rabbit/amqp_durable_queues' => { value => $amqp_durable_queues },
                       'oslo_messaging_rabbit/heartbeat_rate' => { value => $heartbeat_rate },
                       'oslo_messaging_rabbit/heartbeat_timeout_threshold' => { value => $heartbeat_timeout_threshold },
@@ -209,18 +153,12 @@ rabbit_password, rabbit_virtual_host parameters have been deprecated by the \
                       'oslo_messaging_rabbit/kombu_reconnect_delay' => { value => $kombu_reconnect_delay },
                       'oslo_messaging_rabbit/rabbit_interval_max' => { value => $rabbit_interval_max },
                       'oslo_messaging_rabbit/rabbit_login_method' => { value => $rabbit_login_method },
-                      'oslo_messaging_rabbit/rabbit_password' => { value => $rabbit_password, secret => true },
                       'oslo_messaging_rabbit/rabbit_retry_backoff' => { value => $rabbit_retry_backoff },
                       'oslo_messaging_rabbit/rabbit_retry_interval' => { value => $rabbit_retry_interval },
                       'oslo_messaging_rabbit/rabbit_transient_queues_ttl' => { value => $rabbit_transient_queues_ttl },
                       'oslo_messaging_rabbit/ssl' => { value => $rabbit_use_ssl },
-                      'oslo_messaging_rabbit/rabbit_userid' => { value => $rabbit_userid },
-                      'oslo_messaging_rabbit/rabbit_virtual_host' => { value => $rabbit_virtual_host },
-                      'oslo_messaging_rabbit/rabbit_hosts' => { value => $rabbit_hosts_orig },
-                      'oslo_messaging_rabbit/rabbit_port' => { value => $rabbit_port_orig },
                       'oslo_messaging_rabbit/rabbit_qos_prefetch_count' => { value => $rabbit_qos_prefetch_count },
-                      'oslo_messaging_rabbit/rabbit_host' => { value => $rabbit_host_orig },
-                      'oslo_messaging_rabbit/rabbit_ha_queues' => { value => $rabbit_ha_queues_orig },
+                      'oslo_messaging_rabbit/rabbit_ha_queues' => { value => $rabbit_ha_queues },
                       'oslo_messaging_rabbit/ssl_ca_file' => { value => $kombu_ssl_ca_certs },
                       'oslo_messaging_rabbit/ssl_cert_file' => { value => $kombu_ssl_certfile },
                       'oslo_messaging_rabbit/ssl_key_file' => { value => $kombu_ssl_keyfile },

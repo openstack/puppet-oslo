@@ -1,0 +1,14 @@
+---
+prelude: >
+    If you relied on the now removed rabbit_hosts parameters to set rabbit_ha_queues
+    to true automatically when you configured multiple hosts you must now explicitly
+    set it to true.
+upgrade:
+  - |
+    The deprecated options rabbit_host, rabbit_port, rabbit_hosts, rabbit_userid,
+    rabbit_password and rabbit_virtual_host in oslo::messaging::rabbit has been
+    removed. Please use the transport_url in oslo::messaging::default instead.
+  - |
+    If you relied on the now removed rabbit_hosts parameters to set rabbit_ha_queues
+    to true automatically when you configured multiple hosts you must now explicitly
+    set it to true.

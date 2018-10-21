@@ -13,15 +13,9 @@ describe 'oslo::messaging::rabbit' do
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_missing_consumer_retry_timeout').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_qos_prefetch_count').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_userid').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_password').with_value('<SERVICE DEFAULT>').with_secret(true)
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_login_method').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_retry_interval').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_retry_backoff').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_interval_max').with_value('<SERVICE DEFAULT>')
@@ -34,67 +28,19 @@ describe 'oslo::messaging::rabbit' do
 
     context 'with overridden parameters' do
       let :params do
-        { :rabbit_host                 => 'rabbit',
-          :rabbit_userid               => 'rabbit_user',
-          :rabbit_port                 => '5673',
-          :rabbit_qos_prefetch_count   => '10',
-          :rabbit_password             => 'password',
+        { :rabbit_qos_prefetch_count   => '10',
           :heartbeat_timeout_threshold => '60',
           :heartbeat_rate              => '10',
-          :rabbit_virtual_host         => '/',
-          :kombu_compression           => 'bz2', }
+          :kombu_compression           => 'bz2',
+          :rabbit_ha_queues            => true, }
       end
 
       it 'configures rabbit' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('rabbit')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_password').with_value('password').with_secret(true)
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('5673')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_qos_prefetch_count').with_value('10')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_userid').with_value('rabbit_user')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('/')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('60')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_rate').with_value('10')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_compression').with_value('bz2')
-      end
-    end
-
-    context 'with rabbit_hosts parameter (one server)' do
-      let :params do
-        { :rabbit_hosts => ['rabbit:5672'] }
-      end
-
-      it 'configures rabbit' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit:5672')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
-      end
-    end
-
-    context 'with rabbit_hosts parameter' do
-      let :params do
-        { :rabbit_hosts => ['rabbit1:5672', 'rabbit2:5673'] }
-      end
-
-      it 'configures rabbit' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit1:5672,rabbit2:5673')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true)
-      end
-    end
-
-    context 'with rabbit_hosts parameter and disabled rabbit_ha_queues' do
-      let :params do
-        { :rabbit_hosts     => ['rabbit1:5672', 'rabbit2:5673'],
-          :rabbit_ha_queues => false, }
-      end
-
-      it 'configures rabbit' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit1:5672,rabbit2:5673')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(false)
       end
     end
 
@@ -130,33 +76,6 @@ describe 'oslo::messaging::rabbit' do
       end
     end
 
-    context 'with rabbit host set without rabbit port' do
-      let :params do
-        { :rabbit_host => 'rabbit1' }
-      end
-
-      it 'configures rabbit' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('rabbit1')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
-      end
-    end
-
-    context 'with rabbit host and port' do
-      let :params do
-        { :rabbit_host => 'rabbit1',
-          :rabbit_port => '5673' }
-      end
-
-      it 'configures rabbit' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_host').with_value('rabbit1')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_port').with_value('5673')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
-      end
-    end
-
     context 'with incorrect kombu compression' do
       let :params do
         { :kombu_compression => 'foo' }
@@ -189,15 +108,6 @@ describe 'oslo::messaging::rabbit' do
       it { is_expected.to raise_error Puppet::Error, /The kombu_ssl_version parameter requires rabbit_use_ssl to be set to true/ }
     end
 
-    context 'with string in list parameters' do
-      let :params do
-        { :rabbit_hosts => 'rabbit1:5672,rabbit2:5673' }
-      end
-
-      it 'configures rabbit with overridden list values as strings' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit1:5672,rabbit2:5673')
-      end
-    end
   end
 
   on_supported_os({
