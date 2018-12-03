@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The oslo::messaging::zeromq class has no effect so you much use another
+    messaging provider such as rabbitmq.
+deprecations:
+  - |
+    The oslo::messaging::zeromq class is deprecated and has no effect.
