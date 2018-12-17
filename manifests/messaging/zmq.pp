@@ -1,5 +1,7 @@
 # == Define: oslo::messaging::zmq
 #
+# DEPRECATED!
+#
 # Configure ZeroMQ messaging options
 #
 # This resource configures ZeroMQ messaging resources for an OpenStack service.
@@ -93,26 +95,5 @@ define oslo::messaging::zmq(
   $zmq_target_expire         = $::os_service_default,
 ) {
 
-  if ! ( is_service_default($rpc_zmq_concurrency) or $rpc_zmq_concurrency in [ 'eventlet', 'native' ] ) {
-    fail('Unsupported type of zmq concurrency is used.')
-  }
-
-  $zmq_options = {
-    'DEFAULT/rpc_cast_timeout' => { value => $rpc_cast_timeout },
-    'DEFAULT/rpc_poll_timeout' => { value => $rpc_poll_timeout },
-    'DEFAULT/rpc_zmq_bind_address' => { value => $rpc_zmq_bind_address },
-    'DEFAULT/rpc_zmq_bind_port_retries' => { value => $rpc_zmq_bind_port_retries },
-    'DEFAULT/rpc_zmq_concurrency' => { value => $rpc_zmq_concurrency },
-    'DEFAULT/rpc_zmq_contexts' => { value => $rpc_zmq_contexts },
-    'DEFAULT/rpc_zmq_host' => { value => $rpc_zmq_host },
-    'DEFAULT/rpc_zmq_ipc_dir' => { value => $rpc_zmq_ipc_dir },
-    'DEFAULT/rpc_zmq_matchmaker' => { value => $rpc_zmq_matchmaker },
-    'DEFAULT/rpc_zmq_max_port' => { value => $rpc_zmq_max_port },
-    'DEFAULT/rpc_zmq_min_port' => { value => $rpc_zmq_min_port },
-    'DEFAULT/rpc_zmq_topic_backlog' => { value => $rpc_zmq_topic_backlog },
-    'DEFAULT/use_pub_sub' => { value => $use_pub_sub },
-    'DEFAULT/zmq_target_expire' => { value => $zmq_target_expire },
-  }
-
-  create_resources($name, $zmq_options)
+  warning('oslo::messaging::zmq is deprecated and has no effect since zeromq support in oslo.messaging is removed')
 }
