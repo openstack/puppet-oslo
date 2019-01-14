@@ -8,6 +8,7 @@ describe 'oslo::messaging::default' do
 
     context 'with default parameters' do
       it 'configure DEFAULT default params' do
+        is_expected.to contain_keystone_config('DEFAULT/executor_thread_pool_size').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('DEFAULT/rpc_response_timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_keystone_config('DEFAULT/control_exchange').with_value('<SERVICE DEFAULT>')
@@ -18,13 +19,15 @@ describe 'oslo::messaging::default' do
     context 'with overridden parameters' do
       let :params do
           {
-            :rpc_response_timeout => '42',
-            :transport_url        => 'proto://url',
-            :control_exchange     => 'openstack',
+            :executor_thread_pool_size => '64',
+            :rpc_response_timeout      => '42',
+            :transport_url             => 'proto://url',
+            :control_exchange          => 'openstack',
           }
       end
 
       it 'configure DEFAULT with overridden values' do
+        is_expected.to contain_keystone_config('DEFAULT/executor_thread_pool_size').with_value('64')
         is_expected.to contain_keystone_config('DEFAULT/rpc_response_timeout').with_value('42')
         is_expected.to contain_keystone_config('DEFAULT/transport_url').with_value('proto://url').with_secret(true)
         is_expected.to contain_keystone_config('DEFAULT/control_exchange').with_value('openstack')

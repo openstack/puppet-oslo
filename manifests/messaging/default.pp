@@ -6,6 +6,10 @@
 #
 # === Parameters:
 #
+# [*executor_thread_pool_size*]
+#   (Optional) Size of executor thread pool when executor is threading or eventlet.
+#   Defaults to $::os_service_default.
+#
 # [*rpc_response_timeout*]
 #   (Optional) Seconds to wait for a response from a call. (integer value)
 #   Defaults to $::os_service_default.
@@ -27,15 +31,17 @@
 #
 
 define oslo::messaging::default(
-  $rpc_response_timeout = $::os_service_default,
-  $transport_url        = $::os_service_default,
-  $control_exchange     = $::os_service_default,
+  $executor_thread_pool_size = $::os_service_default,
+  $rpc_response_timeout      = $::os_service_default,
+  $transport_url             = $::os_service_default,
+  $control_exchange          = $::os_service_default,
 ) {
 
   $default_options = {
-    'DEFAULT/rpc_response_timeout' => { value => $rpc_response_timeout },
-    'DEFAULT/transport_url'        => { value => $transport_url, secret => true },
-    'DEFAULT/control_exchange'     => { value => $control_exchange },
+    'DEFAULT/executor_thread_pool_size' => { value => $executor_thread_pool_size },
+    'DEFAULT/rpc_response_timeout'      => { value => $rpc_response_timeout },
+    'DEFAULT/transport_url'             => { value => $transport_url, secret => true },
+    'DEFAULT/control_exchange'          => { value => $control_exchange },
   }
 
   create_resources($name, $default_options)
