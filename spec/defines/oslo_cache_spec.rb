@@ -144,22 +144,14 @@ describe 'oslo::cache' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          if facts[:os_package_type] == 'debian'
-            platform_params = { :pylibmc_package_name => 'python3-pylibmc' }
-          else
-            platform_params = { :pylibmc_package_name => 'python-pylibmc' }
-          end
+          platform_params = { :pylibmc_package_name => 'python3-pylibmc' }
         when 'RedHat'
           platform_params = { :pylibmc_package_name => 'python-pylibmc' }
         end
 
         case facts[:osfamily]
         when 'Debian'
-          if facts[:os_package_type] == 'debian'
-            platform_params[:python_memcache_package_name] = 'python3-memcache'
-          else
-            platform_params[:python_memcache_package_name] = 'python-memcache'
-          end
+          platform_params[:python_memcache_package_name] = 'python3-memcache'
         when 'RedHat'
           platform_params[:python_memcache_package_name] = 'python-memcached'
         end

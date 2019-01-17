@@ -123,7 +123,7 @@ define oslo::db(
   $db_max_retry_interval  = $::os_service_default,
   $db_max_retries         = $::os_service_default,
   $use_tpool              = $::os_service_default,
-){
+) {
 
   include ::oslo::params
 

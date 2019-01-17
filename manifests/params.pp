@@ -4,12 +4,8 @@
 #
 class oslo::params {
   include ::openstacklib::defaults
+  $pyvers = $::openstacklib::defaults::pyvers
 
-  if ($::os_package_type == 'debian') {
-    $pyvers = '3'
-  } else {
-    $pyvers = ''
-  }
   $pymongo_package_name = "python${pyvers}-pymongo"
   $pylibmc_package_name = "python${pyvers}-pylibmc"
 
@@ -17,12 +13,12 @@ class oslo::params {
     'RedHat': {
       $sqlite_package_name          = undef
       $pymysql_package_name         = undef
-      $python_memcache_package_name = 'python-memcached'
+      $python_memcache_package_name = "python${pyvers}-memcached"
     }
     'Debian': {
-      $sqlite_package_name          = 'python-pysqlite2'
-      $pymysql_package_name         = 'python-pymysql'
-      $python_memcache_package_name = 'python-memcache'
+      $sqlite_package_name          = "python${pyvers}-pysqlite2"
+      $pymysql_package_name         = "python${pyvers}-pymysql"
+      $python_memcache_package_name = "python${pyvers}-memcache"
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")

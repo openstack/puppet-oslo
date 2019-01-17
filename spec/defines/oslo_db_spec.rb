@@ -83,9 +83,9 @@ describe 'oslo::db' do
       end
 
       it 'install the proper backend package' do
-        is_expected.to contain_package('python-pymongo').with(
+        is_expected.to contain_package(platform_params[:pymongo_package_name]).with(
           :ensure => 'present',
-          :name   => 'python-pymongo',
+          :name   => platform_params[:pymongo_package_name],
           :tag    => 'openstack'
         )
       end
@@ -175,9 +175,9 @@ describe 'oslo::db' do
       end
 
       it 'install the proper backend package' do
-        is_expected.to contain_package('python-pymysql').with(
+        is_expected.to contain_package(platform_params[:pymysql_package_name]).with(
           :ensure => 'present',
-          :name   => 'python-pymysql',
+          :name   => platform_params[:pymysql_package_name],
           :tag    => 'openstack'
         )
       end
@@ -201,9 +201,9 @@ describe 'oslo::db' do
       end
 
       it 'install the proper backend package' do
-        is_expected.to contain_package('python-pysqlite2').with(
+        is_expected.to contain_package(platform_params[:pysqlite2_package_name]).with(
           :ensure => 'present',
-          :name   => 'python-pysqlite2',
+          :name   => platform_params[:pysqlite2_package_name],
           :tag    => 'openstack'
         )
       end
@@ -238,8 +238,25 @@ describe 'oslo::db' do
         facts.merge!(OSDefaults.get_facts())
       end
 
-     it_behaves_like 'oslo-db'
-     it_behaves_like "oslo-db on #{facts[:osfamily]}"
+      let (:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          {
+            :pymongo_package_name   => 'python3-pymongo',
+            :pymysql_package_name   => 'python3-pymysql',
+            :pysqlite2_package_name => 'python3-pysqlite2',
+          }
+        when 'RedHat'
+          {
+            :pymongo_package_name   => 'python-pymongo',
+            :pymysql_package_name   => nil,
+            :pysqlite2_package_name => nil,
+          }
+        end
+      end
+
+      it_behaves_like 'oslo-db'
+      it_behaves_like "oslo-db on #{facts[:osfamily]}"
     end
   end
 end
