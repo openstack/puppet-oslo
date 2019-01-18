@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Added new parameter oslo::db::config_group that can be used to tell the
+    oslo::db resource in which config section in the configuration file it
+    should set the oslo.db specific database options. This doesn't change any
+    existing behavior and the default value is ``database``, this is to support
+    services like Placement that reads database config from ``placement_database``
+    group.

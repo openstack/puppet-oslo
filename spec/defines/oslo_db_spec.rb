@@ -34,6 +34,7 @@ describe 'oslo::db' do
     context 'with overridden parameters' do
       let :params do
         {
+          :config_group          => 'custom_group',
           :backend               => 'sqlalchemy',
           :connection            => 'mysql+pymysql://db:db@localhost/db',
           :mysql_sql_mode        => 'TRADITIONAL',
@@ -56,24 +57,24 @@ describe 'oslo::db' do
       end
 
       it 'configures database parameters' do
-        is_expected.to contain_keystone_config('database/backend').with_value('sqlalchemy')
-        is_expected.to contain_keystone_config('database/connection').with_value('mysql+pymysql://db:db@localhost/db').with_secret(true)
-        is_expected.to contain_keystone_config('database/mysql_sql_mode').with_value('TRADITIONAL')
-        is_expected.to contain_keystone_config('database/idle_timeout').with_value('3601')
-        is_expected.to contain_keystone_config('database/min_pool_size').with_value('2')
-        is_expected.to contain_keystone_config('database/max_pool_size').with_value('100')
-        is_expected.to contain_keystone_config('database/max_retries').with_value('10')
-        is_expected.to contain_keystone_config('database/retry_interval').with_value('10')
-        is_expected.to contain_keystone_config('database/max_overflow').with_value('50')
-        is_expected.to contain_keystone_config('database/connection_debug').with_value('0')
-        is_expected.to contain_keystone_config('database/connection_trace').with_value(true)
-        is_expected.to contain_keystone_config('database/pool_timeout').with_value('10')
-        is_expected.to contain_keystone_config('database/use_db_reconnect').with_value(true)
-        is_expected.to contain_keystone_config('database/db_retry_interval').with_value('1')
-        is_expected.to contain_keystone_config('database/db_inc_retry_interval').with_value(true)
-        is_expected.to contain_keystone_config('database/db_max_retry_interval').with_value('10')
-        is_expected.to contain_keystone_config('database/db_max_retries').with_value('20')
-        is_expected.to contain_keystone_config('database/use_tpool').with_value(true)
+        is_expected.to contain_keystone_config('custom_group/backend').with_value('sqlalchemy')
+        is_expected.to contain_keystone_config('custom_group/connection').with_value('mysql+pymysql://db:db@localhost/db').with_secret(true)
+        is_expected.to contain_keystone_config('custom_group/mysql_sql_mode').with_value('TRADITIONAL')
+        is_expected.to contain_keystone_config('custom_group/idle_timeout').with_value('3601')
+        is_expected.to contain_keystone_config('custom_group/min_pool_size').with_value('2')
+        is_expected.to contain_keystone_config('custom_group/max_pool_size').with_value('100')
+        is_expected.to contain_keystone_config('custom_group/max_retries').with_value('10')
+        is_expected.to contain_keystone_config('custom_group/retry_interval').with_value('10')
+        is_expected.to contain_keystone_config('custom_group/max_overflow').with_value('50')
+        is_expected.to contain_keystone_config('custom_group/connection_debug').with_value('0')
+        is_expected.to contain_keystone_config('custom_group/connection_trace').with_value(true)
+        is_expected.to contain_keystone_config('custom_group/pool_timeout').with_value('10')
+        is_expected.to contain_keystone_config('custom_group/use_db_reconnect').with_value(true)
+        is_expected.to contain_keystone_config('custom_group/db_retry_interval').with_value('1')
+        is_expected.to contain_keystone_config('custom_group/db_inc_retry_interval').with_value(true)
+        is_expected.to contain_keystone_config('custom_group/db_max_retry_interval').with_value('10')
+        is_expected.to contain_keystone_config('custom_group/db_max_retries').with_value('20')
+        is_expected.to contain_keystone_config('custom_group/use_tpool').with_value(true)
       end
     end
 
