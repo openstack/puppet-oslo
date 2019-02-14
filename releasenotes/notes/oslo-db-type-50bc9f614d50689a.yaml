@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Added new Oslo::Dbconn data type that can be used to validate
+    a database connection pattern.
