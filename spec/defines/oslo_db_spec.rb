@@ -157,7 +157,7 @@ describe 'oslo::db' do
         { :connection => 'foo://db:db@localhost/db', }
       end
 
-      it_raises 'a Puppet::Error', /validate_re/
+      it { should raise_error(Puppet::Error) }
     end
 
     context 'with incorrect pymysql database_connection string' do
@@ -165,7 +165,7 @@ describe 'oslo::db' do
         { :connection => 'foo+pymysql://db:db@localhost/db', }
       end
 
-      it_raises 'a Puppet::Error', /validate_re/
+      it { should raise_error(Puppet::Error) }
     end
   end
 

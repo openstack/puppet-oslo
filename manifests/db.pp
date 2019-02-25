@@ -136,8 +136,8 @@ define oslo::db(
 
   if !is_service_default($connection) {
 
-    validate_re($connection,
-      '^(sqlite|mysql(\+pymysql)?|postgresql(\+psycopg2)?|mongodb):\/\/(\S+:\S+@\S+\/\S+)?')
+    validate_legacy(Oslo::Dbconn, 'validate_re', $connection,
+      ['^(sqlite|mysql(\+pymysql)?|postgresql(\+psycopg2)?|mongodb):\/\/(\S+:\S+@\S+\/\S+)?'])
 
     if $manage_backend_package {
       case $connection {

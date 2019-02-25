@@ -137,7 +137,7 @@ define oslo::log(
   if is_service_default($default_log_levels) {
     $default_log_levels_real = $default_log_levels
   } else {
-    validate_hash($default_log_levels)
+    validate_legacy(Hash, 'validate_hash', $default_log_levels)
     $default_log_levels_real = join(sort(join_keys_to_values($default_log_levels, '=')), ',')
   }
 
