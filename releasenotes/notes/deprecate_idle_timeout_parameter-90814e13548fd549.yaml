@@ -1,0 +1,4 @@
+---
+deprecations:
+  - db::idle_timeout is deprecated and will be removed in a future
+    release. Please use db::connection_recycle_time instead.

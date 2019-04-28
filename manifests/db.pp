@@ -42,7 +42,7 @@
 #   (Optional) The SQL mode to be used for MySQL sessions.
 #   Defaults to $::os_service_default
 #
-# [*idle_timeout*]
+# [*connection_recycle_time*]
 #   (Optional) Timeout before idle SQL connections are reaped.
 #   Defaults to $::os_service_default
 #
@@ -106,30 +106,38 @@
 #   (Optional) Enable the experimental use of thread pooling for all DB API calls (boolean value)
 #   Defaults to $::os_service_default
 #
+# DEPRECATED PARAMETERS
+#
+# [*idle_timeout*]
+#   (Optional) Timeout before idle SQL connections are reaped.
+#   Defaults to undef
+#
 define oslo::db(
-  $config_group           = 'database',
-  $sqlite_synchronous     = $::os_service_default,
-  $backend                = $::os_service_default,
-  $manage_backend_package = true,
-  $backend_package_ensure = present,
-  $connection             = $::os_service_default,
-  $slave_connection       = $::os_service_default,
-  $mysql_sql_mode         = $::os_service_default,
-  $idle_timeout           = $::os_service_default,
-  $min_pool_size          = $::os_service_default,
-  $max_pool_size          = $::os_service_default,
-  $max_retries            = $::os_service_default,
-  $retry_interval         = $::os_service_default,
-  $max_overflow           = $::os_service_default,
-  $connection_debug       = $::os_service_default,
-  $connection_trace       = $::os_service_default,
-  $pool_timeout           = $::os_service_default,
-  $use_db_reconnect       = $::os_service_default,
-  $db_retry_interval      = $::os_service_default,
-  $db_inc_retry_interval  = $::os_service_default,
-  $db_max_retry_interval  = $::os_service_default,
-  $db_max_retries         = $::os_service_default,
-  $use_tpool              = $::os_service_default,
+  $config_group            = 'database',
+  $sqlite_synchronous      = $::os_service_default,
+  $backend                 = $::os_service_default,
+  $manage_backend_package  = true,
+  $backend_package_ensure  = present,
+  $connection              = $::os_service_default,
+  $slave_connection        = $::os_service_default,
+  $mysql_sql_mode          = $::os_service_default,
+  $connection_recycle_time = $::os_service_default,
+  $min_pool_size           = $::os_service_default,
+  $max_pool_size           = $::os_service_default,
+  $max_retries             = $::os_service_default,
+  $retry_interval          = $::os_service_default,
+  $max_overflow            = $::os_service_default,
+  $connection_debug        = $::os_service_default,
+  $connection_trace        = $::os_service_default,
+  $pool_timeout            = $::os_service_default,
+  $use_db_reconnect        = $::os_service_default,
+  $db_retry_interval       = $::os_service_default,
+  $db_inc_retry_interval   = $::os_service_default,
+  $db_max_retry_interval   = $::os_service_default,
+  $db_max_retries          = $::os_service_default,
+  $use_tpool               = $::os_service_default,
+  # DEPRCATED PARAMETERS
+  $idle_timeout            = $::os_service_default,
 ) {
 
   include ::oslo::params
@@ -175,27 +183,31 @@ define oslo::db(
     }
   }
 
+  if $idle_timeout {
+    warning('The idle_timeout parameter is deprecated. Please use connection_recycle_time instead.')
+  }
+
   $database_options = {
-    "${config_group}/sqlite_synchronous"    => { value => $sqlite_synchronous },
-    "${config_group}/backend"               => { value => $backend },
-    "${config_group}/connection"            => { value => $connection, secret => true },
-    "${config_group}/slave_connection"      => { value => $slave_connection, secret => true },
-    "${config_group}/mysql_sql_mode"        => { value => $mysql_sql_mode },
-    "${config_group}/idle_timeout"          => { value => $idle_timeout },
-    "${config_group}/min_pool_size"         => { value => $min_pool_size },
-    "${config_group}/max_pool_size"         => { value => $max_pool_size },
-    "${config_group}/max_retries"           => { value => $max_retries },
-    "${config_group}/retry_interval"        => { value => $retry_interval },
-    "${config_group}/max_overflow"          => { value => $max_overflow },
-    "${config_group}/connection_debug"      => { value => $connection_debug },
-    "${config_group}/connection_trace"      => { value => $connection_trace },
-    "${config_group}/pool_timeout"          => { value => $pool_timeout },
-    "${config_group}/use_db_reconnect"      => { value => $use_db_reconnect },
-    "${config_group}/db_retry_interval"     => { value => $db_retry_interval },
-    "${config_group}/db_inc_retry_interval" => { value => $db_inc_retry_interval },
-    "${config_group}/db_max_retry_interval" => { value => $db_max_retry_interval },
-    "${config_group}/db_max_retries"        => { value => $db_max_retries },
-    "${config_group}/use_tpool"             => { value => $use_tpool },
+    "${config_group}/sqlite_synchronous"      => { value => $sqlite_synchronous },
+    "${config_group}/backend"                 => { value => $backend },
+    "${config_group}/connection"              => { value => $connection, secret => true },
+    "${config_group}/slave_connection"        => { value => $slave_connection, secret => true },
+    "${config_group}/mysql_sql_mode"          => { value => $mysql_sql_mode },
+    "${config_group}/connection_recycle_time" => { value => $connection_recycle_time },
+    "${config_group}/min_pool_size"           => { value => $min_pool_size },
+    "${config_group}/max_pool_size"           => { value => $max_pool_size },
+    "${config_group}/max_retries"             => { value => $max_retries },
+    "${config_group}/retry_interval"          => { value => $retry_interval },
+    "${config_group}/max_overflow"            => { value => $max_overflow },
+    "${config_group}/connection_debug"        => { value => $connection_debug },
+    "${config_group}/connection_trace"        => { value => $connection_trace },
+    "${config_group}/pool_timeout"            => { value => $pool_timeout },
+    "${config_group}/use_db_reconnect"        => { value => $use_db_reconnect },
+    "${config_group}/db_retry_interval"       => { value => $db_retry_interval },
+    "${config_group}/db_inc_retry_interval"   => { value => $db_inc_retry_interval },
+    "${config_group}/db_max_retry_interval"   => { value => $db_max_retry_interval },
+    "${config_group}/db_max_retries"          => { value => $db_max_retries },
+    "${config_group}/use_tpool"               => { value => $use_tpool },
   }
 
   create_resources($name, $database_options)
