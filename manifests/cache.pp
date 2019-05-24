@@ -143,7 +143,7 @@ define oslo::cache(
   }
 
   if !is_service_default($memcache_servers) {
-    $memcache_servers_orig = join(any2array($memcache_servers), ',')
+    $memcache_servers_orig = join(any2array(inet6_prefix($memcache_servers)), ',')
   } else {
     $memcache_servers_orig = $memcache_servers
   }
