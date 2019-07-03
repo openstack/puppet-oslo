@@ -36,7 +36,7 @@ describe 'oslo::cache' do
           :debug_cache_backend                  => true,
           :memcache_servers                     => ['host1:11211', 'host2:11211','[fd12:3456:789a:1::1]:11211'],
           :memcache_dead_retry                  => '300',
-          :memcache_socket_timeout              => '3',
+          :memcache_socket_timeout              => '3.0',
           :memcache_pool_maxsize                => '10',
           :memcache_pool_unused_timeout         => '60',
           :memcache_pool_connection_get_timeout => '10',
@@ -53,7 +53,7 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/debug_cache_backend').with_value('true')
         is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,inet6:[fd12:3456:789a:1::1]:11211')
         is_expected.to contain_keystone_config('cache/memcache_dead_retry').with_value('300')
-        is_expected.to contain_keystone_config('cache/memcache_socket_timeout').with_value('3')
+        is_expected.to contain_keystone_config('cache/memcache_socket_timeout').with_value('3.0')
         is_expected.to contain_keystone_config('cache/memcache_pool_maxsize').with_value('10')
         is_expected.to contain_keystone_config('cache/memcache_pool_unused_timeout').with_value('60')
         is_expected.to contain_keystone_config('cache/memcache_pool_connection_get_timeout').with_value('10')
