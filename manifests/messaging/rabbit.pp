@@ -103,6 +103,16 @@
 #   we check the heartbeat. (integer value)
 #   Defaults to $::os_service_default
 #
+# [*heartbeat_in_pthread*]
+#   (Optional) EXPERIMENTAL: Run the health check heartbeat thread
+#   through a native python thread. By default if this
+#   option isn't provided the  health check heartbeat will
+#   inherit the execution model from the parent process. By
+#   example if the parent process have monkey patched the
+#   stdlib by using eventlet/greenlet then the heartbeat
+#   will be run through a green thread.
+#   Defaults to $::os_service_default
+#
 define oslo::messaging::rabbit(
   $amqp_durable_queues                  = $::os_service_default,
   $kombu_ssl_version                    = $::os_service_default,
@@ -123,6 +133,7 @@ define oslo::messaging::rabbit(
   $rabbit_transient_queues_ttl          = $::os_service_default,
   $heartbeat_timeout_threshold          = $::os_service_default,
   $heartbeat_rate                       = $::os_service_default,
+  $heartbeat_in_pthread                 = $::os_service_default,
 ){
 
   if $rabbit_use_ssl != true {
@@ -146,6 +157,7 @@ define oslo::messaging::rabbit(
 
   $rabbit_options = { 'oslo_messaging_rabbit/amqp_durable_queues' => { value => $amqp_durable_queues },
                       'oslo_messaging_rabbit/heartbeat_rate' => { value => $heartbeat_rate },
+                      'oslo_messaging_rabbit/heartbeat_in_pthread' => { value => $heartbeat_in_pthread },
                       'oslo_messaging_rabbit/heartbeat_timeout_threshold' => { value => $heartbeat_timeout_threshold },
                       'oslo_messaging_rabbit/kombu_compression' => { value => $kombu_compression },
                       'oslo_messaging_rabbit/kombu_failover_strategy' => { value => $kombu_failover_strategy },

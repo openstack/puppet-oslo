@@ -23,6 +23,7 @@ describe 'oslo::messaging::rabbit' do
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_transient_queues_ttl').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
+       is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_in_pthread').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -31,6 +32,7 @@ describe 'oslo::messaging::rabbit' do
         { :rabbit_qos_prefetch_count   => '10',
           :heartbeat_timeout_threshold => '60',
           :heartbeat_rate              => '10',
+          :heartbeat_in_pthread        => true,
           :kombu_compression           => 'bz2',
           :rabbit_ha_queues            => true, }
       end
@@ -39,6 +41,7 @@ describe 'oslo::messaging::rabbit' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_qos_prefetch_count').with_value('10')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('60')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_rate').with_value('10')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_in_pthread').with_value(true)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_compression').with_value('bz2')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true)
       end
