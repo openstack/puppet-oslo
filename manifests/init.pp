@@ -9,6 +9,6 @@
 #
 class oslo {
 
-  include ::oslo::params
+  include oslo::params
 
 }

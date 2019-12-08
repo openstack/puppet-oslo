@@ -140,7 +140,7 @@ define oslo::db(
   $idle_timeout            = $::os_service_default,
 ) {
 
-  include ::oslo::params
+  include oslo::params
 
   if !is_service_default($connection) {
 

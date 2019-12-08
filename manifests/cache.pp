@@ -134,7 +134,7 @@ define oslo::cache(
   $manage_backend_package               = true,
 ){
 
-  include ::oslo::params
+  include oslo::params
 
   if !is_service_default($backend_argument) {
     $backend_argument_orig = join(any2array($backend_argument), ',')

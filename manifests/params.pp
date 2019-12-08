@@ -3,7 +3,7 @@
 # Parameters for puppet-oslo
 #
 class oslo::params {
-  include ::openstacklib::defaults
+  include openstacklib::defaults
   $pyvers = $::openstacklib::defaults::pyvers
 
   $pymongo_package_name = "python${pyvers}-pymongo"
