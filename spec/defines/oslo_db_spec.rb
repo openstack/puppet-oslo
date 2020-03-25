@@ -14,7 +14,6 @@ describe 'oslo::db' do
         is_expected.to contain_keystone_config('database/slave_connection').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/mysql_sql_mode').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/connection_recycle_time').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('database/min_pool_size').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/max_pool_size').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/max_retries').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/retry_interval').with_value('<SERVICE DEFAULT>')
@@ -39,7 +38,6 @@ describe 'oslo::db' do
           :connection              => 'mysql+pymysql://db:db@localhost/db',
           :mysql_sql_mode          => 'TRADITIONAL',
           :connection_recycle_time => '3601',
-          :min_pool_size           => '2',
           :max_pool_size           => '100',
           :max_retries             => '10',
           :retry_interval          => '10',
@@ -61,7 +59,6 @@ describe 'oslo::db' do
         is_expected.to contain_keystone_config('custom_group/connection').with_value('mysql+pymysql://db:db@localhost/db').with_secret(true)
         is_expected.to contain_keystone_config('custom_group/mysql_sql_mode').with_value('TRADITIONAL')
         is_expected.to contain_keystone_config('custom_group/connection_recycle_time').with_value('3601')
-        is_expected.to contain_keystone_config('custom_group/min_pool_size').with_value('2')
         is_expected.to contain_keystone_config('custom_group/max_pool_size').with_value('100')
         is_expected.to contain_keystone_config('custom_group/max_retries').with_value('10')
         is_expected.to contain_keystone_config('custom_group/retry_interval').with_value('10')

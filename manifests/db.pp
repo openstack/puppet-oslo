@@ -46,10 +46,6 @@
 #   (Optional) Timeout before idle SQL connections are reaped.
 #   Defaults to $::os_service_default
 #
-# [*min_pool_size*]
-#   (Optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to $::os_service_default
-#
 # [*max_pool_size*]
 #   (Optional) Maximum number of SQL connections to keep open in a pool.
 #   Defaults to $::os_service_default
@@ -112,6 +108,10 @@
 #   (Optional) Timeout before idle SQL connections are reaped.
 #   Defaults to undef
 #
+# [*min_pool_size*]
+#   (Optional) Minimum number of SQL connections to keep open in a pool.
+#   Defaults to undef
+#
 define oslo::db(
   $config_group            = 'database',
   $sqlite_synchronous      = $::os_service_default,
@@ -122,7 +122,6 @@ define oslo::db(
   $slave_connection        = $::os_service_default,
   $mysql_sql_mode          = $::os_service_default,
   $connection_recycle_time = $::os_service_default,
-  $min_pool_size           = $::os_service_default,
   $max_pool_size           = $::os_service_default,
   $max_retries             = $::os_service_default,
   $retry_interval          = $::os_service_default,
@@ -138,6 +137,7 @@ define oslo::db(
   $use_tpool               = $::os_service_default,
   # DEPRCATED PARAMETERS
   $idle_timeout            = $::os_service_default,
+  $min_pool_size           = undef,
 ) {
 
   include oslo::params
@@ -187,6 +187,10 @@ define oslo::db(
     warning('The idle_timeout parameter is deprecated. Please use connection_recycle_time instead.')
   }
 
+  if $min_pool_size {
+    warning('The min_pool_size parameter is deprecated, and will be removed in a future release.')
+  }
+
   $database_options = {
     "${config_group}/sqlite_synchronous"      => { value => $sqlite_synchronous },
     "${config_group}/backend"                 => { value => $backend },
@@ -194,7 +198,6 @@ define oslo::db(
     "${config_group}/slave_connection"        => { value => $slave_connection, secret => true },
     "${config_group}/mysql_sql_mode"          => { value => $mysql_sql_mode },
     "${config_group}/connection_recycle_time" => { value => $connection_recycle_time },
-    "${config_group}/min_pool_size"           => { value => $min_pool_size },
     "${config_group}/max_pool_size"           => { value => $max_pool_size },
     "${config_group}/max_retries"             => { value => $max_retries },
     "${config_group}/retry_interval"          => { value => $retry_interval },
