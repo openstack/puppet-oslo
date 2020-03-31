@@ -141,22 +141,26 @@ describe 'oslo::cache' do
       let (:facts) do
         facts.merge!(OSDefaults.get_facts())
       end
+
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          platform_params = { :pylibmc_package_name => 'python3-pylibmc' }
+          { :pylibmc_package_name         => 'python3-pylibmc',
+            :python_memcache_package_name => 'python3-memcache' }
         when 'RedHat'
-          platform_params = { :pylibmc_package_name => 'python-pylibmc' }
+          if facts[:operatingsystem] == 'Fedora'
+            { :pylibmc_package_name         => 'python3-pylibmc',
+              :python_memcache_package_name => 'python3-memcached' }
+          else
+            if facts[:operatingsystemmajrelease] > '7'
+              { :pylibmc_package_name         => 'python3-pylibmc',
+                :python_memcache_package_name => 'python3-memcached' }
+            else
+              { :pylibmc_package_name         => 'python-pylibmc',
+                :python_memcache_package_name => 'python-memcached' }
+            end
+          end
         end
-
-        case facts[:osfamily]
-        when 'Debian'
-          platform_params[:python_memcache_package_name] = 'python3-memcache'
-        when 'RedHat'
-          platform_params[:python_memcache_package_name] = 'python-memcached'
-        end
-
-        platform_params
       end
 
       it_behaves_like 'oslo-cache'

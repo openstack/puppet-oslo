@@ -248,11 +248,27 @@ describe 'oslo::db' do
             :pysqlite2_package_name => 'python3-pysqlite2',
           }
         when 'RedHat'
-          {
-            :pymongo_package_name   => 'python-pymongo',
-            :pymysql_package_name   => nil,
-            :pysqlite2_package_name => nil,
-          }
+          if facts[:operatingsystem] == 'Fedora'
+            {
+              :pymongo_package_name   => 'python3-pymongo',
+              :pymysql_package_name   => nil,
+              :pysqlite2_package_name => nil,
+            }
+          else
+            if facts[:operatingsystemmajrelease] > '7'
+              {
+                :pymongo_package_name   => 'python3-pymongo',
+                :pymysql_package_name   => nil,
+                :pysqlite2_package_name => nil,
+              }
+            else
+              {
+                :pymongo_package_name   => 'python-pymongo',
+                :pymysql_package_name   => nil,
+                :pysqlite2_package_name => nil,
+              }
+            end
+          end
         end
       end
 
