@@ -10,7 +10,7 @@
 # [*driver*]
 #   (Optional) The Driver(s) to handle sending notifications.
 #   Possible values are messaging, messagingv2, routing, log, test, noop.
-#   (list value)
+#   (list value or string value)
 #   Defaults to $::os_service_default.
 #
 # [*transport_url*]
@@ -32,10 +32,12 @@ define oslo::messaging::notifications(
   $transport_url = $::os_service_default,
   $topics        = $::os_service_default,
 ) {
-  if !is_service_default($driver) {
-    $driver_orig = join(any2array($driver), ',')
-  } else {
+  if is_service_default($driver) or is_string($driver) {
+    # When we have a string value for driver,  we keep passing it as string
+    # to reduce any chance of breaking things in a backwards incompatible way
     $driver_orig = $driver
+  } else {
+    $driver_orig = any2array($driver)
   }
 
   if !is_service_default($topics) {
