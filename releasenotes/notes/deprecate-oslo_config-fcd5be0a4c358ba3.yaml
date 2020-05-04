@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``oslo_config`` resource has been deprecated and will be removed in a
+    future release.
