@@ -1,0 +1,4 @@
+---
+deprecations:
+  - |
+    The deprecated support for ZeroMQ has been removed.
