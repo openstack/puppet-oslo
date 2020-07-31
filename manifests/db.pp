@@ -150,8 +150,8 @@ define oslo::db(
     if $manage_backend_package {
       case $connection {
         /^mysql(\+pymysql)?:\/\//: {
-          require '::mysql::bindings'
-          require '::mysql::bindings::python'
+          require 'mysql::bindings'
+          require 'mysql::bindings::python'
           if $connection =~ /^mysql\+pymysql/ {
             $backend_package = $::oslo::params::pymysql_package_name
           } else {
@@ -160,7 +160,7 @@ define oslo::db(
         }
         /^postgresql(\+psycopg2)?:\/\//: {
           $backend_package = false
-          require '::postgresql::lib::python'
+          require 'postgresql::lib::python'
         }
         /^mongodb:\/\//: {
           $backend_package = $::oslo::params::pymongo_package_name
