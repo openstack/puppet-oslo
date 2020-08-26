@@ -102,6 +102,11 @@
 #   (Optional) Enable the experimental use of thread pooling for all DB API calls (boolean value)
 #   Defaults to $::os_service_default
 #
+# [*mysql_enable_ndb*]
+#   (Optional) If True, transparently enables support for handling MySQL
+#   Cluster (NDB).
+#   Defaults to $::os_service_default
+#
 # DEPRECATED PARAMETERS
 #
 # [*idle_timeout*]
@@ -135,6 +140,7 @@ define oslo::db(
   $db_max_retry_interval   = $::os_service_default,
   $db_max_retries          = $::os_service_default,
   $use_tpool               = $::os_service_default,
+  $mysql_enable_ndb        = $::os_service_default,
   # DEPRCATED PARAMETERS
   $idle_timeout            = $::os_service_default,
   $min_pool_size           = undef,
@@ -211,6 +217,7 @@ define oslo::db(
     "${config_group}/db_max_retry_interval"   => { value => $db_max_retry_interval },
     "${config_group}/db_max_retries"          => { value => $db_max_retries },
     "${config_group}/use_tpool"               => { value => $use_tpool },
+    "${config_group}/mysql_enable_ndb"        => { value => $mysql_enable_ndb },
   }
 
   create_resources($name, $database_options)
