@@ -7,6 +7,10 @@
 #
 # === Parameters:
 #
+# [*config*]
+#   (Optional) The resource type used to apply configuration parameters.
+#   Defaults to $name
+#
 # [*config_group*]
 #   (Optional) The configuration group to set the database configuration in.
 #   Some OpenStack services might implement the oslo database options in another
@@ -118,6 +122,7 @@
 #   Defaults to undef
 #
 define oslo::db(
+  $config                  = $name,
   $config_group            = 'database',
   $sqlite_synchronous      = $::os_service_default,
   $backend                 = $::os_service_default,
@@ -220,6 +225,6 @@ define oslo::db(
     "${config_group}/mysql_enable_ndb"        => { value => $mysql_enable_ndb },
   }
 
-  create_resources($name, $database_options)
+  create_resources($config, $database_options)
 
 }
