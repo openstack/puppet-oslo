@@ -8,6 +8,7 @@ describe 'oslo::policy' do
 
     context 'with default parameters' do
       it 'configure oslo_policy default params' do
+        is_expected.to contain_keystone_config('oslo_policy/enforce_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_policy/policy_file').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_policy/policy_default_rule').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_policy/policy_dirs').with_value('<SERVICE DEFAULT>')
@@ -17,6 +18,7 @@ describe 'oslo::policy' do
     context 'with overridden parameters' do
       let :params do
         {
+          :enforce_scope       => false,
           :policy_file         => '/path/to/policy.file',
           :policy_default_rule => 'some rule',
           :policy_dirs         => ['dir1', '/dir/2'],
@@ -24,6 +26,7 @@ describe 'oslo::policy' do
       end
 
       it 'configures oslo_policy section' do
+        is_expected.to contain_keystone_config('oslo_policy/enforce_scope').with_value(false)
         is_expected.to contain_keystone_config('oslo_policy/policy_file').with_value('/path/to/policy.file')
         is_expected.to contain_keystone_config('oslo_policy/policy_default_rule').with_value('some rule')
         is_expected.to contain_keystone_config('oslo_policy/policy_dirs').with_value('dir1,/dir/2')

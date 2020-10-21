@@ -7,6 +7,10 @@
 #
 # === Parameters:
 #
+# [*enforce_scope*]
+#  (Optional) Whether or not to enforce scope when evaluating policies.
+#  Defaults to $::os_service_default.
+#
 # [*policy_file*]
 #  (Optional) The JSON file that defines policies. (string value)
 #  Defaults to $::os_service_default.
@@ -25,6 +29,7 @@
 #  Defaults to $::os_service_default.
 #
 define oslo::policy(
+  $enforce_scope       = $::os_service_default,
   $policy_file         = $::os_service_default,
   $policy_default_rule = $::os_service_default,
   $policy_dirs         = $::os_service_default,
@@ -36,6 +41,7 @@ define oslo::policy(
   }
 
   $policy_options = {
+    'oslo_policy/enforce_scope'       => { value => $enforce_scope },
     'oslo_policy/policy_file'         => { value => $policy_file },
     'oslo_policy/policy_default_rule' => { value => $policy_default_rule },
     'oslo_policy/policy_dirs'         => { value => $policy_dirs_orig },
