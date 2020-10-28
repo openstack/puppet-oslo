@@ -57,7 +57,7 @@
             "version_requirement": ">= 6.0.0 < 7.0.0"
         }
     ],
-    "source": "git://github.com/openstack/puppet-oslo.git",
+    "source": "https://opendev.org/openstack/puppet-oslo.git",
     "summary": "Puppet module for OpenStack Oslo",
     "version": "18.0.0"
 }
