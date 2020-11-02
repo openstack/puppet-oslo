@@ -89,10 +89,6 @@
 #   (Optional) Password for decrypting ssl_key_file (if encrypted)
 #   Defaults to $::os_service_default.
 #
-# [*allow_insecure_clients*]
-#   (Optional) Accept clients using either SSL or plain TCP
-#   Defaults to $::os_service_default.
-#
 # [*sasl_mechanisms*]
 #   (Optional) Space separated list of acceptable SASL mechanisms
 #   Defaults to $::os_service_default.
@@ -125,6 +121,12 @@
 #   (Optional) The deadline for a sent notification message delivery
 #   Defaults to $::os_service_default.
 #
+# DEPRECATED PARAMETERS
+#
+# [*allow_insecure_clients*]
+#   (Optional) Accept clients using either SSL or plain TCP
+#   Defaults to undef.
+#
 define oslo::messaging::amqp(
   $addressing_mode               = $::os_service_default,
   $server_request_prefix         = $::os_service_default,
@@ -146,7 +148,6 @@ define oslo::messaging::amqp(
   $ssl_cert_file                 = $::os_service_default,
   $ssl_key_file                  = $::os_service_default,
   $ssl_key_password              = $::os_service_default,
-  $allow_insecure_clients        = $::os_service_default,
   $sasl_mechanisms               = $::os_service_default,
   $sasl_config_dir               = $::os_service_default,
   $sasl_config_name              = $::os_service_default,
@@ -155,7 +156,15 @@ define oslo::messaging::amqp(
   $password                      = $::os_service_default,
   $default_send_timeout          = $::os_service_default,
   $default_notify_timeout        = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $allow_insecure_clients        = undef,
 ){
+
+  if $allow_insecure_clients != undef {
+    warning('The allow_insecure_clients parameter is deprecated and \
+will be removed in a future release.')
+  }
+
   $amqp_options={ 'oslo_messaging_amqp/addressing_mode'               => { value => $addressing_mode },
                   'oslo_messaging_amqp/server_request_prefix'         => { value => $server_request_prefix },
                   'oslo_messaging_amqp/broadcast_prefix'              => { value => $broadcast_prefix },
@@ -176,7 +185,6 @@ define oslo::messaging::amqp(
                   'oslo_messaging_amqp/ssl_cert_file'                 => { value => $ssl_cert_file },
                   'oslo_messaging_amqp/ssl_key_file'                  => { value => $ssl_key_file },
                   'oslo_messaging_amqp/ssl_key_password'              => { value => $ssl_key_password, secret => true },
-                  'oslo_messaging_amqp/allow_insecure_clients'        => { value => $allow_insecure_clients },
                   'oslo_messaging_amqp/sasl_mechanisms'               => { value => $sasl_mechanisms },
                   'oslo_messaging_amqp/sasl_config_dir'               => { value => $sasl_config_dir },
                   'oslo_messaging_amqp/sasl_config_name'              => { value => $sasl_config_name },
