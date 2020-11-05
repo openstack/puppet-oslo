@@ -21,6 +21,11 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_pool_maxsize').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_pool_unused_timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_pool_connection_get_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/tls_enabled').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/tls_cafile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/tls_certfile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/tls_keyfile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/tls_allowed_ciphers').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -40,6 +45,11 @@ describe 'oslo::cache' do
           :memcache_pool_maxsize                => '10',
           :memcache_pool_unused_timeout         => '60',
           :memcache_pool_connection_get_timeout => '10',
+          :tls_enabled                          => false,
+          :tls_cafile                           => nil,
+          :tls_certfile                         => nil,
+          :tls_keyfile                          => nil,
+          :tls_allowed_ciphers                  => nil,
         }
       end
 
@@ -57,6 +67,11 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_pool_maxsize').with_value('10')
         is_expected.to contain_keystone_config('cache/memcache_pool_unused_timeout').with_value('60')
         is_expected.to contain_keystone_config('cache/memcache_pool_connection_get_timeout').with_value('10')
+        is_expected.to contain_keystone_config('cache/tls_enabled').with_value('false')
+        is_expected.to contain_keystone_config('cache/tls_cafile').with_value('nil')
+        is_expected.to contain_keystone_config('cache/tls_certfile').with_value('nil')
+        is_expected.to contain_keystone_config('cache/tls_keyfile').with_value('nil')
+        is_expected.to contain_keystone_config('cache/tls_allowed_ciphers').with_value('nil')
       end
     end
 
