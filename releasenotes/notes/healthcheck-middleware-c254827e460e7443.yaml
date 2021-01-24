@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Support for options of healthcheck middleware has been added.
