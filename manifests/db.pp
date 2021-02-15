@@ -137,7 +137,7 @@ define oslo::db(
   $db_max_retries          = $::os_service_default,
   $use_tpool               = $::os_service_default,
   # DEPRCATED PARAMETERS
-  $idle_timeout            = $::os_service_default,
+  $idle_timeout            = undef,
 ) {
 
   include ::oslo::params
@@ -183,7 +183,7 @@ define oslo::db(
     }
   }
 
-  if $idle_timeout {
+  if $idle_timeout != undef {
     warning('The idle_timeout parameter is deprecated. Please use connection_recycle_time instead.')
   }
 
