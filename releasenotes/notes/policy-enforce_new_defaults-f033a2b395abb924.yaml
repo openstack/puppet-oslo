@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``oslo:::policy::enforce_new_defaults`` parameter has been added.
