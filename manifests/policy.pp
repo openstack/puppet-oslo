@@ -40,18 +40,13 @@ define oslo::policy(
   $policy_default_rule  = $::os_service_default,
   $policy_dirs          = $::os_service_default,
 ) {
-  if !is_service_default($policy_dirs) {
-    $policy_dirs_orig = join(any2array($policy_dirs), ',')
-  } else {
-    $policy_dirs_orig = $policy_dirs
-  }
 
   $policy_options = {
     'oslo_policy/enforce_scope'        => { value => $enforce_scope },
     'oslo_policy/enforce_new_defaults' => { value => $enforce_new_defaults },
     'oslo_policy/policy_file'          => { value => $policy_file },
     'oslo_policy/policy_default_rule'  => { value => $policy_default_rule },
-    'oslo_policy/policy_dirs'          => { value => $policy_dirs_orig },
+    'oslo_policy/policy_dirs'          => { value => $policy_dirs },
   }
 
   create_resources($name, $policy_options)

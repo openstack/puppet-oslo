@@ -23,7 +23,7 @@ describe 'oslo::policy' do
           :enforce_new_defaults => false,
           :policy_file          => '/path/to/policy.file',
           :policy_default_rule  => 'some rule',
-          :policy_dirs          => ['dir1', '/dir/2'],
+          :policy_dirs          => 'dir1',
         }
       end
 
@@ -32,19 +32,7 @@ describe 'oslo::policy' do
         is_expected.to contain_keystone_config('oslo_policy/enforce_new_defaults').with_value(false)
         is_expected.to contain_keystone_config('oslo_policy/policy_file').with_value('/path/to/policy.file')
         is_expected.to contain_keystone_config('oslo_policy/policy_default_rule').with_value('some rule')
-        is_expected.to contain_keystone_config('oslo_policy/policy_dirs').with_value('dir1,/dir/2')
-      end
-    end
-
-    context 'with string in list parameters' do
-      let :params do
-        {
-          :policy_dirs => 'dir1,/dir/2',
-        }
-      end
-
-      it 'configures oslo_policy section with overridden list values as strings' do
-        is_expected.to contain_keystone_config('oslo_policy/policy_dirs').with_value('dir1,/dir/2')
+        is_expected.to contain_keystone_config('oslo_policy/policy_dirs').with_value('dir1')
       end
     end
   end
