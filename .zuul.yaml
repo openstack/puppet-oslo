@@ -6,8 +6,7 @@
       - release-notes-jobs-python3
     check:
       jobs:
-        - tripleo-ci-centos-8-standalone
+        - tripleo-puppet-ci-centos-8-standalone
     gate:
       jobs:
-        - tripleo-ci-centos-8-standalone
-      queue: tripleo
+        - tripleo-puppet-ci-centos-8-standalone
