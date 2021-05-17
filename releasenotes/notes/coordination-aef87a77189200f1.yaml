@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new ``oslo::coordination`` resource type has been added. This manages
+    parameters for coordination which is implemented in the tooz library and
+    backend packages required for each drivers.
