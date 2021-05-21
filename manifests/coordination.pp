@@ -12,9 +12,14 @@
 #   (Optional) ensure state for package.
 #   Defaults to 'present'
 #
+# [*manage_config*]
+#   (Optional) Whether to manage the configuration parameters.
+#   Defaults to true.
+#
 define oslo::coordination (
   $backend_url    = $::os_service_default,
   $package_ensure = 'present',
+  $manage_config  = true,
 ) {
 
   include oslo::params
@@ -59,8 +64,10 @@ define oslo::coordination (
     }
   }
 
-  $coordination_options = {
-    'coordination/backend_url' => { value => $backend_url },
+  if $manage_config {
+    $coordination_options = {
+      'coordination/backend_url' => { value => $backend_url },
+    }
+    create_resources($name, $coordination_options)
   }
-  create_resources($name, $coordination_options)
 }
