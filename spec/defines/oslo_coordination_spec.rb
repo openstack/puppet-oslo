@@ -103,21 +103,9 @@ describe 'oslo::coordination' do
             :python_etcd3gw_package_name    => 'python3-etcd3gw',
             :python_pymemcache_package_name => 'python3-pymemcache' }
         when 'RedHat'
-          if facts[:operatingsystem] == 'Fedora'
-            { :python_redis_package_name      => 'python3-redis',
-              :python_etcd3gw_package_name    => 'python3-etcd3gw',
-              :python_pymemcache_package_name => 'python3-pymemcache' }
-          else
-            if facts[:operatingsystemmajrelease] > '7'
-              { :python_redis_package_name      => 'python3-redis',
-                :python_etcd3gw_package_name    => 'python3-etcd3gw',
-                :python_pymemcache_package_name => 'python3-pymemcache' }
-            else
-              { :python_redis_package_name      => 'python-redis',
-                :python_etcd3gw_package_name    => 'python-etcd3gw',
-                :python_pymemcache_package_name => 'python-pymemcache' }
-            end
-          end
+          { :python_redis_package_name      => 'python3-redis',
+            :python_etcd3gw_package_name    => 'python3-etcd3gw',
+            :python_pymemcache_package_name => 'python3-pymemcache' }
         end
       end
 

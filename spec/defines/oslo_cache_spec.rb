@@ -163,18 +163,8 @@ describe 'oslo::cache' do
           { :pylibmc_package_name         => 'python3-pylibmc',
             :python_memcache_package_name => 'python3-memcache' }
         when 'RedHat'
-          if facts[:operatingsystem] == 'Fedora'
-            { :pylibmc_package_name         => 'python3-pylibmc',
-              :python_memcache_package_name => 'python3-memcached' }
-          else
-            if facts[:operatingsystemmajrelease] > '7'
-              { :pylibmc_package_name         => 'python3-pylibmc',
-                :python_memcache_package_name => 'python3-memcached' }
-            else
-              { :pylibmc_package_name         => 'python-pylibmc',
-                :python_memcache_package_name => 'python-memcached' }
-            end
-          end
+          { :pylibmc_package_name         => 'python3-pylibmc',
+            :python_memcache_package_name => 'python3-memcached' }
         end
       end
 
