@@ -49,12 +49,12 @@ define oslo::cors(
 ) {
 
   $cors_options = {
-    'cors/allowed_origin'    => { value => $allowed_origin },
+    'cors/allowed_origin'    => { value => join(any2array($allowed_origin), ',') },
     'cors/allow_credentials' => { value => $allow_credentials },
-    'cors/expose_headers'    => { value => $expose_headers },
+    'cors/expose_headers'    => { value => join(any2array($expose_headers), ',') },
     'cors/max_age'           => { value => $max_age },
-    'cors/allow_methods'     => { value => $allow_methods },
-    'cors/allow_headers'     => { value => $allow_headers }
+    'cors/allow_methods'     => { value => join(any2array($allow_methods), ',') },
+    'cors/allow_headers'     => { value => join(any2array($allow_headers), ',') }
   }
   create_resources($name, $cors_options)
 }
