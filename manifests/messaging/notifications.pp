@@ -32,24 +32,20 @@ define oslo::messaging::notifications(
   $transport_url = $::os_service_default,
   $topics        = $::os_service_default,
 ) {
-  if is_service_default($driver) or is_string($driver) {
-    # When we have a string value for driver,  we keep passing it as string
-    # to reduce any chance of breaking things in a backwards incompatible way
-    $driver_orig = $driver
-  } else {
-    $driver_orig = any2array($driver)
+
+  # When we have a string value for driver,  we keep passing it as string
+  # to reduce any chance of breaking things in a backwards incompatible way
+  $driver_real = $driver ? {
+    String  => $driver,
+    default => any2array($driver)
   }
 
-  if !is_service_default($topics) {
-    $topics_orig = join(any2array($topics), ',')
-  } else {
-    $topics_orig = $topics
-  }
+  $topics_real = join(any2array($topics), ',')
 
   $notification_options = {
-    'oslo_messaging_notifications/driver'        => { value => $driver_orig },
+    'oslo_messaging_notifications/driver'        => { value => $driver_real },
     'oslo_messaging_notifications/transport_url' => { value => $transport_url, secret => true },
-    'oslo_messaging_notifications/topics'        => { value => $topics_orig },
+    'oslo_messaging_notifications/topics'        => { value => $topics_real },
   }
 
   create_resources($name, $notification_options)
