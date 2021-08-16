@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Support for parameters of the oslo.reports library has been added.
