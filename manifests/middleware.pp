@@ -17,13 +17,23 @@
 #   (boolean value)
 #   Defaults to $::os_service_default.
 #
+# [*http_basic_auth_user_file*]
+#   (Optional) HTTP basic auth password file.
+#   (string value)
+#   Defaults to $::os_service_default.
+#
 define oslo::middleware(
+  # sizelimit
   $max_request_body_size        = $::os_service_default,
+  # http_proxy_to_wsgi
   $enable_proxy_headers_parsing = $::os_service_default,
+  # basic_auth
+  $http_basic_auth_user_file    = $::os_service_default,
 ) {
   $middleware_options = {
     'oslo_middleware/max_request_body_size'        => { value => $max_request_body_size },
     'oslo_middleware/enable_proxy_headers_parsing' => { value => $enable_proxy_headers_parsing },
+    'oslo_middleware/http_basic_auth_user_file'    => { value => $http_basic_auth_user_file },
   }
   create_resources($name, $middleware_options)
 }

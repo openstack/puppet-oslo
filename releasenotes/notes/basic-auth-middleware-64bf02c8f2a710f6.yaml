@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``oslo::middleware::http_basic_auth_userfile`` parameter has been
+    added.
