@@ -174,12 +174,6 @@ define oslo::cache(
 
   include oslo::params
 
-  if !is_service_default($backend_argument) {
-    $backend_argument_orig = join(any2array($backend_argument), ',')
-  } else {
-    $backend_argument_orig = $backend_argument
-  }
-
   if is_service_default($memcache_servers) {
     $memcache_servers_real = $memcache_servers
   } else {
@@ -188,12 +182,6 @@ define oslo::cache(
       default => $memcache_servers
     }
     $memcache_servers_real = join(any2array(inet6_prefix($memcache_servers_array)), ',')
-  }
-
-  if !is_service_default($proxies) {
-    $proxies_orig = join(any2array($proxies), ',')
-  } else {
-    $proxies_orig = $proxies
   }
 
   if $manage_backend_package {
@@ -215,8 +203,8 @@ define oslo::cache(
     'cache/config_prefix'                        => { value => $config_prefix },
     'cache/expiration_time'                      => { value => $expiration_time },
     'cache/backend'                              => { value => $backend },
-    'cache/backend_argument'                     => { value => $backend_argument_orig },
-    'cache/proxies'                              => { value => $proxies_orig },
+    'cache/backend_argument'                     => { value => join(any2array($backend_argument), ',') },
+    'cache/proxies'                              => { value => join(any2array($proxies), ',') },
     'cache/enabled'                              => { value => $enabled },
     'cache/debug_cache_backend'                  => { value => $debug_cache_backend },
     'cache/memcache_servers'                     => { value => $memcache_servers_real },
