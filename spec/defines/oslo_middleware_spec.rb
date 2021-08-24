@@ -10,6 +10,7 @@ describe 'oslo::middleware' do
       it 'configure oslo_middleware default params' do
        is_expected.to contain_keystone_config('oslo_middleware/max_request_body_size').with_value('<SERVICE DEFAULT>')
        is_expected.to contain_keystone_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_middleware/http_basic_auth_user_file').with_value('<SERVICE DEFAULT>')
       end
 
     end
@@ -17,13 +18,15 @@ describe 'oslo::middleware' do
     context 'with overridden parameters' do
       let :params do
           {
-            :max_request_body_size => 114600,
+            :max_request_body_size        => 114600,
             :enable_proxy_headers_parsing => true,
+            :http_basic_auth_user_file    => '/etc/htpasswd',
           }
       end
       it 'configure oslo_middleware with overridden values' do
         is_expected.to contain_keystone_config('oslo_middleware/max_request_body_size').with_value(114600)
         is_expected.to contain_keystone_config('oslo_middleware/enable_proxy_headers_parsing').with_value(true)
+        is_expected.to contain_keystone_config('oslo_middleware/http_basic_auth_user_file').with_value('/etc/htpasswd')
       end
 
     end
