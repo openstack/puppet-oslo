@@ -85,6 +85,23 @@ describe 'oslo::coordination' do
         )
       end
     end
+
+    context 'with configuration management disabled' do
+      let :params do
+        { :backend_url   => 'redis://localhost:6379',
+          :manage_config => false }
+      end
+
+      it 'manages only packages' do
+        is_expected.to_not contain_keystone_config('coordination/backend_url')
+
+        is_expected.to contain_package('python-redis').with(
+          :name   => platform_params[:python_redis_package_name],
+          :ensure => 'present',
+          :tag    => 'openstack',
+        )
+      end
+    end
   end
 
   on_supported_os({
