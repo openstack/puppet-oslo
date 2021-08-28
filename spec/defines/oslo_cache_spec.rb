@@ -165,6 +165,51 @@ describe 'oslo::cache' do
       end
     end
 
+    context 'with etcd3gw backend' do
+      let :params do
+        {
+          :backend => 'oslo_cache.etcd3gw',
+        }
+      end
+
+      it 'configures cache backend' do
+        is_expected.to contain_keystone_config('cache/backend').with_value('oslo_cache.etcd3gw')
+        is_expected.to contain_package('python-etcd3gw').with(
+          :ensure => 'present',
+          :name   => platform_params[:python_etcd3gw_package_name],
+          :tag    => ['openstack'],
+        )
+      end
+
+      context 'with package_ensure set' do
+        before do
+          params.merge!({
+            :package_ensure => 'latest'
+          })
+        end
+
+        it 'ensures status of the package' do
+          is_expected.to contain_package('python-etcd3gw').with(
+            :ensure => 'latest',
+            :name   => platform_params[:python_etcd3gw_package_name],
+            :tag    => 'openstack',
+          )
+        end
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-etcd3gw')
+        end
+      end
+    end
+
     context 'with string in list parameters' do
       let :params do
         {
@@ -194,10 +239,12 @@ describe 'oslo::cache' do
         case facts[:osfamily]
         when 'Debian'
           { :pylibmc_package_name         => 'python3-pylibmc',
-            :python_memcache_package_name => 'python3-memcache' }
+            :python_memcache_package_name => 'python3-memcache',
+            :python_etcd3gw_package_name  => 'python3-etcd3gw' }
         when 'RedHat'
           { :pylibmc_package_name         => 'python3-pylibmc',
-            :python_memcache_package_name => 'python3-memcached' }
+            :python_memcache_package_name => 'python3-memcached',
+            :python_etcd3gw_package_name  => 'python3-etcd3gw' }
         end
       end
 
