@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``oslo::cache::package_ensure`` parameter has been added. This
+    parameter defines status of the backend package used.
