@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``oslo::coordination::manage_backend_package`` parameter has been
+    added.

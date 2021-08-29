@@ -8,6 +8,10 @@
 #   (Optional) Coordination backend URL.
 #   Defaults to $::os_service_default
 #
+# [*manage_backend_package*]
+#   (Optional) Whether to install the backend package.
+#   Defaults to true.
+#
 # [*package_ensure*]
 #   (Optional) ensure state for package.
 #   Defaults to 'present'
@@ -17,14 +21,15 @@
 #   Defaults to true.
 #
 define oslo::coordination (
-  $backend_url    = $::os_service_default,
-  $package_ensure = 'present',
-  $manage_config  = true,
+  $backend_url            = $::os_service_default,
+  $manage_backend_package = true,
+  $package_ensure         = 'present',
+  $manage_config          = true,
 ) {
 
   include oslo::params
 
-  if !is_service_default($backend_url) {
+  if $manage_backend_package and !is_service_default($backend_url){
     case $backend_url {
       /^redis:\/\//: {
         ensure_packages('python-redis', {
