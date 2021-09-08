@@ -97,6 +97,28 @@
 #   (floating point value)
 #   Defaults to $::os_service_default
 #
+# [*enable_socket_keepalive*]
+#   (Optional) Global toggle for the socket keepalive of dogpile's
+#   pymemcache backend
+#   Defaults to $::os_service_default
+#
+# [*socket_keepalive_idle*]
+#   (Optional) The time (in seconds) the connection needs to remain idle
+#   before TCP starts sending keepalive probes. Should be a positive integer
+#   most greater than zero.
+#   Defaults to $::os_service_default
+#
+# [*socket_keepalive_interval*]
+#   (Optional) The time (in seconds) between individual keepalive probes.
+#   Should be a positive integer most greater than zero.
+#   Defaults to $::os_service_default
+#
+# [*socket_keepalive_count*]
+#   (Optional) The maximum number of keepalive probes TCP should send before
+#   dropping the connection. Should be a positive integer most greater than
+#   zero.
+#   Defaults to $::os_service_default
+#
 # [*memcache_pool_maxsize*]
 #   Max total number of open connections to every memcached server.
 #   (oslo_cache.memcache_pool backend only). (integer value)
@@ -161,6 +183,10 @@ define oslo::cache(
   $memcache_servers                     = $::os_service_default,
   $memcache_dead_retry                  = $::os_service_default,
   $memcache_socket_timeout              = $::os_service_default,
+  $enable_socket_keepalive              = $::os_service_default,
+  $socket_keepalive_idle                = $::os_service_default,
+  $socket_keepalive_interval            = $::os_service_default,
+  $socket_keepalive_count               = $::os_service_default,
   $memcache_pool_maxsize                = $::os_service_default,
   $memcache_pool_unused_timeout         = $::os_service_default,
   $memcache_pool_connection_get_timeout = $::os_service_default,
@@ -210,6 +236,10 @@ define oslo::cache(
     'cache/memcache_servers'                     => { value => $memcache_servers_real },
     'cache/memcache_dead_retry'                  => { value => $memcache_dead_retry },
     'cache/memcache_socket_timeout'              => { value => $memcache_socket_timeout },
+    'cache/enable_socket_keepalive'              => { value => $enable_socket_keepalive },
+    'cache/socket_keepalive_idle'                => { value => $socket_keepalive_idle },
+    'cache/socket_keepalive_interval'            => { value => $socket_keepalive_interval },
+    'cache/socket_keepalive_count'               => { value => $socket_keepalive_count },
     'cache/memcache_pool_maxsize'                => { value => $memcache_pool_maxsize },
     'cache/memcache_pool_unused_timeout'         => { value => $memcache_pool_unused_timeout },
     'cache/memcache_pool_connection_get_timeout' => { value => $memcache_pool_connection_get_timeout },

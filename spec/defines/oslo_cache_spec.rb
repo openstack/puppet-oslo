@@ -18,6 +18,10 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_servers').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_dead_retry').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_socket_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/enable_socket_keepalive').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/socket_keepalive_idle').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/socket_keepalive_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/socket_keepalive_count').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_pool_maxsize').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_pool_unused_timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_pool_connection_get_timeout').with_value('<SERVICE DEFAULT>')
@@ -42,6 +46,10 @@ describe 'oslo::cache' do
           :memcache_servers                     => ['host1:11211', 'host2:11211','[fd12:3456:789a:1::1]:11211'],
           :memcache_dead_retry                  => '300',
           :memcache_socket_timeout              => '3.0',
+          :enable_socket_keepalive              => false,
+          :socket_keepalive_idle                => 1,
+          :socket_keepalive_interval            => 1,
+          :socket_keepalive_count               => 1,
           :memcache_pool_maxsize                => '10',
           :memcache_pool_unused_timeout         => '60',
           :memcache_pool_connection_get_timeout => '10',
@@ -64,6 +72,10 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,inet6:[fd12:3456:789a:1::1]:11211')
         is_expected.to contain_keystone_config('cache/memcache_dead_retry').with_value('300')
         is_expected.to contain_keystone_config('cache/memcache_socket_timeout').with_value('3.0')
+        is_expected.to contain_keystone_config('cache/enable_socket_keepalive').with_value('false')
+        is_expected.to contain_keystone_config('cache/socket_keepalive_idle').with_value('1')
+        is_expected.to contain_keystone_config('cache/socket_keepalive_interval').with_value('1')
+        is_expected.to contain_keystone_config('cache/socket_keepalive_count').with_value('1')
         is_expected.to contain_keystone_config('cache/memcache_pool_maxsize').with_value('10')
         is_expected.to contain_keystone_config('cache/memcache_pool_unused_timeout').with_value('60')
         is_expected.to contain_keystone_config('cache/memcache_pool_connection_get_timeout').with_value('10')
