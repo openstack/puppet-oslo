@@ -26,6 +26,18 @@ describe 'oslo::coordination' do
           :tag    => 'openstack',
         )
       end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.to_not contain_package('python-redis')
+        end
+      end
     end
 
     context 'with etcd3 backend' do
@@ -46,6 +58,18 @@ describe 'oslo::coordination' do
           is_expected.to_not contain_package('python-etcd3')
         end
       end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.to_not contain_package('python-etcd3')
+        end
+      end
     end
 
     context 'with etcd3gw backend(http)' do
@@ -57,6 +81,18 @@ describe 'oslo::coordination' do
         is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3+http://localhost:2379')
         is_expected.to contain_package('python-etcd3gw')
       end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.to_not contain_package('python-etcd3gw')
+        end
+      end
     end
 
     context 'with etcd3gw backend(https)' do
@@ -67,6 +103,18 @@ describe 'oslo::coordination' do
       it 'configures etcd3gw backend' do
         is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3+https://localhost:2379')
         is_expected.to contain_package('python-etcd3gw')
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.to_not contain_package('python-etcd3gw')
+        end
       end
     end
 
@@ -83,6 +131,18 @@ describe 'oslo::coordination' do
           :ensure => 'present',
           :tag    => 'openstack',
         )
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.to_not contain_package('python-pymemcache')
+        end
       end
     end
 
