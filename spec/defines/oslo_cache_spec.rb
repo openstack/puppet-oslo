@@ -91,6 +91,22 @@ describe 'oslo::cache' do
         )
       end
 
+      context 'with package_ensure set' do
+        before do
+          params.merge!({
+            :package_ensure => 'latest'
+          })
+        end
+
+        it 'ensures status of the package' do
+          is_expected.to contain_package('python-pylibmc').with(
+            :ensure => 'latest',
+            :name   => platform_params[:pylibmc_package_name],
+            :tag    => 'openstack',
+          )
+        end
+      end
+
       context 'with backend package management disabled' do
         before do
           params.merge!({
@@ -114,9 +130,26 @@ describe 'oslo::cache' do
       it 'configures cache backend' do
         is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.memcache')
         is_expected.to contain_package('python-memcache').with(
+          :ensure => 'present',
           :name   => platform_params[:python_memcache_package_name],
           :tag    => ['openstack'],
         )
+      end
+
+      context 'with package_ensure set' do
+        before do
+          params.merge!({
+            :package_ensure => 'latest'
+          })
+        end
+
+        it 'ensures status of the package' do
+          is_expected.to contain_package('python-memcache').with(
+            :ensure => 'latest',
+            :name   => platform_params[:python_memcache_package_name],
+            :tag    => ['openstack'],
+          )
+        end
       end
 
       context 'with backend package management disabled' do

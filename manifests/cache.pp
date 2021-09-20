@@ -150,6 +150,10 @@
 #   (Optional) Whether to install the backend package.
 #   Defaults to true.
 #
+# [*package_ensure*]
+#   (Optional) ensure state for package.
+#   Defaults to 'present'
+#
 define oslo::cache(
   $config_prefix                        = $::os_service_default,
   $expiration_time                      = $::os_service_default,
@@ -170,6 +174,7 @@ define oslo::cache(
   $tls_keyfile                          = $::os_service_default,
   $tls_allowed_ciphers                  = $::os_service_default,
   $manage_backend_package               = true,
+  $package_ensure                       = 'present',
 ){
 
   include oslo::params
@@ -187,14 +192,15 @@ define oslo::cache(
   if $manage_backend_package {
     if ($backend =~ /pylibmc/ ) {
       ensure_packages('python-pylibmc', {
-        ensure => present,
+        ensure => $package_ensure,
         name   => $::oslo::params::pylibmc_package_name,
         tag    => 'openstack',
       })
     } elsif ($backend =~ /\.memcache/ ) {
       ensure_packages('python-memcache', {
-        name => $::oslo::params::python_memcache_package_name,
-        tag  => ['openstack'],
+        ensure => $package_ensure,
+        name   => $::oslo::params::python_memcache_package_name,
+        tag    => ['openstack'],
       })
     }
   }
