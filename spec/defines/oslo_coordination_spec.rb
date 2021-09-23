@@ -22,7 +22,7 @@ describe 'oslo::coordination' do
 
         is_expected.to contain_package('python-redis').with(
           :name   => platform_params[:python_redis_package_name],
-          :ensure => 'present',
+          :ensure => 'installed',
           :tag    => 'openstack',
         )
       end
@@ -51,7 +51,7 @@ describe 'oslo::coordination' do
         if platform_params[:python_etcd3_package_name]
           is_expected.to contain_package('python-etcd3').with(
             :name   => platform_params[:python_etcd3_package_name],
-            :ensure => 'present',
+            :ensure => 'installed',
             :tag    => 'openstack',
           )
         else
@@ -128,7 +128,7 @@ describe 'oslo::coordination' do
 
         is_expected.to contain_package('python-pymemcache').with(
           :name   => platform_params[:python_pymemcache_package_name],
-          :ensure => 'present',
+          :ensure => 'installed',
           :tag    => 'openstack',
         )
       end
@@ -157,7 +157,7 @@ describe 'oslo::coordination' do
 
         is_expected.to contain_package('python-redis').with(
           :name   => platform_params[:python_redis_package_name],
-          :ensure => 'present',
+          :ensure => 'installed',
           :tag    => 'openstack',
         )
       end
