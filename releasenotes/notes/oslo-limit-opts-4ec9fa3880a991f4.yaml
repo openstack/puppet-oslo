@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``oslo::limit`` resource type has been added. This manages
+    parameters of the ``oslo.limit`` library.
