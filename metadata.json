@@ -2,10 +2,6 @@
     "author": "OpenStack Contributors",
     "dependencies": [
         {
-            "name": "puppetlabs/inifile",
-            "version_requirement": ">=2.0.0 <3.0.0"
-        },
-        {
             "name": "puppetlabs/stdlib",
             "version_requirement": ">=5.0.0 <9.0.0"
         },

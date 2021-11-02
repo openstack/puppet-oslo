@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``oslo_config`` resource has been removed.
