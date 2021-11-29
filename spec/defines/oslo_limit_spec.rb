@@ -24,7 +24,7 @@ describe 'oslo::limit' do
       it 'configures the required params' do
         is_expected.to contain_keystone_config('oslo_limit/endpoint_id').with_value('770f924a-e483-4b43-a6f3-73acc91f4757')
         is_expected.to contain_keystone_config('oslo_limit/username').with_value('keystone')
-        is_expected.to contain_keystone_config('oslo_limit/password').with_value('keystone_password')
+        is_expected.to contain_keystone_config('oslo_limit/password').with_value('keystone_password').with_secret(true)
         is_expected.to contain_keystone_config('oslo_limit/auth_url').with_value('http://127.0.0.1:5000/v3')
         is_expected.to contain_keystone_config('oslo_limit/project_name').with_value('services')
       end

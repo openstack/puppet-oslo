@@ -66,7 +66,7 @@ define oslo::limit(
   $limit_options = {
     'oslo_limit/endpoint_id'         => { value => $endpoint_id },
     'oslo_limit/username'            => { value => $username },
-    'oslo_limit/password'            => { value => $password },
+    'oslo_limit/password'            => { value => $password, secret => true },
     'oslo_limit/auth_url'            => { value => $auth_url },
     'oslo_limit/project_name'        => { value => $project_name },
     'oslo_limit/user_domain_name'    => { value => $user_domain_name },
