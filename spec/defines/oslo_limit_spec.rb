@@ -12,7 +12,6 @@ describe 'oslo::limit' do
         :username     => 'keystone',
         :password     => 'keystone_password',
         :auth_url     => 'http://127.0.0.1:5000/v3',
-        :project_name => 'services',
       }
     end
 
@@ -26,12 +25,13 @@ describe 'oslo::limit' do
         is_expected.to contain_keystone_config('oslo_limit/username').with_value('keystone')
         is_expected.to contain_keystone_config('oslo_limit/password').with_value('keystone_password').with_secret(true)
         is_expected.to contain_keystone_config('oslo_limit/auth_url').with_value('http://127.0.0.1:5000/v3')
-        is_expected.to contain_keystone_config('oslo_limit/project_name').with_value('services')
       end
 
       it 'configures the default params' do
+        is_expected.to contain_keystone_config('oslo_limit/project_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_limit/user_domain_name').with_value('Default')
         is_expected.to contain_keystone_config('oslo_limit/project_domain_name').with_value('Default')
+        is_expected.to contain_keystone_config('oslo_limit/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_limit/auth_type').with_value('password')
         is_expected.to contain_keystone_config('oslo_limit/service_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_limit/valid_interfaces').with_value('<SERVICE DEFAULT>')
@@ -43,6 +43,7 @@ describe 'oslo::limit' do
     context 'with parameters overridden' do
       let :params do
         required_params.merge!({
+          :project_name        => 'services',
           :user_domain_name    => 'UserDomain',
           :project_domain_name => 'ProjectDomain',
           :auth_type           => 'v3password',
@@ -54,13 +55,30 @@ describe 'oslo::limit' do
       end
 
       it 'configures the overridden values' do
+        is_expected.to contain_keystone_config('oslo_limit/project_name').with_value('services')
         is_expected.to contain_keystone_config('oslo_limit/user_domain_name').with_value('UserDomain')
         is_expected.to contain_keystone_config('oslo_limit/project_domain_name').with_value('ProjectDomain')
+        is_expected.to contain_keystone_config('oslo_limit/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_limit/auth_type').with_value('v3password')
         is_expected.to contain_keystone_config('oslo_limit/service_type').with_value('identity')
         is_expected.to contain_keystone_config('oslo_limit/valid_interfaces').with_value('admin,internal')
         is_expected.to contain_keystone_config('oslo_limit/region_name').with_value('regionOne')
         is_expected.to contain_keystone_config('oslo_limit/endpoint_override').with_value('http://localhost:5000')
+      end
+    end
+
+    context 'with system_scope' do
+      let :params do
+        required_params.merge!({
+          :project_name => 'services',
+          :system_scope => 'all',
+        })
+      end
+
+      it 'configures system_scope but ignore project parameters' do
+        is_expected.to contain_keystone_config('oslo_limit/project_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_limit/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_limit/system_scope').with_value('all')
       end
     end
   end
