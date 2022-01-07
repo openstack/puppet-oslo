@@ -27,6 +27,10 @@
 #   (Optional) Name of domain for $project_name
 #   Defaults to 'Default'.
 #
+# [*system_scope*]
+#   (Optional) Scope for system operations.
+#   Defaults to $::os_service_default
+#
 # [*auth_type*]
 #  (Optional) Authentication type to load
 #  Defaults to 'password'.
@@ -53,9 +57,10 @@ define oslo::limit(
   $username,
   $password,
   $auth_url,
-  $project_name,
+  $project_name        = $::os_service_default,
   $user_domain_name    = 'Default',
   $project_domain_name = 'Default',
+  $system_scope        = $::os_service_default,
   $auth_type           = 'password',
   $service_type        = $::os_service_default,
   $valid_interfaces    = $::os_service_default,
@@ -63,14 +68,25 @@ define oslo::limit(
   $endpoint_override   = $::os_service_default,
 ) {
 
+  if is_service_default($system_scope) {
+    $project_name_real        = $project_name
+    $project_domain_name_real = $project_domain_name
+  } else {
+    # When system scope is used, project parameters should be removed otherwise
+    # project scope is used.
+    $project_name_real        = $::os_service_default
+    $project_domain_name_real = $::os_service_default
+  }
+
   $limit_options = {
     'oslo_limit/endpoint_id'         => { value => $endpoint_id },
     'oslo_limit/username'            => { value => $username },
     'oslo_limit/password'            => { value => $password, secret => true },
     'oslo_limit/auth_url'            => { value => $auth_url },
-    'oslo_limit/project_name'        => { value => $project_name },
+    'oslo_limit/project_name'        => { value => $project_name_real },
     'oslo_limit/user_domain_name'    => { value => $user_domain_name },
-    'oslo_limit/project_domain_name' => { value => $project_domain_name },
+    'oslo_limit/project_domain_name' => { value => $project_domain_name_real },
+    'oslo_limit/system_scope'        => { value => $system_scope },
     'oslo_limit/auth_type'           => { value => $auth_type },
     'oslo_limit/service_type'        => { value => $service_type },
     'oslo_limit/valid_interfaces'    => { value => join(any2array($valid_interfaces), ',') },
