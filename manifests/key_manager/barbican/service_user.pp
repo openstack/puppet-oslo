@@ -20,7 +20,8 @@
 #  (Required) The URL to use for authentication.
 #
 # [*project_name*]
-#  (Required) Service project name
+#  (Optional) Service project name
+#  Defaults to $::os_service_default
 #
 # [*user_domain_name*]
 #  (Optional) Name of domain for $username
@@ -28,6 +29,10 @@
 #
 # [*project_domain_name*]
 #  (Optional) Name of domain for $project_name
+#  Defaults to $::os_service_default
+#
+# [*system_scope*]
+#  (Optional) Scope for system operations.
 #  Defaults to $::os_service_default
 #
 # [*insecure*]
@@ -65,9 +70,10 @@ define oslo::key_manager::barbican::service_user(
   $username,
   $password,
   $auth_url,
-  $project_name,
+  $project_name            = $::os_service_default,
   $user_domain_name        = $::os_service_default,
   $project_domain_name     = $::os_service_default,
+  $system_scope            = $::os_service_default,
   $insecure                = $::os_service_default,
   $auth_type               = $::os_service_default,
   $auth_version            = $::os_service_default,
@@ -76,6 +82,16 @@ define oslo::key_manager::barbican::service_user(
   $keyfile                 = $::os_service_default,
   $region_name             = $::os_service_default,
 ) {
+
+  if is_service_default($system_scope) {
+    $project_name_real        = $project_name
+    $project_domain_name_real = $project_domain_name
+  } else {
+    # When system scope is used, project parameters should be removed otherwise
+    # project scope is used.
+    $project_name_real        = $::os_service_default
+    $project_domain_name_real = $::os_service_default
+  }
 
   $service_user_options = {
     'barbican_service_user/auth_type'           => {'value' => $auth_type},
@@ -88,8 +104,9 @@ define oslo::key_manager::barbican::service_user(
     'barbican_service_user/username'            => {'value' => $username},
     'barbican_service_user/password'            => {'value' => $password, 'secret' => true},
     'barbican_service_user/user_domain_name'    => {'value' => $user_domain_name},
-    'barbican_service_user/project_name'        => {'value' => $project_name},
-    'barbican_service_user/project_domain_name' => {'value' => $project_domain_name},
+    'barbican_service_user/project_name'        => {'value' => $project_name_real},
+    'barbican_service_user/project_domain_name' => {'value' => $project_domain_name_real},
+    'barbican_service_user/system_scope'        => {'value' => $system_scope},
     'barbican_service_user/insecure'            => {'value' => $insecure},
   }
 

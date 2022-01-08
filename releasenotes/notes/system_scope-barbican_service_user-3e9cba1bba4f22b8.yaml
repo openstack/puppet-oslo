@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``oslo::key_manager::barbican::service_user`` resource type now
+    supports the ``system_scope`` parameter.

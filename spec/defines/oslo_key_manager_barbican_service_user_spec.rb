@@ -7,8 +7,7 @@ describe 'oslo::key_manager::barbican::service_user' do
   let :params do
     { :username     => 'keystone',
       :password     => 'secret',
-      :auth_url     => 'http://127.0.0.1:5000',
-      :project_name => 'services' }
+      :auth_url     => 'http://127.0.0.1:5000' }
   end
 
   shared_examples 'oslo::key_manager::barbican::service_user' do
@@ -17,8 +16,9 @@ describe 'oslo::key_manager::barbican::service_user' do
         is_expected.to contain_keystone_config('barbican_service_user/username').with_value('keystone')
         is_expected.to contain_keystone_config('barbican_service_user/password').with_value('secret').with_secret(true)
         is_expected.to contain_keystone_config('barbican_service_user/auth_url').with_value( params[:auth_url] )
-        is_expected.to contain_keystone_config('barbican_service_user/project_name').with_value( params[:project_name] )
+        is_expected.to contain_keystone_config('barbican_service_user/project_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican_service_user/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('barbican_service_user/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican_service_user/user_domain_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican_service_user/insecure').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican_service_user/auth_type').with_value('<SERVICE DEFAULT>')
@@ -55,6 +55,7 @@ describe 'oslo::key_manager::barbican::service_user' do
         is_expected.to contain_keystone_config('barbican_service_user/project_name').with_value( params[:project_name] )
         is_expected.to contain_keystone_config('barbican_service_user/user_domain_name').with_value(params[:user_domain_name])
         is_expected.to contain_keystone_config('barbican_service_user/project_domain_name').with_value(params[:project_domain_name])
+        is_expected.to contain_keystone_config('barbican_service_user/system_scope').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican_service_user/insecure').with_value(params[:insecure])
         is_expected.to contain_keystone_config('barbican_service_user/auth_version').with_value(params[:auth_version])
         is_expected.to contain_keystone_config('barbican_service_user/cafile').with_value(params[:cafile])
@@ -71,11 +72,20 @@ describe 'oslo::key_manager::barbican::service_user' do
       it { expect { is_expected.to raise_error(Puppet::Error) } }
     end
 
-    context 'without specify project' do
-      let :params do
-        params.delete(:project_name)
+    context 'with system_scope' do
+      before do
+        params.merge!({
+          :project_name        => 'NoProject',
+          :project_domain_name => 'OurDomain',
+          :system_scope        => 'all',
+        })
       end
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
+
+      it 'configures system_scope' do
+        is_expected.to contain_keystone_config('barbican_service_user/project_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('barbican_service_user/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('barbican_service_user/system_scope').with_value(params[:system_scope])
+      end
     end
   end
 
