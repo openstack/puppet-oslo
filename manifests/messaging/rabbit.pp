@@ -136,18 +136,27 @@ define oslo::messaging::rabbit(
   $heartbeat_in_pthread                 = $::os_service_default,
 ){
 
+  $kombu_ssl_ca_certs_set = (!is_service_default($kombu_ssl_ca_certs) and ($kombu_ssl_ca_certs))
+  $kombu_ssl_certfile_set = (!is_service_default($kombu_ssl_certfile) and ($kombu_ssl_certfile))
+  $kombu_ssl_keyfile_set  = (!is_service_default($kombu_ssl_keyfile) and ($kombu_ssl_keyfile))
+  $kombu_ssl_version_set  = (!is_service_default($kombu_ssl_version) and ($kombu_ssl_version))
+
   if $rabbit_use_ssl != true {
-    if ! is_service_default($kombu_ssl_ca_certs) and ($kombu_ssl_ca_certs) {
+    if $kombu_ssl_ca_certs_set {
       fail('The kombu_ssl_ca_certs parameter requires rabbit_use_ssl to be set to true')
     }
-    if ! is_service_default($kombu_ssl_certfile) and ($kombu_ssl_certfile) {
+    if $kombu_ssl_certfile_set {
       fail('The kombu_ssl_certfile parameter requires rabbit_use_ssl to be set to true')
     }
-    if ! is_service_default($kombu_ssl_keyfile) and ($kombu_ssl_keyfile) {
+    if $kombu_ssl_keyfile_set {
       fail('The kombu_ssl_keyfile parameter requires rabbit_use_ssl to be set to true')
     }
-    if !is_service_default($kombu_ssl_version) and ($kombu_ssl_version) {
+    if $kombu_ssl_version_set {
       fail('The kombu_ssl_version parameter requires rabbit_use_ssl to be set to true')
+    }
+  } else {
+    if ($kombu_ssl_certfile_set != $kombu_ssl_keyfile_set) {
+      fail('The kombu_ssl_certfile parameter and the kombu_ssl_keyfile parameters must be used together')
     }
   }
 

@@ -111,6 +111,29 @@ describe 'oslo::messaging::rabbit' do
       it { is_expected.to raise_error Puppet::Error, /The kombu_ssl_version parameter requires rabbit_use_ssl to be set to true/ }
     end
 
+    context 'with kombu_ssl_certfile set without kombu_ssl_keyfile' do
+
+      let :params do
+        { :rabbit_use_ssl     => true,
+          :kombu_ssl_ca_certs => '/etc/ca.cert',
+          :kombu_ssl_certfile => '/etc/certfile',
+          :kombu_ssl_version  => 'TLSv1', }
+      end
+
+      it { is_expected.to raise_error Puppet::Error, /The kombu_ssl_certfile parameter and the kombu_ssl_keyfile parameters must be used together/ }
+    end
+
+    context 'with kombu_ssl_keyfile set without kombu_ssl_certfile' do
+
+      let :params do
+        { :rabbit_use_ssl     => true,
+          :kombu_ssl_ca_certs => '/etc/ca.cert',
+          :kombu_ssl_keyfile  => '/etc/key',
+          :kombu_ssl_version  => 'TLSv1', }
+      end
+
+      it { is_expected.to raise_error Puppet::Error, /The kombu_ssl_certfile parameter and the kombu_ssl_keyfile parameters must be used together/ }
+    end
   end
 
   on_supported_os({
