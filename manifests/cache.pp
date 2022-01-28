@@ -183,6 +183,22 @@
 #   (Optional) Number of seconds to sleep between each attempt.
 #   Default to $::os_service_default
 #
+# [*hashclient_retry_attempts*]
+#   (Optional) Amount of times a client should be tried
+#   before it is marked dead and removed from the pool in
+#   the HashClient's internal mechanisms.
+#   Default to $::os_service_default
+#
+# [*hashclient_retry_delay*]
+#   (Optional) Time in seconds that should pass between
+#   retry attempts in the HashClient's internal mechanisms.
+#   Default to $::os_service_default
+#
+# [*dead_timeout*]
+#   (Optional) Time in seconds before attempting to add a node
+#   back in the pool in the HashClient's internal mechanisms.
+#   Default to $::os_service_default
+#
 # [*manage_backend_package*]
 #   (Optional) Whether to install the backend package.
 #   Defaults to true.
@@ -213,6 +229,9 @@ define oslo::cache(
   $enable_retry_client                  = $::os_service_default,
   $retry_attempts                       = $::os_service_default,
   $retry_delay                          = $::os_service_default,
+  $hashclient_retry_attempts            = $::os_service_default,
+  $hashclient_retry_delay               = $::os_service_default,
+  $dead_timeout                         = $::os_service_default,
   $manage_backend_package               = true,
 ){
 
@@ -277,6 +296,9 @@ define oslo::cache(
     'cache/enable_retry_client'                  => { value => $enable_retry_client },
     'cache/retry_attempts'                       => { value => $retry_attempts },
     'cache/retry_delay'                          => { value => $retry_delay },
+    'cache/hashclient_retry_attempts'            => { value => $hashclient_retry_attempts },
+    'cache/hashclient_retry_delay'               => { value => $hashclient_retry_delay },
+    'cache/dead_timeout'                         => { value => $dead_timeout },
   }
 
   create_resources($name, $cache_options)
