@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Add retrying options for pymemcache (dogpile.cache) backend.
