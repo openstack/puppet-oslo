@@ -33,6 +33,9 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/enable_retry_client').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/retry_attempts').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/retry_delay').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/hashclient_retry_attempts').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/hashclient_retry_delay').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/dead_timeout').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -64,6 +67,9 @@ describe 'oslo::cache' do
           :enable_retry_client                  => false,
           :retry_attempts                       => 2,
           :retry_delay                          => 0,
+          :hashclient_retry_attempts            => 2,
+          :hashclient_retry_delay               => 1,
+          :dead_timeout                         => 60,
         }
       end
 
@@ -93,6 +99,9 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/enable_retry_client').with_value('false')
         is_expected.to contain_keystone_config('cache/retry_attempts').with_value('2')
         is_expected.to contain_keystone_config('cache/retry_delay').with_value('0')
+        is_expected.to contain_keystone_config('cache/hashclient_retry_attempts').with_value('2')
+        is_expected.to contain_keystone_config('cache/hashclient_retry_delay').with_value('1')
+        is_expected.to contain_keystone_config('cache/dead_timeout').with_value('60')
       end
     end
 
