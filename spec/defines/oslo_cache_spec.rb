@@ -30,6 +30,9 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/tls_certfile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/tls_keyfile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/tls_allowed_ciphers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/enable_retry_client').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/retry_attempts').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/retry_delay').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -58,6 +61,9 @@ describe 'oslo::cache' do
           :tls_certfile                         => nil,
           :tls_keyfile                          => nil,
           :tls_allowed_ciphers                  => nil,
+          :enable_retry_client                  => false,
+          :retry_attempts                       => 2,
+          :retry_delay                          => 0,
         }
       end
 
@@ -84,6 +90,9 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/tls_certfile').with_value('nil')
         is_expected.to contain_keystone_config('cache/tls_keyfile').with_value('nil')
         is_expected.to contain_keystone_config('cache/tls_allowed_ciphers').with_value('nil')
+        is_expected.to contain_keystone_config('cache/enable_retry_client').with_value('false')
+        is_expected.to contain_keystone_config('cache/retry_attempts').with_value('2')
+        is_expected.to contain_keystone_config('cache/retry_delay').with_value('0')
       end
     end
 
