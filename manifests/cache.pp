@@ -168,6 +168,21 @@
 #   be available.
 #   Default to $::os_service_default
 #
+# [*enable_retry_client*]
+#   (Optional) Enable retry client mechanisms to handle failure.
+#   Those mechanisms can be used to wrap all kind of pymemcache
+#   clients. The wrapper allows you to define how many attempts
+#   to make and how long to wait between attemots.
+#   Default to $::os_service_default
+#
+# [*retry_attempts*]
+#   (Optional) Number of times to attempt an action before failing.
+#   Default to $::os_service_default
+#
+# [*retry_delay*]
+#   (Optional) Number of seconds to sleep between each attempt.
+#   Default to $::os_service_default
+#
 # [*manage_backend_package*]
 #   (Optional) Whether to install the backend package.
 #   Defaults to true.
@@ -199,6 +214,9 @@ define oslo::cache(
   $tls_certfile                         = $::os_service_default,
   $tls_keyfile                          = $::os_service_default,
   $tls_allowed_ciphers                  = $::os_service_default,
+  $enable_retry_client                  = $::os_service_default,
+  $retry_attempts                       = $::os_service_default,
+  $retry_delay                          = $::os_service_default,
   $manage_backend_package               = true,
   $package_ensure                       = 'present',
 ){
@@ -260,6 +278,9 @@ define oslo::cache(
     'cache/tls_certfile'                         => { value => $tls_certfile },
     'cache/tls_keyfile'                          => { value => $tls_keyfile },
     'cache/tls_allowed_ciphers'                  => { value => $tls_allowed_ciphers },
+    'cache/enable_retry_client'                  => { value => $enable_retry_client },
+    'cache/retry_attempts'                       => { value => $retry_attempts },
+    'cache/retry_delay'                          => { value => $retry_delay },
   }
 
   create_resources($name, $cache_options)
