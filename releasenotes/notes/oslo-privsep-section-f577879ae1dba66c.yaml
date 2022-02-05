@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new ``oslo::privsep::config_group`` parameter has been added. This
+    parameter can be used to add parameters to the section different from
+    the default ``privsep_${entrypoint}`` section.
