@@ -14,6 +14,10 @@
 # [*config*]
 #  (Required) Configuration file to manage. (string value)
 #
+# [*config_group*]
+#  (Optional) Name of the section in which the parameters are set. (string value)
+#  Defaults to "privsep_${entrypoint}"
+#
 # [*user*]
 #  (Optional) User that the privsep daemon should run as. (string value)
 #  Defaults to $::os_service_default.
@@ -42,6 +46,7 @@
 define oslo::privsep (
   $config,
   $entrypoint     = $name,
+  $config_group   = "privsep_${entrypoint}",
   $user           = $::os_service_default,
   $group          = $::os_service_default,
   $capabilities   = $::os_service_default,
@@ -49,10 +54,10 @@ define oslo::privsep (
 ) {
 
   $privsep_options = {
-    "privsep_${entrypoint}/user"           => { value => $user },
-    "privsep_${entrypoint}/group"          => { value => $group },
-    "privsep_${entrypoint}/capabilities"   => { value => $capabilities },
-    "privsep_${entrypoint}/helper_command" => { value => $helper_command },
+    "${config_group}/user"           => { value => $user },
+    "${config_group}/group"          => { value => $group },
+    "${config_group}/capabilities"   => { value => $capabilities },
+    "${config_group}/helper_command" => { value => $helper_command },
   }
 
   create_resources($config, $privsep_options)

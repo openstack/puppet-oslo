@@ -37,6 +37,21 @@ describe 'oslo::privsep' do
       end
     end
 
+    context 'with config group' do
+      before do
+        params.merge!({
+          :config_group => 'mysection'
+        })
+      end
+
+      it 'configure oslo_privsep default params' do
+        is_expected.to contain_keystone_config('mysection/user').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('mysection/group').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('mysection/capabilities').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('mysection/helper_command').with_value('<SERVICE DEFAULT>')
+      end
+    end
+
   end
 
   on_supported_os({
