@@ -122,6 +122,24 @@ describe 'oslo::db' do
       it { is_expected.to contain_keystone_config('database/connection').with_value('mysql+pymysql://db:db@localhost/db').with_secret(true) }
     end
 
+    context 'with incorrect database_connection string' do
+      let :params do
+        { :connection => 'foo://db:db@localhost/db', }
+      end
+
+      it { should raise_error(Puppet::Error) }
+    end
+
+    context 'with incorrect pymysql database_connection string' do
+      let :params do
+        { :connection => 'foo+pymysql://db:db@localhost/db', }
+      end
+
+      it { should raise_error(Puppet::Error) }
+    end
+  end
+
+  shared_examples 'oslo-db with postgresql' do
     context 'with postgresql backend' do
       let :params do
         { :connection => 'postgresql://db:db@localhost/db', }
@@ -150,22 +168,6 @@ describe 'oslo::db' do
       end
 
       it { is_expected.to contain_keystone_config('database/connection').with_value('postgresql+psycopg2://db:db@localhost/db').with_secret(true) }
-    end
-
-    context 'with incorrect database_connection string' do
-      let :params do
-        { :connection => 'foo://db:db@localhost/db', }
-      end
-
-      it { should raise_error(Puppet::Error) }
-    end
-
-    context 'with incorrect pymysql database_connection string' do
-      let :params do
-        { :connection => 'foo+pymysql://db:db@localhost/db', }
-      end
-
-      it { should raise_error(Puppet::Error) }
     end
   end
 
@@ -257,6 +259,10 @@ describe 'oslo::db' do
       end
 
       it_behaves_like 'oslo-db'
+      # TODO(tkajinam): Remove this once puppet-postgresql supports CentOS 9
+      unless facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i >= 9
+        it_behaves_like 'oslo-db with postgresql'
+      end
       it_behaves_like "oslo-db on #{facts[:osfamily]}"
     end
   end
