@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``oslo::db::use_tpool`` parameter has been deprecated and will be
+    removed in a future release.

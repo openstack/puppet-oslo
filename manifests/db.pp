@@ -102,10 +102,6 @@
 #   before error is raised. Set to -1 to specify an infinite retry count.
 #   Defaults to $::os_service_default
 #
-# [*use_tpool*]
-#   (Optional) Enable the experimental use of thread pooling for all DB API calls (boolean value)
-#   Defaults to $::os_service_default
-#
 # [*mysql_enable_ndb*]
 #   (Optional) If True, transparently enables support for handling MySQL
 #   Cluster (NDB).
@@ -119,6 +115,10 @@
 #
 # [*min_pool_size*]
 #   (Optional) Minimum number of SQL connections to keep open in a pool.
+#   Defaults to undef
+#
+# [*use_tpool*]
+#   (Optional) Enable the experimental use of thread pooling for all DB API calls (boolean value)
 #   Defaults to undef
 #
 define oslo::db(
@@ -144,11 +144,11 @@ define oslo::db(
   $db_inc_retry_interval   = $::os_service_default,
   $db_max_retry_interval   = $::os_service_default,
   $db_max_retries          = $::os_service_default,
-  $use_tpool               = $::os_service_default,
   $mysql_enable_ndb        = $::os_service_default,
   # DEPRCATED PARAMETERS
   $idle_timeout            = undef,
   $min_pool_size           = undef,
+  $use_tpool               = undef,
 ) {
 
   include oslo::params
@@ -202,6 +202,10 @@ define oslo::db(
     warning('The min_pool_size parameter is deprecated, and will be removed in a future release.')
   }
 
+  if $use_tpool == undef {
+    warning('The use_tepool parameter is deprecated and will be removed in a future release.')
+  }
+
   $database_options = {
     "${config_group}/sqlite_synchronous"      => { value => $sqlite_synchronous },
     "${config_group}/backend"                 => { value => $backend },
@@ -221,7 +225,7 @@ define oslo::db(
     "${config_group}/db_inc_retry_interval"   => { value => $db_inc_retry_interval },
     "${config_group}/db_max_retry_interval"   => { value => $db_max_retry_interval },
     "${config_group}/db_max_retries"          => { value => $db_max_retries },
-    "${config_group}/use_tpool"               => { value => $use_tpool },
+    "${config_group}/use_tpool"               => { value => pick($use_tpool, $::os_service_default) },
     "${config_group}/mysql_enable_ndb"        => { value => $mysql_enable_ndb },
   }
 
