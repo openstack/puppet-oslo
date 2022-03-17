@@ -81,7 +81,7 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/proxies').with_value('proxy1,proxy2')
         is_expected.to contain_keystone_config('cache/enabled').with_value('true')
         is_expected.to contain_keystone_config('cache/debug_cache_backend').with_value('true')
-        is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,inet6:[fd12:3456:789a:1::1]:11211')
+        is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,[fd12:3456:789a:1::1]:11211')
         is_expected.to contain_keystone_config('cache/memcache_dead_retry').with_value('300')
         is_expected.to contain_keystone_config('cache/memcache_socket_timeout').with_value('3.0')
         is_expected.to contain_keystone_config('cache/enable_socket_keepalive').with_value('false')
@@ -153,12 +153,14 @@ describe 'oslo::cache' do
     context 'with memcache backend' do
       let :params do
         {
-          :backend => 'dogpile.cache.memcache',
+          :backend          => 'dogpile.cache.memcache',
+          :memcache_servers => ['host1:11211', 'host2:11211','[fd12:3456:789a:1::1]:11211'],
         }
       end
 
       it 'configures cache backend' do
         is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.memcache')
+        is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,inet6:[fd12:3456:789a:1::1]:11211')
         is_expected.to contain_package('python-memcache').with(
           :ensure => 'installed',
           :name   => platform_params[:python_memcache_package_name],
