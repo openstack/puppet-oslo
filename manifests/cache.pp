@@ -245,11 +245,15 @@ define oslo::cache(
   if is_service_default($memcache_servers) {
     $memcache_servers_real = $memcache_servers
   } else {
-    $memcache_servers_array = $memcache_servers ? {
-      String  => split($memcache_servers, ','),
-      default => $memcache_servers
+    if $backend =~ /\.memcache/ {
+      $memcache_servers_array = $memcache_servers ? {
+        String  => split($memcache_servers, ','),
+        default => $memcache_servers
+      }
+      $memcache_servers_real = join(any2array(inet6_prefix($memcache_servers_array)), ',')
+    } else {
+      $memcache_servers_real = join(any2array($memcache_servers), ',')
     }
-    $memcache_servers_real = join(any2array(inet6_prefix($memcache_servers_array)), ',')
   }
 
   if $manage_backend_package {
