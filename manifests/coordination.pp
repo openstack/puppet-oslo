@@ -46,6 +46,7 @@ define oslo::coordination (
         })
       }
       /^etcd3:\/\//: {
+        warning('Support for the etcd3 driver has been deprecated.')
         if $::oslo::params::python_etcd3_package_name {
           ensure_packages('python-etcd3', {
             name   => $::oslo::params::python_etcd3_package_name,

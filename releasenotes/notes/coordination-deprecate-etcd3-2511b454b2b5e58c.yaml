@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    Support of the etcd3 driver by ``oslo::coordination`` has been deprecated,
+    because the driver has been deprecated.
