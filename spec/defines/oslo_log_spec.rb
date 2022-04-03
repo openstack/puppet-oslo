@@ -51,9 +51,9 @@ describe 'oslo::log' do
           :logging_debug_format_suffix   => '%(funcName)s %(pathname)s:%(lineno)d',
           :logging_exception_prefix      => '%(asctime)s.%(msecs)03d %(process)d ERROR %(name)s %(instance)s',
           :logging_user_identity_format  => '%(user)s %(tenant)s %(domain)s %(user_domain)s %(project_domain)s',
-          :default_log_levels            => {
-            'amqp' => 'WARN', 'amqplib' => 'WARN', 'boto' => 'WARN', 'sqlalchemy' => 'WARN',
-            'suds' => 'INFO', 'iso8601' => 'WARN', 'requests.packages.urllib3.connectionpool' => 'WARN' },
+          :default_log_levels            => [
+            'amqp=WARN', 'amqplib=WARN', 'boto=WARN', 'sqlalchemy=WARN',
+            'suds=INFO', 'iso8601=WARN', 'requests.packages.urllib3.connectionpool=WARN' ],
           :publish_errors                => true,
           :instance_format               => '[instance: %(uuid)s]',
           :instance_uuid_format          => '[instance: %(uuid)s]',
@@ -81,13 +81,29 @@ describe 'oslo::log' do
         is_expected.to contain_keystone_config('DEFAULT/logging_exception_prefix').with_value(
           '%(asctime)s.%(msecs)03d %(process)d ERROR %(name)s %(instance)s')
         is_expected.to contain_keystone_config('DEFAULT/logging_user_identity_format').with_value(
-'%(user)s %(tenant)s %(domain)s %(user_domain)s %(project_domain)s')
+          '%(user)s %(tenant)s %(domain)s %(user_domain)s %(project_domain)s')
         is_expected.to contain_keystone_config('DEFAULT/default_log_levels').with_value(
           'amqp=WARN,amqplib=WARN,boto=WARN,iso8601=WARN,requests.packages.urllib3.connectionpool=WARN,sqlalchemy=WARN,suds=INFO')
         is_expected.to contain_keystone_config('DEFAULT/publish_errors').with_value(true)
         is_expected.to contain_keystone_config('DEFAULT/instance_format').with_value('[instance: %(uuid)s]')
         is_expected.to contain_keystone_config('DEFAULT/instance_uuid_format').with_value('[instance: %(uuid)s]')
         is_expected.to contain_keystone_config('DEFAULT/fatal_deprecations').with_value(true)
+      end
+    end
+
+    context 'with default_log_levels set to hash' do
+      let :params do
+        {
+          :default_log_levels => {
+            'amqp' => 'WARN', 'amqplib' => 'WARN', 'boto' => 'WARN', 'sqlalchemy' => 'WARN',
+            'suds' => 'INFO', 'iso8601' => 'WARN', 'requests.packages.urllib3.connectionpool' => 'WARN'
+          },
+        }
+      end
+
+      it 'configures logging' do
+        is_expected.to contain_keystone_config('DEFAULT/default_log_levels').with_value(
+          'amqp=WARN,amqplib=WARN,boto=WARN,iso8601=WARN,requests.packages.urllib3.connectionpool=WARN,sqlalchemy=WARN,suds=INFO')
       end
     end
 
