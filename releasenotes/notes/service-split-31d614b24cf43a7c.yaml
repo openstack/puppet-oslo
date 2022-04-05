@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    The ``oslo::service`` defined type has been splitted to the following three
+    defined types.
+
+    - ``oslo::service`` to manage common service parameters
+    - ``oslo::service::ssl`` to manage ssl parameters
+    - ``oslo::service::wsgi`` to manage wsgi service parameters
