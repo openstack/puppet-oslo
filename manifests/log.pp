@@ -134,11 +134,10 @@ define oslo::log(
   $fatal_deprecations            = $::os_service_default,
 ){
 
-  if is_service_default($default_log_levels) {
-    $default_log_levels_real = $default_log_levels
-  } else {
-    validate_legacy(Hash, 'validate_hash', $default_log_levels)
-    $default_log_levels_real = join(sort(join_keys_to_values($default_log_levels, '=')), ',')
+  $default_log_levels_real = $default_log_levels ? {
+    Hash    => join(sort(join_keys_to_values($default_log_levels, '=')), ','),
+    Array   => join(sort($default_log_levels), ','),
+    default => $default_log_levels
   }
 
   # NOTE(mwhahaha): oslo.log doesn't like it when debug is not a proper python
