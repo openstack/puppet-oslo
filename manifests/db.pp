@@ -202,7 +202,7 @@ define oslo::db(
     warning('The min_pool_size parameter is deprecated, and will be removed in a future release.')
   }
 
-  if $use_tpool == undef {
+  if $use_tpool != undef {
     warning('The use_tepool parameter is deprecated and will be removed in a future release.')
   }
 
