@@ -203,7 +203,7 @@ define oslo::db(
   }
 
   if $use_tpool != undef {
-    warning('The use_tepool parameter is deprecated and will be removed in a future release.')
+    warning('The use_tpool parameter is deprecated and will be removed in a future release.')
   }
 
   $database_options = {
