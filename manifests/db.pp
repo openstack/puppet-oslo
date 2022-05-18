@@ -109,10 +109,6 @@
 #
 # DEPRECATED PARAMETERS
 #
-# [*idle_timeout*]
-#   (Optional) Timeout before idle SQL connections are reaped.
-#   Defaults to undef
-#
 # [*min_pool_size*]
 #   (Optional) Minimum number of SQL connections to keep open in a pool.
 #   Defaults to undef
@@ -146,7 +142,6 @@ define oslo::db(
   $db_max_retries          = $::os_service_default,
   $mysql_enable_ndb        = $::os_service_default,
   # DEPRCATED PARAMETERS
-  $idle_timeout            = undef,
   $min_pool_size           = undef,
   $use_tpool               = undef,
 ) {
@@ -192,10 +187,6 @@ define oslo::db(
         }
       }
     }
-  }
-
-  if $idle_timeout != undef {
-    warning('The idle_timeout parameter is deprecated. Please use connection_recycle_time instead.')
   }
 
   if $min_pool_size {

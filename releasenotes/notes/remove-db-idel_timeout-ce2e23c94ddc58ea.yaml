@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``oslo::db::idel_timeout`` parameter has been removed.
