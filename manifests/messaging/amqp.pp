@@ -121,12 +121,6 @@
 #   (Optional) The deadline for a sent notification message delivery
 #   Defaults to $::os_service_default.
 #
-# DEPRECATED PARAMETERS
-#
-# [*allow_insecure_clients*]
-#   (Optional) Accept clients using either SSL or plain TCP
-#   Defaults to undef.
-#
 define oslo::messaging::amqp(
   $addressing_mode               = $::os_service_default,
   $server_request_prefix         = $::os_service_default,
@@ -156,14 +150,7 @@ define oslo::messaging::amqp(
   $password                      = $::os_service_default,
   $default_send_timeout          = $::os_service_default,
   $default_notify_timeout        = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $allow_insecure_clients        = undef,
 ){
-
-  if $allow_insecure_clients != undef {
-    warning('The allow_insecure_clients parameter is deprecated and \
-will be removed in a future release.')
-  }
 
   $amqp_options={ 'oslo_messaging_amqp/addressing_mode'               => { value => $addressing_mode },
                   'oslo_messaging_amqp/server_request_prefix'         => { value => $server_request_prefix },

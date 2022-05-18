@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The ``allow_insecure_clients`` parameter of
+    the ``oslo::messaging::amqp`` defined resource type has been removed.
