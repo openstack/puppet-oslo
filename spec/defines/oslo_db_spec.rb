@@ -78,41 +78,6 @@ describe 'oslo::db' do
       end
     end
 
-    context 'with mongodb backend' do
-      let :params do
-        { :connection => 'mongodb://localhost:1234/db' }
-      end
-
-      it 'install the proper backend package' do
-        is_expected.to contain_package(platform_params[:pymongo_package_name]).with(
-          :ensure => 'present',
-          :name   => platform_params[:pymongo_package_name],
-          :tag    => 'openstack'
-        )
-      end
-
-      context 'with backend package management disabled' do
-        before do
-          params.merge!({
-            :manage_backend_package => false,
-          })
-        end
-
-        it 'does not install backend package' do
-          is_expected.not_to contain_package('python-pymongo')
-        end
-      end
-    end
-
-    context 'with specific mongodb connection string' do
-      let :params do
-        { :connection => 'mongodb://user:password@host1:27017,host2:27017,host3:27017/db_name?replicaSet=replica&readPreference=primaryPreferred' }
-      end
-
-      it { is_expected.to contain_keystone_config('database/connection').with_value(
-        'mongodb://user:password@host1:27017,host2:27017,host3:27017/db_name?replicaSet=replica&readPreference=primaryPreferred').with_secret(true) }
-    end
-
     context 'with pymysql connection' do
       let :params do
         { :connection => 'mysql+pymysql://db:db@localhost/db' }
