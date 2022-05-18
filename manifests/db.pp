@@ -109,10 +109,6 @@
 #
 # DEPRECATED PARAMETERS
 #
-# [*min_pool_size*]
-#   (Optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef
-#
 # [*use_tpool*]
 #   (Optional) Enable the experimental use of thread pooling for all DB API calls (boolean value)
 #   Defaults to undef
@@ -142,7 +138,6 @@ define oslo::db(
   $db_max_retries          = $::os_service_default,
   $mysql_enable_ndb        = $::os_service_default,
   # DEPRCATED PARAMETERS
-  $min_pool_size           = undef,
   $use_tpool               = undef,
 ) {
 
@@ -187,10 +182,6 @@ define oslo::db(
         }
       }
     }
-  }
-
-  if $min_pool_size {
-    warning('The min_pool_size parameter is deprecated, and will be removed in a future release.')
   }
 
   if $use_tpool != undef {

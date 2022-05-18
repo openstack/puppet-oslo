@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``oslo::db::min_pool_size`` parameter has been removed.
