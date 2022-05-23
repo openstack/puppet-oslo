@@ -146,7 +146,7 @@ define oslo::db(
   if !is_service_default($connection) {
 
     validate_legacy(Oslo::Dbconn, 'validate_re', $connection,
-      ['^(sqlite|mysql(\+pymysql)?|postgresql(\+psycopg2)?|mongodb):\/\/(\S+:\S+@\S+\/\S+)?'])
+      ['^(sqlite|mysql(\+pymysql)?|postgresql(\+psycopg2)?):\/\/(\S+:\S+@\S+\/\S+)?'])
 
     if $manage_backend_package {
       case $connection {
@@ -162,9 +162,6 @@ define oslo::db(
         /^postgresql(\+psycopg2)?:\/\//: {
           $backend_package = false
           require 'postgresql::lib::python'
-        }
-        /^mongodb:\/\//: {
-          $backend_package = $::oslo::params::pymongo_package_name
         }
         /^sqlite:\/\//: {
           $backend_package = $::oslo::params::sqlite_package_name

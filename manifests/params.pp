@@ -5,7 +5,6 @@
 class oslo::params {
   include openstacklib::defaults
 
-  $pymongo_package_name = 'python3-pymongo'
   $pylibmc_package_name = 'python3-pylibmc'
 
   case $::osfamily {

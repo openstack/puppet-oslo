@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``oslo::db`` defined resource type no longer supports MongoDB backend.
