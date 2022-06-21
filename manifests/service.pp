@@ -17,7 +17,7 @@
 #   Defaults to $::os_service_default.
 #
 # [*graceful_shutdown_timeout*]
-#   (optional) pecify a timeout after which a gracefully shutdown server will
+#   (optional) Specify a timeout after which a gracefully shutdown server will
 #   exit. '0' value means endless wait. (integer value)
 #   Defaults to $::os_service_default.
 #

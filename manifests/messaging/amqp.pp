@@ -46,11 +46,11 @@
 #   Defaults to $::os_service_default.
 #
 # [*default_notification_exchange*]
-#   (Optional) Exchange name used in notification addreses
+#   (Optional) Exchange name used in notification addresses
 #   Defaults to $::os_service_default.
 #
 # [*default_rpc_exchange*]
-#   (Optional) Exchange name used in RPC addreses
+#   (Optional) Exchange name used in RPC addresses
 #   Defaults to $::os_service_default.
 #
 # [*pre_settled*]

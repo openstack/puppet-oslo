@@ -36,7 +36,7 @@
 #   Defaults to $::os_service_default
 #
 # [*kombu_missing_consumer_retry_timeout*]
-#   (Optional) How long to wait a missing client beforce abandoning to send it
+#   (Optional) How long to wait a missing client before abandoning to send it
 #   its replies. This value should not be longer than rpc_response_timeout.
 #   (integer value)
 #   Defaults to $::os_service_default
@@ -49,7 +49,7 @@
 #
 # [*kombu_compression*]
 #   (optional) Possible values are: gzip, bz2. If not set compression will not
-#   be used. This option may notbe available in future versions. EXPERIMENTAL.
+#   be used. This option may not be available in future versions. EXPERIMENTAL.
 #   (string value)
 #   Defaults to $::os_service_default
 #

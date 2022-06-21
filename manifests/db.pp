@@ -94,7 +94,7 @@
 #
 # [*db_max_retry_interval*]
 #   (Optional) If db_inc_retry_interval is set, the maximum seconds between
-#   retries of adatabase operation.
+#   retries of a database operation.
 #   Defaults to $::os_service_default
 #
 # [*db_max_retries*]
@@ -137,7 +137,7 @@ define oslo::db(
   $db_max_retry_interval   = $::os_service_default,
   $db_max_retries          = $::os_service_default,
   $mysql_enable_ndb        = $::os_service_default,
-  # DEPRCATED PARAMETERS
+  # DEPRECATED PARAMETERS
   $use_tpool               = undef,
 ) {
 
