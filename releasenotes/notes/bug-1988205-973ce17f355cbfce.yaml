@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Now the ``oslo::cache`` defined resource type installs
+    the pymemcache library when pymemcache backend is used.

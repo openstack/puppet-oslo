@@ -197,6 +197,53 @@ describe 'oslo::cache' do
       end
     end
 
+    context 'with pymemcache backend' do
+      let :params do
+        {
+          :backend          => 'dogpile.cache.pymemcache',
+          :memcache_servers => ['host1:11211', 'host2:11211','[fd12:3456:789a:1::1]:11211'],
+        }
+      end
+
+      it 'configures cache backend' do
+        is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.pymemcache')
+        is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,[fd12:3456:789a:1::1]:11211')
+        is_expected.to contain_package('python-pymemcache').with(
+          :ensure => 'installed',
+          :name   => platform_params[:python_pymemcache_package_name],
+          :tag    => ['openstack'],
+        )
+      end
+
+      context 'with package_ensure set' do
+        before do
+          params.merge!({
+            :package_ensure => 'latest'
+          })
+        end
+
+        it 'ensures status of the package' do
+          is_expected.to contain_package('python-pymemcache').with(
+            :ensure => 'latest',
+            :name   => platform_params[:python_pymemcache_package_name],
+            :tag    => ['openstack'],
+          )
+        end
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-pymemcache')
+        end
+      end
+    end
+
     context 'with etcd3gw backend' do
       let :params do
         {
@@ -270,13 +317,15 @@ describe 'oslo::cache' do
       let(:platform_params) do
         case facts[:osfamily]
         when 'Debian'
-          { :pylibmc_package_name         => 'python3-pylibmc',
-            :python_memcache_package_name => 'python3-memcache',
-            :python_etcd3gw_package_name  => 'python3-etcd3gw' }
+          { :pylibmc_package_name           => 'python3-pylibmc',
+            :python_memcache_package_name   => 'python3-memcache',
+            :python_etcd3gw_package_name    => 'python3-etcd3gw',
+            :python_pymemcache_package_name => 'python3-pymemcache' }
         when 'RedHat'
-          { :pylibmc_package_name         => 'python3-pylibmc',
-            :python_memcache_package_name => 'python3-memcached',
-            :python_etcd3gw_package_name  => 'python3-etcd3gw' }
+          { :pylibmc_package_name           => 'python3-pylibmc',
+            :python_memcache_package_name   => 'python3-memcached',
+            :python_etcd3gw_package_name    => 'python3-etcd3gw',
+            :python_pymemcache_package_name => 'python3-pymemcache' }
         end
       end
 
