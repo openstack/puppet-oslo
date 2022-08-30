@@ -269,6 +269,12 @@ define oslo::cache(
         name   => $::oslo::params::python_memcache_package_name,
         tag    => ['openstack'],
       })
+    } elsif ($backend =~ /\.pymemcache/ ) {
+      ensure_packages('python-pymemcache', {
+        ensure => $package_ensure,
+        name   => $::oslo::params::python_pymemcache_package_name,
+        tag    => ['openstack'],
+      })
     } elsif ($backend =~ /\.etcd3gw/ ) {
       ensure_packages('python-etcd3gw', {
         name   => $::oslo::params::python_etcd3gw_package_name,
