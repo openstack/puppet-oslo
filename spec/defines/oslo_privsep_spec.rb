@@ -15,17 +15,21 @@ describe 'oslo::privsep' do
         is_expected.to contain_keystone_config('privsep_osbrick/user').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('privsep_osbrick/group').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('privsep_osbrick/capabilities').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('privsep_osbrick/thread_pool_size').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('privsep_osbrick/helper_command').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('privsep_osbrick/logger_name').with_value('<SERVICE DEFAULT>')
       end
     end
 
     context 'with overridden parameters' do
       before do
         params.merge!({
-          :user           => 'keystone',
-          :group          => 'keystone',
-          :capabilities   => [],
-          :helper_command => 'sudo nova-rootwrap /etc/nova/rootwrap.conf privsep-helper --config-file /etc/nova/nova.conf',
+          :user             => 'keystone',
+          :group            => 'keystone',
+          :capabilities     => [],
+          :thread_pool_size => 1,
+          :helper_command   => 'sudo nova-rootwrap /etc/nova/rootwrap.conf privsep-helper --config-file /etc/nova/nova.conf',
+          :logger_name      => 'oslo_privsep.daemon',
         })
       end
 
@@ -33,7 +37,9 @@ describe 'oslo::privsep' do
         is_expected.to contain_keystone_config('privsep_osbrick/user').with_value('keystone')
         is_expected.to contain_keystone_config('privsep_osbrick/group').with_value('keystone')
         is_expected.to contain_keystone_config('privsep_osbrick/capabilities').with_value([])
+        is_expected.to contain_keystone_config('privsep_osbrick/thread_pool_size').with_value(1)
         is_expected.to contain_keystone_config('privsep_osbrick/helper_command').with_value('sudo nova-rootwrap /etc/nova/rootwrap.conf privsep-helper --config-file /etc/nova/nova.conf')
+        is_expected.to contain_keystone_config('privsep_osbrick/logger_name').with_value('oslo_privsep.daemon')
       end
     end
 

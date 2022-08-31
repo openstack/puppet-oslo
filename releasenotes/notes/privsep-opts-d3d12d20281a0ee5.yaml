@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``oslo::privsep`` defined resource type now supports
+    the ``thread_pool_size`` parameter and the ``logger_name`` parameter.
