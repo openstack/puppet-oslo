@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The deprecated ``oslo::db::use_tpool`` parameter has been removed.

@@ -107,12 +107,6 @@
 #   Cluster (NDB).
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*use_tpool*]
-#   (Optional) Enable the experimental use of thread pooling for all DB API calls (boolean value)
-#   Defaults to undef
-#
 define oslo::db(
   $config                  = $name,
   $config_group            = 'database',
@@ -137,8 +131,6 @@ define oslo::db(
   $db_max_retry_interval   = $::os_service_default,
   $db_max_retries          = $::os_service_default,
   $mysql_enable_ndb        = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $use_tpool               = undef,
 ) {
 
   include oslo::params
@@ -181,10 +173,6 @@ define oslo::db(
     }
   }
 
-  if $use_tpool != undef {
-    warning('The use_tpool parameter is deprecated and will be removed in a future release.')
-  }
-
   $database_options = {
     "${config_group}/sqlite_synchronous"      => { value => $sqlite_synchronous },
     "${config_group}/backend"                 => { value => $backend },
@@ -204,7 +192,6 @@ define oslo::db(
     "${config_group}/db_inc_retry_interval"   => { value => $db_inc_retry_interval },
     "${config_group}/db_max_retry_interval"   => { value => $db_max_retry_interval },
     "${config_group}/db_max_retries"          => { value => $db_max_retries },
-    "${config_group}/use_tpool"               => { value => pick($use_tpool, $::os_service_default) },
     "${config_group}/mysql_enable_ndb"        => { value => $mysql_enable_ndb },
   }
 

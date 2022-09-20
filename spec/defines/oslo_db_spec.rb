@@ -26,7 +26,6 @@ describe 'oslo::db' do
         is_expected.to contain_keystone_config('database/db_inc_retry_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/db_max_retry_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/db_max_retries').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('database/use_tpool').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/mysql_enable_ndb').with_value('<SERVICE DEFAULT>')
       end
     end
@@ -51,7 +50,6 @@ describe 'oslo::db' do
           :db_inc_retry_interval   => true,
           :db_max_retry_interval   => '10',
           :db_max_retries          => '20',
-          :use_tpool               => true,
           :mysql_enable_ndb        => true,
         }
       end
@@ -73,7 +71,6 @@ describe 'oslo::db' do
         is_expected.to contain_keystone_config('custom_group/db_inc_retry_interval').with_value(true)
         is_expected.to contain_keystone_config('custom_group/db_max_retry_interval').with_value('10')
         is_expected.to contain_keystone_config('custom_group/db_max_retries').with_value('20')
-        is_expected.to contain_keystone_config('custom_group/use_tpool').with_value(true)
         is_expected.to contain_keystone_config('custom_group/mysql_enable_ndb').with_value(true)
       end
     end
