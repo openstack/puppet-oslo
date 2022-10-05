@@ -7,7 +7,7 @@
         },
         {
             "name": "openstack/openstacklib",
-            "version_requirement": ">=20.3.0 <21.0.0"
+            "version_requirement": ">=21.0.0 <22.0.0"
         }
     ],
     "description": "Installs and configures OpenStack Oslo.",
@@ -49,5 +49,5 @@
     ],
     "source": "https://opendev.org/openstack/puppet-oslo.git",
     "summary": "Puppet module for OpenStack Oslo",
-    "version": "20.3.0"
+    "version": "21.0.0"
 }
