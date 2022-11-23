@@ -306,7 +306,7 @@ define oslo::cache(
     'cache/tls_cafile'                           => { value => $tls_cafile },
     'cache/tls_certfile'                         => { value => $tls_certfile },
     'cache/tls_keyfile'                          => { value => $tls_keyfile },
-    'cache/tls_allowed_ciphers'                  => { value => $tls_allowed_ciphers },
+    'cache/tls_allowed_ciphers'                  => { value => join(any2array($tls_allowed_ciphers), ':') },
     'cache/enable_retry_client'                  => { value => $enable_retry_client },
     'cache/retry_attempts'                       => { value => $retry_attempts },
     'cache/retry_delay'                          => { value => $retry_delay },

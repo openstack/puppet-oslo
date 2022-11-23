@@ -60,10 +60,10 @@ describe 'oslo::cache' do
           :memcache_pool_unused_timeout         => '60',
           :memcache_pool_connection_get_timeout => '10',
           :tls_enabled                          => false,
-          :tls_cafile                           => nil,
-          :tls_certfile                         => nil,
-          :tls_keyfile                          => nil,
-          :tls_allowed_ciphers                  => nil,
+          :tls_cafile                           => '/path/to/ssl/cafile',
+          :tls_certfile                         => '/path/to/ssl/certfile',
+          :tls_keyfile                          => '/path/to/ssl/keyfile',
+          :tls_allowed_ciphers                  => ['CIPHER_A', 'CIPHER_B'],
           :enable_retry_client                  => false,
           :retry_attempts                       => 2,
           :retry_delay                          => 0,
@@ -92,10 +92,10 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_pool_unused_timeout').with_value('60')
         is_expected.to contain_keystone_config('cache/memcache_pool_connection_get_timeout').with_value('10')
         is_expected.to contain_keystone_config('cache/tls_enabled').with_value('false')
-        is_expected.to contain_keystone_config('cache/tls_cafile').with_value('nil')
-        is_expected.to contain_keystone_config('cache/tls_certfile').with_value('nil')
-        is_expected.to contain_keystone_config('cache/tls_keyfile').with_value('nil')
-        is_expected.to contain_keystone_config('cache/tls_allowed_ciphers').with_value('nil')
+        is_expected.to contain_keystone_config('cache/tls_cafile').with_value('/path/to/ssl/cafile')
+        is_expected.to contain_keystone_config('cache/tls_certfile').with_value('/path/to/ssl/certfile')
+        is_expected.to contain_keystone_config('cache/tls_keyfile').with_value('/path/to/ssl/keyfile')
+        is_expected.to contain_keystone_config('cache/tls_allowed_ciphers').with_value('CIPHER_A:CIPHER_B')
         is_expected.to contain_keystone_config('cache/enable_retry_client').with_value('false')
         is_expected.to contain_keystone_config('cache/retry_attempts').with_value('2')
         is_expected.to contain_keystone_config('cache/retry_delay').with_value('0')
