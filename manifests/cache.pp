@@ -288,7 +288,7 @@ define oslo::cache(
     'cache/config_prefix'                        => { value => $config_prefix },
     'cache/expiration_time'                      => { value => $expiration_time },
     'cache/backend'                              => { value => $backend },
-    'cache/backend_argument'                     => { value => join(any2array($backend_argument), ',') },
+    'cache/backend_argument'                     => { value => $backend_argument },
     'cache/proxies'                              => { value => join(any2array($proxies), ',') },
     'cache/enabled'                              => { value => $enabled },
     'cache/debug_cache_backend'                  => { value => $debug_cache_backend },

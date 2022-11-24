@@ -45,7 +45,7 @@ describe 'oslo::cache' do
           :config_prefix                        => 'cache.oslo',
           :expiration_time                      => '600',
           :backend                              => 'dogpile.cache.null',
-          :backend_argument                     => ['foo:bar'],
+          :backend_argument                     => ['arg1:val1', 'arg2:val2'],
           :proxies                              => ['proxy1', 'proxy2'],
           :enabled                              => true,
           :debug_cache_backend                  => true,
@@ -77,7 +77,7 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/config_prefix').with_value('cache.oslo')
         is_expected.to contain_keystone_config('cache/expiration_time').with_value('600')
         is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.null')
-        is_expected.to contain_keystone_config('cache/backend_argument').with_value('foo:bar')
+        is_expected.to contain_keystone_config('cache/backend_argument').with_value(['arg1:val1', 'arg2:val2'])
         is_expected.to contain_keystone_config('cache/proxies').with_value('proxy1,proxy2')
         is_expected.to contain_keystone_config('cache/enabled').with_value('true')
         is_expected.to contain_keystone_config('cache/debug_cache_backend').with_value('true')
