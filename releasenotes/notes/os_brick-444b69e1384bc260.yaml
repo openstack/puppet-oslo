@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new ``oslo::os_brick`` defined resource type has been added. This can
+    be used to manage the ``[os_brick]`` options provided by the ``os-brick``
+    library.
