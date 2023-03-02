@@ -6,7 +6,7 @@
 #
 # [*backend_url*]
 #   (Optional) Coordination backend URL.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*manage_backend_package*]
 #   (Optional) Whether to install the backend package.
@@ -21,7 +21,7 @@
 #   Defaults to true.
 #
 define oslo::coordination (
-  $backend_url            = $::os_service_default,
+  $backend_url            = $facts['os_service_default'],
   $manage_backend_package = true,
   $package_ensure         = 'present',
   $manage_config          = true,

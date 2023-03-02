@@ -10,25 +10,25 @@
 # [*max_request_body_size*]
 #   (Optional) Make exception message format errors fatal.
 #   (integer value)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*enable_proxy_headers_parsing*]
 #   (Optional) Enables SSL request handling from HTTPProxyToWSGI middleware.
 #   (boolean value)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*http_basic_auth_user_file*]
 #   (Optional) HTTP basic auth password file.
 #   (string value)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 define oslo::middleware(
   # sizelimit
-  $max_request_body_size        = $::os_service_default,
+  $max_request_body_size        = $facts['os_service_default'],
   # http_proxy_to_wsgi
-  $enable_proxy_headers_parsing = $::os_service_default,
+  $enable_proxy_headers_parsing = $facts['os_service_default'],
   # basic_auth
-  $http_basic_auth_user_file    = $::os_service_default,
+  $http_basic_auth_user_file    = $facts['os_service_default'],
 ) {
   $middleware_options = {
     'oslo_middleware/max_request_body_size'        => { value => $max_request_body_size },

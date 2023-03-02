@@ -11,7 +11,7 @@
 #   (Optional) The Driver(s) to handle sending notifications.
 #   Possible values are messaging, messagingv2, routing, log, test, noop.
 #   (list value or string value)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*transport_url*]
 #   (Optional) A URL representing the messaging driver to use for
@@ -20,17 +20,17 @@
 #   Transport URLs take the form::
 #      transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #   (string value)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*topics*]
 #   (Optional) AMQP topic(s) used for OpenStack notifications
 #   (list value)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 define oslo::messaging::notifications(
-  $driver        = $::os_service_default,
-  $transport_url = $::os_service_default,
-  $topics        = $::os_service_default,
+  $driver        = $facts['os_service_default'],
+  $transport_url = $facts['os_service_default'],
+  $topics        = $facts['os_service_default'],
 ) {
 
   # When we have a string value for driver,  we keep passing it as string

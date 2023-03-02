@@ -21,66 +21,66 @@
 #
 # [*project_name*]
 #  (Optional) Service project name
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*user_domain_name*]
 #  (Optional) Name of domain for $username
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*project_domain_name*]
 #  (Optional) Name of domain for $project_name
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*system_scope*]
 #  (Optional) Scope for system operations.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*insecure*]
 #  (Optional) If true, explicitly allow TLS without checking server cert
 #  against any certificate authorities.  WARNING: not recommended.  Use with
 #  caution.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*auth_type*]
 #  (Optional) Authentication type to load
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*auth_version*]
 #  (Optional) API version of the admin Identity API endpoint.
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*cafile*]
 #  (Optional) A PEM encoded Certificate Authority to use when verifying HTTPs
 #  connections.
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*certfile*]
 #  (Optional) Required if identity server requires client certificate
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*keyfile*]
 #  (Optional) Required if identity server requires client certificate
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*region_name*]
 #  (Optional) The region in which the identity server can be found.
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 define oslo::key_manager::barbican::service_user(
   $username,
   $password,
   $auth_url,
-  $project_name            = $::os_service_default,
-  $user_domain_name        = $::os_service_default,
-  $project_domain_name     = $::os_service_default,
-  $system_scope            = $::os_service_default,
-  $insecure                = $::os_service_default,
-  $auth_type               = $::os_service_default,
-  $auth_version            = $::os_service_default,
-  $cafile                  = $::os_service_default,
-  $certfile                = $::os_service_default,
-  $keyfile                 = $::os_service_default,
-  $region_name             = $::os_service_default,
+  $project_name            = $facts['os_service_default'],
+  $user_domain_name        = $facts['os_service_default'],
+  $project_domain_name     = $facts['os_service_default'],
+  $system_scope            = $facts['os_service_default'],
+  $insecure                = $facts['os_service_default'],
+  $auth_type               = $facts['os_service_default'],
+  $auth_version            = $facts['os_service_default'],
+  $cafile                  = $facts['os_service_default'],
+  $certfile                = $facts['os_service_default'],
+  $keyfile                 = $facts['os_service_default'],
+  $region_name             = $facts['os_service_default'],
 ) {
 
   if is_service_default($system_scope) {
@@ -89,8 +89,8 @@ define oslo::key_manager::barbican::service_user(
   } else {
     # When system scope is used, project parameters should be removed otherwise
     # project scope is used.
-    $project_name_real        = $::os_service_default
-    $project_domain_name_real = $::os_service_default
+    $project_name_real        = $facts['os_service_default']
+    $project_domain_name_real = $facts['os_service_default']
   }
 
   $service_user_options = {

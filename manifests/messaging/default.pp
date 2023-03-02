@@ -8,11 +8,11 @@
 #
 # [*executor_thread_pool_size*]
 #   (Optional) Size of executor thread pool when executor is threading or eventlet.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*rpc_response_timeout*]
 #   (Optional) Seconds to wait for a response from a call. (integer value)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*transport_url*]
 #   (Optional) A URL representing the messaging driver to use
@@ -21,20 +21,20 @@
 #   Transport URLs take the form:
 #      transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #   (string value)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*control_exchange*]
 #   (Optional) The default exchange under which topics are scoped.
 #   May be overridden by an exchange name specified in the transport_url option.
 #   (string value)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 
 define oslo::messaging::default(
-  $executor_thread_pool_size = $::os_service_default,
-  $rpc_response_timeout      = $::os_service_default,
-  $transport_url             = $::os_service_default,
-  $control_exchange          = $::os_service_default,
+  $executor_thread_pool_size = $facts['os_service_default'],
+  $rpc_response_timeout      = $facts['os_service_default'],
+  $transport_url             = $facts['os_service_default'],
+  $control_exchange          = $facts['os_service_default'],
 ) {
 
   $default_options = {

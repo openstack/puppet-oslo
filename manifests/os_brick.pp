@@ -6,10 +6,10 @@
 #
 # [*lock_path*]
 #   (Optional) Directory to use for os-brick lock files.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 define oslo::os_brick(
-  $lock_path = $::os_service_default,
+  $lock_path = $facts['os_service_default'],
 ) {
 
   $os_brick_options = {

@@ -9,147 +9,147 @@
 #
 # [*addressing_mode*]
 #   (Optional) Indicates the addressing mode used by the driver
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*server_request_prefix*]
 #   (Optional) Address prefix used when sending to a specific server
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*broadcast_prefix*]
 #   (Optional) Address prefix used when broadcasting to all servers
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*group_request_prefix*]
 #   (Optional) Address prefix when sending to any server in group
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*rpc_address_prefix*]
 #   (Optional) Address prefix for all generated RPC addresses
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*notify_address_prefix*]
 #   (Optional) Address prefix for all generated Notification addresses
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*multicast_address*]
 #   (Optional) Appended to address prefix when sending fanout message
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*unicast_address*]
 #   (Optional) Appended to address prefix when sending to a
 #   particular RPC/Notification server.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*anycast_address*]
 #   (Optional) Appended to address prefix when sending to a
 #   group of consumers.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*default_notification_exchange*]
 #   (Optional) Exchange name used in notification addresses
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*default_rpc_exchange*]
 #   (Optional) Exchange name used in RPC addresses
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*pre_settled*]
 #   (Optional) Send messages of this type pre-settled
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*container_name*]
 #   (Optional) Name for the AMQP container
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*idle_timeout*]
 #   (Optional) Timeout for inactive connections
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*trace*]
 #   (Optional) Debug: dump AMQP frames to stdout
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*ssl*]
 #   (Optional) Attempt to connect via SSL.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*ssl_ca_file*]
 #   (Optional) CA certificate PEM file to verify server certificate
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*ssl_cert_file*]
 #   (Optional) Identifying certificate PEM file to present to clients
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*ssl_key_file*]
 #   (Optional) Private key PEM file used to sign cert_file certificate
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*ssl_key_password*]
 #   (Optional) Password for decrypting ssl_key_file (if encrypted)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*sasl_mechanisms*]
 #   (Optional) Space separated list of acceptable SASL mechanisms
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*sasl_config_dir*]
 #   (Optional) Path to directory that contains the SASL configuration
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*sasl_config_name*]
 #   (Optional) Name of configuration file (without .conf suffix)
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*sasl_default_realm*]
 #   (Optional) SASL realm to use if not realm present in username
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*username*]
 #   (Optional) User name for message broker authentication
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*password*]
 #   (Optional) Password for message broker authentication
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*default_send_timeout*]
 #   (Optional) The deadline for an rpc cast or call message delivery
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*default_notify_timeout*]
 #   (Optional) The deadline for a sent notification message delivery
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 define oslo::messaging::amqp(
-  $addressing_mode               = $::os_service_default,
-  $server_request_prefix         = $::os_service_default,
-  $broadcast_prefix              = $::os_service_default,
-  $group_request_prefix          = $::os_service_default,
-  $rpc_address_prefix            = $::os_service_default,
-  $notify_address_prefix         = $::os_service_default,
-  $multicast_address             = $::os_service_default,
-  $unicast_address               = $::os_service_default,
-  $anycast_address               = $::os_service_default,
-  $default_notification_exchange = $::os_service_default,
-  $default_rpc_exchange          = $::os_service_default,
-  $pre_settled                   = $::os_service_default,
-  $container_name                = $::os_service_default,
-  $idle_timeout                  = $::os_service_default,
-  $trace                         = $::os_service_default,
-  $ssl                           = $::os_service_default,
-  $ssl_ca_file                   = $::os_service_default,
-  $ssl_cert_file                 = $::os_service_default,
-  $ssl_key_file                  = $::os_service_default,
-  $ssl_key_password              = $::os_service_default,
-  $sasl_mechanisms               = $::os_service_default,
-  $sasl_config_dir               = $::os_service_default,
-  $sasl_config_name              = $::os_service_default,
-  $sasl_default_realm            = $::os_service_default,
-  $username                      = $::os_service_default,
-  $password                      = $::os_service_default,
-  $default_send_timeout          = $::os_service_default,
-  $default_notify_timeout        = $::os_service_default,
+  $addressing_mode               = $facts['os_service_default'],
+  $server_request_prefix         = $facts['os_service_default'],
+  $broadcast_prefix              = $facts['os_service_default'],
+  $group_request_prefix          = $facts['os_service_default'],
+  $rpc_address_prefix            = $facts['os_service_default'],
+  $notify_address_prefix         = $facts['os_service_default'],
+  $multicast_address             = $facts['os_service_default'],
+  $unicast_address               = $facts['os_service_default'],
+  $anycast_address               = $facts['os_service_default'],
+  $default_notification_exchange = $facts['os_service_default'],
+  $default_rpc_exchange          = $facts['os_service_default'],
+  $pre_settled                   = $facts['os_service_default'],
+  $container_name                = $facts['os_service_default'],
+  $idle_timeout                  = $facts['os_service_default'],
+  $trace                         = $facts['os_service_default'],
+  $ssl                           = $facts['os_service_default'],
+  $ssl_ca_file                   = $facts['os_service_default'],
+  $ssl_cert_file                 = $facts['os_service_default'],
+  $ssl_key_file                  = $facts['os_service_default'],
+  $ssl_key_password              = $facts['os_service_default'],
+  $sasl_mechanisms               = $facts['os_service_default'],
+  $sasl_config_dir               = $facts['os_service_default'],
+  $sasl_config_name              = $facts['os_service_default'],
+  $sasl_default_realm            = $facts['os_service_default'],
+  $username                      = $facts['os_service_default'],
+  $password                      = $facts['os_service_default'],
+  $default_send_timeout          = $facts['os_service_default'],
+  $default_notify_timeout        = $facts['os_service_default'],
 ){
 
   $amqp_options={ 'oslo_messaging_amqp/addressing_mode'               => { value => $addressing_mode },

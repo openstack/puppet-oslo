@@ -7,7 +7,7 @@ class oslo::params {
 
   $pylibmc_package_name = 'python3-pylibmc'
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $sqlite_package_name            = undef
       $pymysql_package_name           = undef
@@ -27,9 +27,8 @@ class oslo::params {
       $python_pymemcache_package_name = 'python3-pymemcache'
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \
-module ${module_name} only support osfamily RedHat and Debian")
+      fail("Unsupported osfamily: ${facts['os']['family']}")
     }
 
-  } # Case $::osfamily
+  } # Case $facts['os']['family']
 }

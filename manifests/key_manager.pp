@@ -10,11 +10,11 @@
 #
 # [*backend*]
 #   (Optional) Specify the key manager implementation.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 define oslo::key_manager(
   $config  = $name,
-  $backend = $::os_service_default,
+  $backend = $facts['os_service_default'],
 ) {
 
   $key_manager_options = {

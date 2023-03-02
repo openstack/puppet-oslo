@@ -9,10 +9,10 @@
 #
 # [*fatal_exception_format_errors*]
 #  (Optional) Make exception message format errors fatal. (boolean value)
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 define oslo::versionedobjects(
-  $fatal_exception_format_errors = $::os_service_default,
+  $fatal_exception_format_errors = $facts['os_service_default'],
 ) {
   create_resources($name, {'oslo_versionedobjects/fatal_exception_format_errors' => { value => $fatal_exception_format_errors }})
 }

@@ -206,7 +206,7 @@ describe 'oslo::db' do
       end
 
       let (:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           {
             :pymongo_package_name   => 'python3-pymongo',
@@ -223,7 +223,7 @@ describe 'oslo::db' do
       end
 
       it_behaves_like 'oslo-db'
-      it_behaves_like "oslo-db on #{facts[:osfamily]}"
+      it_behaves_like "oslo-db on #{facts[:os]['family']}"
     end
   end
 end

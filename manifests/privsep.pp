@@ -21,21 +21,21 @@
 #
 # [*user*]
 #  (Optional) User that the privsep daemon should run as. (string value)
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*group*]
 #  (Optional) Group that the privsep daemon should run as. (string value)
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*capabilities*]
 #  (Optional) List of Linux capabilities retained by the privsep daemon.
 #  (list value)
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*thread_pool_size*]
 #  (Optional) The number of threads available for privsep to concurrently
 #  run processes.
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*helper_command*]
 #  (Optional) Command to invoke to start the privsep daemon if not using
@@ -43,11 +43,11 @@
 #  "sudo privsep-helper" and arguments designed to recreate the current
 #  configuration. This command must accept suitable --privsep_context and
 #  --privsep_sock_path arguments.
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # [*logger_name*]
 #  (Optional) Logger name to use for this privsep context.
-#  Defaults to $::os_service_default.
+#  Defaults to $facts['os_service_default'].
 #
 # == Examples
 #
@@ -59,12 +59,12 @@ define oslo::privsep (
   $config,
   $entrypoint       = $name,
   $config_group     = "privsep_${entrypoint}",
-  $user             = $::os_service_default,
-  $group            = $::os_service_default,
-  $capabilities     = $::os_service_default,
-  $thread_pool_size = $::os_service_default,
-  $helper_command   = $::os_service_default,
-  $logger_name      = $::os_service_default,
+  $user             = $facts['os_service_default'],
+  $group            = $facts['os_service_default'],
+  $capabilities     = $facts['os_service_default'],
+  $thread_pool_size = $facts['os_service_default'],
+  $helper_command   = $facts['os_service_default'],
+  $logger_name      = $facts['os_service_default'],
 ) {
 
   $privsep_options = {

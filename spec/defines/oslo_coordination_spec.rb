@@ -173,7 +173,7 @@ describe 'oslo::coordination' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :python_redis_package_name      => 'python3-redis',
             :python_etcd3_package_name      => 'python3-etcd3',

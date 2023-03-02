@@ -9,80 +9,80 @@
 #
 #  [*amqp_durable_queues*]
 #   (optional) Define queues as "durable" to rabbitmq. (boolean value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*kombu_ssl_version*]
 #   (Optional) SSL version to use (valid only if SSL enabled). '
 #   Valid values are TLSv1 and SSLv23. SSLv2, SSLv3, TLSv1_1,
 #   and TLSv1_2 may be available on some distributions. (string value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*kombu_ssl_keyfile*]
 #   (Optional) SSL key file (valid only if SSL enabled). (string value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*kombu_ssl_certfile*]
 #   (Optional) SSL cert file (valid only if SSL enabled). (string value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*kombu_ssl_ca_certs*]
 #   (Optional) SSL certification authority file (valid only if SSL enabled).
 #   (string value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*kombu_reconnect_delay*]
 #   (Optional) How long to wait before reconnecting in response
 #   to an AMQP consumer cancel notification. (floating point value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*kombu_missing_consumer_retry_timeout*]
 #   (Optional) How long to wait a missing client before abandoning to send it
 #   its replies. This value should not be longer than rpc_response_timeout.
 #   (integer value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*kombu_failover_strategy*]
 #   (Optional) Determines how the next RabbitMQ node is chosen in case the one
 #   we are currently connected to becomes unavailable. Takes effect only if
 #   more than one RabbitMQ node is provided in config. (string value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*kombu_compression*]
 #   (optional) Possible values are: gzip, bz2. If not set compression will not
 #   be used. This option may not be available in future versions. EXPERIMENTAL.
 #   (string value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*rabbit_qos_prefetch_count*]
 #   (Optional) Specifies the number of messages to prefetch
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*rabbit_use_ssl*]
 #   (Optional) Connect over SSL for RabbitMQ. (boolean value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*rabbit_login_method*]
 #   (Optional) The RabbitMQ login method. (string value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*rabbit_retry_interval*]
 #   (Optional) How frequently to retry connecting with RabbitMQ.
 #   (integer value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*rabbit_retry_backoff*]
 #   (Optional) How long to backoff for between retries when connecting
 #   to RabbitMQ. (integer value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*rabbit_interval_max*]
 #   (Optional) Maximum interval of RabbitMQ connection retries. (integer value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*rabbit_ha_queues*]
 #   (Optional) Use HA queues in RabbitMQ (x-ha-policy: all). If you change this
 #   option, you must wipe the RabbitMQ database. (boolean value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*rabbit_transient_queues_ttl*]
 #   (Optional) Positive integer representing duration in seconds for
@@ -90,18 +90,18 @@
 #   of the TTL are automatically deleted.
 #   The parameter affects only reply and fanout queues. (integer value)
 #   Min to 1
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*heartbeat_timeout_threshold*]
 #   (Optional) Number of seconds after which the Rabbit broker is
 #   considered down if heartbeat's keep-alive fails
 #   (0 disable the heartbeat). EXPERIMENTAL. (integer value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*heartbeat_rate*]
 #   (Optional) How often times during the heartbeat_timeout_threshold
 #   we check the heartbeat. (integer value)
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 # [*heartbeat_in_pthread*]
 #   (Optional) EXPERIMENTAL: Run the health check heartbeat thread
@@ -111,29 +111,29 @@
 #   example if the parent process have monkey patched the
 #   stdlib by using eventlet/greenlet then the heartbeat
 #   will be run through a green thread.
-#   Defaults to $::os_service_default
+#   Defaults to $facts['os_service_default']
 #
 define oslo::messaging::rabbit(
-  $amqp_durable_queues                  = $::os_service_default,
-  $kombu_ssl_version                    = $::os_service_default,
-  $kombu_ssl_keyfile                    = $::os_service_default,
-  $kombu_ssl_certfile                   = $::os_service_default,
-  $kombu_ssl_ca_certs                   = $::os_service_default,
-  $kombu_reconnect_delay                = $::os_service_default,
-  $kombu_missing_consumer_retry_timeout = $::os_service_default,
-  $kombu_failover_strategy              = $::os_service_default,
-  $kombu_compression                    = $::os_service_default,
-  $rabbit_qos_prefetch_count            = $::os_service_default,
-  $rabbit_use_ssl                       = $::os_service_default,
-  $rabbit_login_method                  = $::os_service_default,
-  $rabbit_retry_interval                = $::os_service_default,
-  $rabbit_retry_backoff                 = $::os_service_default,
-  $rabbit_interval_max                  = $::os_service_default,
-  $rabbit_ha_queues                     = $::os_service_default,
-  $rabbit_transient_queues_ttl          = $::os_service_default,
-  $heartbeat_timeout_threshold          = $::os_service_default,
-  $heartbeat_rate                       = $::os_service_default,
-  $heartbeat_in_pthread                 = $::os_service_default,
+  $amqp_durable_queues                  = $facts['os_service_default'],
+  $kombu_ssl_version                    = $facts['os_service_default'],
+  $kombu_ssl_keyfile                    = $facts['os_service_default'],
+  $kombu_ssl_certfile                   = $facts['os_service_default'],
+  $kombu_ssl_ca_certs                   = $facts['os_service_default'],
+  $kombu_reconnect_delay                = $facts['os_service_default'],
+  $kombu_missing_consumer_retry_timeout = $facts['os_service_default'],
+  $kombu_failover_strategy              = $facts['os_service_default'],
+  $kombu_compression                    = $facts['os_service_default'],
+  $rabbit_qos_prefetch_count            = $facts['os_service_default'],
+  $rabbit_use_ssl                       = $facts['os_service_default'],
+  $rabbit_login_method                  = $facts['os_service_default'],
+  $rabbit_retry_interval                = $facts['os_service_default'],
+  $rabbit_retry_backoff                 = $facts['os_service_default'],
+  $rabbit_interval_max                  = $facts['os_service_default'],
+  $rabbit_ha_queues                     = $facts['os_service_default'],
+  $rabbit_transient_queues_ttl          = $facts['os_service_default'],
+  $heartbeat_timeout_threshold          = $facts['os_service_default'],
+  $heartbeat_rate                       = $facts['os_service_default'],
+  $heartbeat_in_pthread                 = $facts['os_service_default'],
 ){
 
   $kombu_ssl_ca_certs_set = (!is_service_default($kombu_ssl_ca_certs) and ($kombu_ssl_ca_certs))
