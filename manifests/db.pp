@@ -134,6 +134,7 @@ define oslo::db(
 ) {
 
   include oslo::params
+  validate_legacy(Boolean, 'validate_bool', $manage_backend_package)
 
   if !is_service_default($connection) {
 

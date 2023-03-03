@@ -29,6 +29,9 @@ define oslo::coordination (
 
   include oslo::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_backend_package)
+  validate_legacy(Boolean, 'validate_bool', $manage_config)
+
   if $manage_backend_package and !is_service_default($backend_url){
     case $backend_url {
       /^redis:\/\//: {

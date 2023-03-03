@@ -242,6 +242,8 @@ define oslo::cache(
 
   include oslo::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_backend_package)
+
   if is_service_default($memcache_servers) {
     $memcache_servers_real = $memcache_servers
   } else {
