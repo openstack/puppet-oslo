@@ -75,7 +75,7 @@ define oslo::coordination (
 
   if $manage_config {
     $coordination_options = {
-      'coordination/backend_url' => { value => $backend_url },
+      'coordination/backend_url' => { value => $backend_url, secret => true },
     }
     create_resources($name, $coordination_options)
   }

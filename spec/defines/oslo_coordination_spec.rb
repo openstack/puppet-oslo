@@ -8,7 +8,7 @@ describe 'oslo::coordination' do
 
     context 'with default parameters' do
       it 'configures oslo_cache default params' do
-        is_expected.to contain_keystone_config('coordination/backend_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('coordination/backend_url').with_value('<SERVICE DEFAULT>').with_secret(true)
       end
     end
 
@@ -18,7 +18,7 @@ describe 'oslo::coordination' do
       end
 
       it 'configures redis backend' do
-        is_expected.to contain_keystone_config('coordination/backend_url').with_value('redis://localhost:6379')
+        is_expected.to contain_keystone_config('coordination/backend_url').with_value('redis://localhost:6379').with_secret(true)
 
         is_expected.to contain_package('python-redis').with(
           :name   => platform_params[:python_redis_package_name],
@@ -46,7 +46,7 @@ describe 'oslo::coordination' do
       end
 
       it 'configures etcd3gw backend' do
-        is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3://localhost:2379')
+        is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3://localhost:2379').with_secret(true)
 
         if platform_params[:python_etcd3_package_name]
           is_expected.to contain_package('python-etcd3').with(
@@ -78,7 +78,7 @@ describe 'oslo::coordination' do
       end
 
       it 'configures etcd3gw backend' do
-        is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3+http://localhost:2379')
+        is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3+http://localhost:2379').with_secret(true)
         is_expected.to contain_package('python-etcd3gw')
       end
 
@@ -101,7 +101,7 @@ describe 'oslo::coordination' do
       end
 
       it 'configures etcd3gw backend' do
-        is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3+https://localhost:2379')
+        is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3+https://localhost:2379').with_secret(true)
         is_expected.to contain_package('python-etcd3gw')
       end
 
@@ -124,7 +124,7 @@ describe 'oslo::coordination' do
       end
 
       it 'configures memcache backend' do
-        is_expected.to contain_keystone_config('coordination/backend_url').with_value('memcached://localhost:11211')
+        is_expected.to contain_keystone_config('coordination/backend_url').with_value('memcached://localhost:11211').with_secret(true)
 
         is_expected.to contain_package('python-pymemcache').with(
           :name   => platform_params[:python_pymemcache_package_name],
