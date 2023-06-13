@@ -109,13 +109,13 @@
 #
 define oslo::db(
   $config                         = $name,
-  $config_group                   = 'database',
+  String[1] $config_group         = 'database',
   $sqlite_synchronous             = $facts['os_service_default'],
   $backend                        = $facts['os_service_default'],
   Boolean $manage_backend_package = true,
   $backend_package_ensure         = present,
-  $connection                     = $facts['os_service_default'],
-  $slave_connection               = $facts['os_service_default'],
+  Oslo::Dbconn $connection        = $facts['os_service_default'],
+  Oslo::Dbconn $slave_connection  = $facts['os_service_default'],
   $mysql_sql_mode                 = $facts['os_service_default'],
   $connection_recycle_time        = $facts['os_service_default'],
   $max_pool_size                  = $facts['os_service_default'],
@@ -134,40 +134,33 @@ define oslo::db(
 ) {
 
   include oslo::params
-  if !is_service_default($connection) {
 
-    validate_legacy(Oslo::Dbconn, 'validate_re', $connection,
-      ['^(sqlite|mysql(\+pymysql)?|postgresql(\+psycopg2)?):\/\/(\S+:\S+@\S+\/\S+)?'])
-
-    if $manage_backend_package {
-      case $connection {
-        /^mysql(\+pymysql)?:\/\//: {
-          require 'mysql::bindings'
-          require 'mysql::bindings::python'
-          if $connection =~ /^mysql\+pymysql/ {
-            $backend_package = $::oslo::params::pymysql_package_name
-          } else {
-            $backend_package = false
-          }
-        }
-        /^postgresql(\+psycopg2)?:\/\//: {
-          $backend_package = false
-          require 'postgresql::lib::python'
-        }
-        /^sqlite:\/\//: {
-          $backend_package = $::oslo::params::sqlite_package_name
-        }
-        default: {
-          fail('Unsupported backend configured')
+  if $manage_backend_package {
+    case $connection {
+      Oslo::Dbconn::Mysql: {
+        require 'mysql::bindings'
+        require 'mysql::bindings::python'
+        if $connection =~ /^mysql\+pymysql/ {
+          $backend_package = $::oslo::params::pymysql_package_name
+        } else {
+          $backend_package = undef
         }
       }
+      Oslo::Dbconn::Postgres: {
+        $backend_package = undef
+        require 'postgresql::lib::python'
+      }
+      Oslo::Dbconn::Sqlite: {
+        $backend_package = $::oslo::params::sqlite_package_name
+      }
+      default: {}
+    }
 
-      if $backend_package and !defined(Package[$backend_package]) {
-        package { $backend_package:
-          ensure => $backend_package_ensure,
-          name   => $backend_package,
-          tag    => 'openstack',
-        }
+    if $backend_package and !defined(Package[$backend_package]) {
+      package { $backend_package:
+        ensure => $backend_package_ensure,
+        name   => $backend_package,
+        tag    => 'openstack',
       }
     }
   }
