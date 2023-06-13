@@ -236,13 +236,11 @@ define oslo::cache(
   $hashclient_retry_attempts            = $facts['os_service_default'],
   $hashclient_retry_delay               = $facts['os_service_default'],
   $dead_timeout                         = $facts['os_service_default'],
-  $manage_backend_package               = true,
+  Boolean $manage_backend_package       = true,
   $package_ensure                       = 'present',
 ){
 
   include oslo::params
-
-  validate_legacy(Boolean, 'validate_bool', $manage_backend_package)
 
   if is_service_default($memcache_servers) {
     $memcache_servers_real = $memcache_servers

@@ -21,16 +21,13 @@
 #   Defaults to true.
 #
 define oslo::coordination (
-  $backend_url            = $facts['os_service_default'],
-  $manage_backend_package = true,
-  $package_ensure         = 'present',
-  $manage_config          = true,
+  $backend_url                    = $facts['os_service_default'],
+  Boolean $manage_backend_package = true,
+  $package_ensure                 = 'present',
+  Boolean $manage_config          = true,
 ) {
 
   include oslo::params
-
-  validate_legacy(Boolean, 'validate_bool', $manage_backend_package)
-  validate_legacy(Boolean, 'validate_bool', $manage_config)
 
   if $manage_backend_package and !is_service_default($backend_url){
     case $backend_url {
