@@ -8,7 +8,6 @@ describe 'Oslo::Dbconn' do
         'postgresql://db:db@localhost/db',
         'postgresql+psycopg2://db:db@localhost/db',
         'sqlite:///var/lib/db.db',
-        'mongodb://db:db@localhost/db',
       ].each do |value|
         describe value.inspect do
           it { is_expected.to allow_value(value) }
