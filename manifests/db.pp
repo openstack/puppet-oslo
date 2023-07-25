@@ -107,6 +107,10 @@
 #   Cluster (NDB).
 #   Defaults to $facts['os_service_default']
 #
+# [*manage_config*]
+#   (Optional) Whether to manage the configuration parameters.
+#   Defaults to true.
+#
 define oslo::db(
   $config                         = $name,
   $config_group                   = 'database',
@@ -131,6 +135,7 @@ define oslo::db(
   $db_max_retry_interval          = $facts['os_service_default'],
   $db_max_retries                 = $facts['os_service_default'],
   $mysql_enable_ndb               = $facts['os_service_default'],
+  Boolean $manage_config          = true,
 ) {
 
   include oslo::params
@@ -172,28 +177,29 @@ define oslo::db(
     }
   }
 
-  $database_options = {
-    "${config_group}/sqlite_synchronous"      => { value => $sqlite_synchronous },
-    "${config_group}/backend"                 => { value => $backend },
-    "${config_group}/connection"              => { value => $connection, secret => true },
-    "${config_group}/slave_connection"        => { value => $slave_connection, secret => true },
-    "${config_group}/mysql_sql_mode"          => { value => $mysql_sql_mode },
-    "${config_group}/connection_recycle_time" => { value => $connection_recycle_time },
-    "${config_group}/max_pool_size"           => { value => $max_pool_size },
-    "${config_group}/max_retries"             => { value => $max_retries },
-    "${config_group}/retry_interval"          => { value => $retry_interval },
-    "${config_group}/max_overflow"            => { value => $max_overflow },
-    "${config_group}/connection_debug"        => { value => $connection_debug },
-    "${config_group}/connection_trace"        => { value => $connection_trace },
-    "${config_group}/pool_timeout"            => { value => $pool_timeout },
-    "${config_group}/use_db_reconnect"        => { value => $use_db_reconnect },
-    "${config_group}/db_retry_interval"       => { value => $db_retry_interval },
-    "${config_group}/db_inc_retry_interval"   => { value => $db_inc_retry_interval },
-    "${config_group}/db_max_retry_interval"   => { value => $db_max_retry_interval },
-    "${config_group}/db_max_retries"          => { value => $db_max_retries },
-    "${config_group}/mysql_enable_ndb"        => { value => $mysql_enable_ndb },
+  if $manage_config {
+    $database_options = {
+      "${config_group}/sqlite_synchronous"      => { value => $sqlite_synchronous },
+      "${config_group}/backend"                 => { value => $backend },
+      "${config_group}/connection"              => { value => $connection, secret => true },
+      "${config_group}/slave_connection"        => { value => $slave_connection, secret => true },
+      "${config_group}/mysql_sql_mode"          => { value => $mysql_sql_mode },
+      "${config_group}/connection_recycle_time" => { value => $connection_recycle_time },
+      "${config_group}/max_pool_size"           => { value => $max_pool_size },
+      "${config_group}/max_retries"             => { value => $max_retries },
+      "${config_group}/retry_interval"          => { value => $retry_interval },
+      "${config_group}/max_overflow"            => { value => $max_overflow },
+      "${config_group}/connection_debug"        => { value => $connection_debug },
+      "${config_group}/connection_trace"        => { value => $connection_trace },
+      "${config_group}/pool_timeout"            => { value => $pool_timeout },
+      "${config_group}/use_db_reconnect"        => { value => $use_db_reconnect },
+      "${config_group}/db_retry_interval"       => { value => $db_retry_interval },
+      "${config_group}/db_inc_retry_interval"   => { value => $db_inc_retry_interval },
+      "${config_group}/db_max_retry_interval"   => { value => $db_max_retry_interval },
+      "${config_group}/db_max_retries"          => { value => $db_max_retries },
+      "${config_group}/mysql_enable_ndb"        => { value => $mysql_enable_ndb },
+    }
+
+    create_resources($config, $database_options)
   }
-
-  create_resources($config, $database_options)
-
 }

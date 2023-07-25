@@ -75,6 +75,17 @@ describe 'oslo::db' do
       end
     end
 
+    context 'with config management disabled' do
+      let :params do
+        { :manage_config => false }
+      end
+
+      it 'does not manage config options' do
+        is_expected.to_not contain_keystone_config('custom_group/backend')
+        is_expected.to_not contain_keystone_config('custom_group/conection')
+      end
+    end
+
     context 'with pymysql connection' do
       let :params do
         { :connection => 'mysql+pymysql://db:db@localhost/db' }
