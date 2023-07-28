@@ -1,1 +1,6 @@
-type Oslo::Dbconn = Pattern[/^(sqlite|mysql(\+pymysql)?|postgresql(\+psycopg2)?):\/\/(\S+:\S+@\S+\/\S+)?/]
+type Oslo::Dbconn = Variant[
+  Oslo::Dbconn::Sqlite,
+  Oslo::Dbconn::Mysql,
+  Oslo::Dbconn::Postgres,
+  Openstacklib::Servicedefault,
+]
