@@ -100,9 +100,8 @@ describe 'oslo::db' do
         { :connection => 'postgresql://db:db@localhost/db', }
       end
 
-      it 'install the proper backend package' do
-        is_expected.to contain_package('python-psycopg2').with(:ensure => 'present')
-      end
+      it { is_expected.to contain_keystone_config('database/connection').with_value('postgresql://db:db@localhost/db').with_secret(true) }
+      it { is_expected.to contain_class('postgresql::lib::python') }
 
       context 'with backend package management disabled' do
         before do
@@ -112,7 +111,7 @@ describe 'oslo::db' do
         end
 
         it 'does not install backend package' do
-          is_expected.not_to contain_package('python-psycopg2')
+          is_expected.not_to contain_class('postgresql::lib::python')
         end
       end
     end
@@ -123,6 +122,7 @@ describe 'oslo::db' do
       end
 
       it { is_expected.to contain_keystone_config('database/connection').with_value('postgresql+psycopg2://db:db@localhost/db').with_secret(true) }
+      it { is_expected.to contain_class('postgresql::lib::python') }
     end
 
     context 'with incorrect database_connection string' do
