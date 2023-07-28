@@ -161,12 +161,12 @@ define oslo::db(
       default: {}
     }
 
-    if $backend_package and !defined(Package[$backend_package]) {
-      package { $backend_package:
+    if $backend_package {
+      ensure_packages($backend_package, {
         ensure => $backend_package_ensure,
         name   => $backend_package,
         tag    => 'openstack',
-      }
+      })
     }
   }
 

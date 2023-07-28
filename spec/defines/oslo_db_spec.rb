@@ -150,7 +150,7 @@ describe 'oslo::db' do
 
       it 'install the proper backend package' do
         is_expected.to contain_package(platform_params[:pymysql_package_name]).with(
-          :ensure => 'present',
+          :ensure => 'installed',
           :name   => platform_params[:pymysql_package_name],
           :tag    => 'openstack'
         )
@@ -176,7 +176,7 @@ describe 'oslo::db' do
 
       it 'install the proper backend package' do
         is_expected.to contain_package(platform_params[:pysqlite2_package_name]).with(
-          :ensure => 'present',
+          :ensure => 'installed',
           :name   => platform_params[:pysqlite2_package_name],
           :tag    => 'openstack'
         )
