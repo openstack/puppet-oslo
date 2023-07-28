@@ -158,7 +158,9 @@ define oslo::db(
       Oslo::Dbconn::Sqlite: {
         $backend_package = $::oslo::params::sqlite_package_name
       }
-      default: {}
+      default: {
+        $backend_package = undef
+      }
     }
 
     if $backend_package and !defined(Package[$backend_package]) {
