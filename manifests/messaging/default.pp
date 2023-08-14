@@ -37,6 +37,10 @@ define oslo::messaging::default(
   $control_exchange          = $facts['os_service_default'],
 ) {
 
+  if $transport_url =~ 'amqp://.+' {
+    warning('amqp1 driver support has been deprecated, because the driver is deprecated.')
+  }
+
   $default_options = {
     'DEFAULT/executor_thread_pool_size' => { value => $executor_thread_pool_size },
     'DEFAULT/rpc_response_timeout'      => { value => $rpc_response_timeout },
