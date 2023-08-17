@@ -1,5 +1,6 @@
 # == Define: oslo::messaging::amqp
 #
+# DEPRECATED !!
 # Configure oslo_messaging_amqp options
 #
 # This resource configures Oslo messaging resources for an OpenStack service.
