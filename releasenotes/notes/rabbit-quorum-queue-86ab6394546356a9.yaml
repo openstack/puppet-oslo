@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``oslo::messaging::rabbit`` defined resource type now supports options
+    for quorum queues in RabbitMQ.

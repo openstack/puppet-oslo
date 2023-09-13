@@ -113,6 +113,24 @@
 #   will be run through a green thread.
 #   Defaults to $facts['os_service_default']
 #
+# [*rabbit_quorum_queue*]
+#   (Optional) Use quorum queues in RabbitMQ.
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_quorum_delivery_limit*]
+#   (Optional) Each time a message is rdelivered to a consumer, a counter is
+#   incremented. Once the redelivery count exceeds the delivery limit
+#   the message gets dropped or dead-lettered.
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_quorum_max_memory_length*]
+#   (Optional) Limit the number of messages in the quorum queue.
+#   Defaults to $facts['os_service_default']
+#
+# [*rabbit_quorum_max_memory_bytes*]
+#   (Optional) Limit the number of memory bytes used by the quorum queue.
+#   Defaults to $facts['os_service_default']
+#
 define oslo::messaging::rabbit(
   $amqp_durable_queues                  = $facts['os_service_default'],
   $kombu_ssl_version                    = $facts['os_service_default'],
@@ -134,6 +152,10 @@ define oslo::messaging::rabbit(
   $heartbeat_timeout_threshold          = $facts['os_service_default'],
   $heartbeat_rate                       = $facts['os_service_default'],
   $heartbeat_in_pthread                 = $facts['os_service_default'],
+  $rabbit_quorum_queue                  = $facts['os_service_default'],
+  $rabbit_quorum_delivery_limit         = $facts['os_service_default'],
+  $rabbit_quorum_max_memory_length      = $facts['os_service_default'],
+  $rabbit_quorum_max_memory_bytes       = $facts['os_service_default'],
 ){
 
   $kombu_ssl_ca_certs_set = (!is_service_default($kombu_ssl_ca_certs) and ($kombu_ssl_ca_certs))
@@ -164,27 +186,32 @@ define oslo::messaging::rabbit(
     fail('Unsupported Kombu compression. Possible values are gzip and bz2')
   }
 
-  $rabbit_options = { 'oslo_messaging_rabbit/amqp_durable_queues' => { value => $amqp_durable_queues },
-                      'oslo_messaging_rabbit/heartbeat_rate' => { value => $heartbeat_rate },
-                      'oslo_messaging_rabbit/heartbeat_in_pthread' => { value => $heartbeat_in_pthread },
-                      'oslo_messaging_rabbit/heartbeat_timeout_threshold' => { value => $heartbeat_timeout_threshold },
-                      'oslo_messaging_rabbit/kombu_compression' => { value => $kombu_compression },
-                      'oslo_messaging_rabbit/kombu_failover_strategy' => { value => $kombu_failover_strategy },
-                      'oslo_messaging_rabbit/kombu_missing_consumer_retry_timeout' => { value => $kombu_missing_consumer_retry_timeout },
-                      'oslo_messaging_rabbit/kombu_reconnect_delay' => { value => $kombu_reconnect_delay },
-                      'oslo_messaging_rabbit/rabbit_interval_max' => { value => $rabbit_interval_max },
-                      'oslo_messaging_rabbit/rabbit_login_method' => { value => $rabbit_login_method },
-                      'oslo_messaging_rabbit/rabbit_retry_backoff' => { value => $rabbit_retry_backoff },
-                      'oslo_messaging_rabbit/rabbit_retry_interval' => { value => $rabbit_retry_interval },
-                      'oslo_messaging_rabbit/rabbit_transient_queues_ttl' => { value => $rabbit_transient_queues_ttl },
-                      'oslo_messaging_rabbit/ssl' => { value => $rabbit_use_ssl },
-                      'oslo_messaging_rabbit/rabbit_qos_prefetch_count' => { value => $rabbit_qos_prefetch_count },
-                      'oslo_messaging_rabbit/rabbit_ha_queues' => { value => $rabbit_ha_queues },
-                      'oslo_messaging_rabbit/ssl_ca_file' => { value => $kombu_ssl_ca_certs },
-                      'oslo_messaging_rabbit/ssl_cert_file' => { value => $kombu_ssl_certfile },
-                      'oslo_messaging_rabbit/ssl_key_file' => { value => $kombu_ssl_keyfile },
-                      'oslo_messaging_rabbit/ssl_version' => { value => $kombu_ssl_version },
-                    }
+  $rabbit_options = {
+    'oslo_messaging_rabbit/amqp_durable_queues'                  => { value => $amqp_durable_queues },
+    'oslo_messaging_rabbit/heartbeat_rate'                       => { value => $heartbeat_rate },
+    'oslo_messaging_rabbit/heartbeat_in_pthread'                 => { value => $heartbeat_in_pthread },
+    'oslo_messaging_rabbit/heartbeat_timeout_threshold'          => { value => $heartbeat_timeout_threshold },
+    'oslo_messaging_rabbit/kombu_compression'                    => { value => $kombu_compression },
+    'oslo_messaging_rabbit/kombu_failover_strategy'              => { value => $kombu_failover_strategy },
+    'oslo_messaging_rabbit/kombu_missing_consumer_retry_timeout' => { value => $kombu_missing_consumer_retry_timeout },
+    'oslo_messaging_rabbit/kombu_reconnect_delay'                => { value => $kombu_reconnect_delay },
+    'oslo_messaging_rabbit/rabbit_interval_max'                  => { value => $rabbit_interval_max },
+    'oslo_messaging_rabbit/rabbit_login_method'                  => { value => $rabbit_login_method },
+    'oslo_messaging_rabbit/rabbit_retry_backoff'                 => { value => $rabbit_retry_backoff },
+    'oslo_messaging_rabbit/rabbit_retry_interval'                => { value => $rabbit_retry_interval },
+    'oslo_messaging_rabbit/rabbit_transient_queues_ttl'          => { value => $rabbit_transient_queues_ttl },
+    'oslo_messaging_rabbit/ssl'                                  => { value => $rabbit_use_ssl },
+    'oslo_messaging_rabbit/rabbit_qos_prefetch_count'            => { value => $rabbit_qos_prefetch_count },
+    'oslo_messaging_rabbit/rabbit_ha_queues'                     => { value => $rabbit_ha_queues },
+    'oslo_messaging_rabbit/rabbit_quorum_queue'                  => { value => $rabbit_quorum_queue },
+    'oslo_messaging_rabbit/rabbit_quorum_delivery_limit'         => { value => $rabbit_quorum_delivery_limit },
+    'oslo_messaging_rabbit/rabbit_quorum_max_memory_length'      => { value => $rabbit_quorum_max_memory_length },
+    'oslo_messaging_rabbit/rabbit_quorum_max_memory_bytes'       => { value => $rabbit_quorum_max_memory_bytes },
+    'oslo_messaging_rabbit/ssl_ca_file'                          => { value => $kombu_ssl_ca_certs },
+    'oslo_messaging_rabbit/ssl_cert_file'                        => { value => $kombu_ssl_certfile },
+    'oslo_messaging_rabbit/ssl_key_file'                         => { value => $kombu_ssl_keyfile },
+    'oslo_messaging_rabbit/ssl_version'                          => { value => $kombu_ssl_version },
+  }
 
   create_resources($name, $rabbit_options)
 }

@@ -8,42 +8,56 @@ describe 'oslo::messaging::rabbit' do
 
     context 'with default parameters' do
       it 'configure oslo_messaging_rabbit default params' do
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/amqp_durable_queues').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_missing_consumer_retry_timeout').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_qos_prefetch_count').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_login_method').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_retry_interval').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_retry_backoff').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_interval_max').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_transient_queues_ttl').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
-       is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_in_pthread').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/amqp_durable_queues').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_missing_consumer_retry_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_qos_prefetch_count').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/ssl').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_login_method').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_retry_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_retry_backoff').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_interval_max').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_transient_queues_ttl').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_in_pthread').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_queue').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_delivery_limit').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_length').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_bytes').with_value('<SERVICE DEFAULT>')
       end
     end
 
     context 'with overridden parameters' do
       let :params do
-        { :rabbit_qos_prefetch_count   => '10',
-          :heartbeat_timeout_threshold => '60',
-          :heartbeat_rate              => '10',
-          :heartbeat_in_pthread        => true,
-          :kombu_compression           => 'bz2',
-          :rabbit_ha_queues            => true, }
+        {
+          :rabbit_qos_prefetch_count       => 10,
+          :heartbeat_timeout_threshold     => 60,
+          :heartbeat_rate                  => 10,
+          :heartbeat_in_pthread            => true,
+          :kombu_compression               => 'bz2',
+          :rabbit_ha_queues                => true,
+          :rabbit_quorum_queue             => true,
+          :rabbit_quorum_delivery_limit    => 3,
+          :rabbit_quorum_max_memory_length => 5,
+          :rabbit_quorum_max_memory_bytes  => 1073741824,
+        }
       end
 
       it 'configures rabbit' do
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_qos_prefetch_count').with_value('10')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('60')
-        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_rate').with_value('10')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_qos_prefetch_count').with_value(10)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value(60)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_rate').with_value(10)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_in_pthread').with_value(true)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_compression').with_value('bz2')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_queue').with_value(true)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_delivery_limit').with_value(3)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_length').with_value(5)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_bytes').with_value(1073741824)
       end
     end
 
