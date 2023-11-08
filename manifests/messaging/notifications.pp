@@ -27,10 +27,16 @@
 #   (list value)
 #   Defaults to $facts['os_service_default'].
 #
+# [*retry*]
+#   (Optional) The maximum number of attempts to re-sent a notification
+#   message, which failed to be delivered due to a recoverable error.
+#   Defaults to $facts['os_service_default'].
+#
 define oslo::messaging::notifications(
   $driver        = $facts['os_service_default'],
   $transport_url = $facts['os_service_default'],
   $topics        = $facts['os_service_default'],
+  $retry         = $facts['os_service_default'],
 ) {
 
   if $transport_url =~ 'amqp://.+' {
@@ -50,6 +56,7 @@ define oslo::messaging::notifications(
     'oslo_messaging_notifications/driver'        => { value => $driver_real },
     'oslo_messaging_notifications/transport_url' => { value => $transport_url, secret => true },
     'oslo_messaging_notifications/topics'        => { value => $topics_real },
+    'oslo_messaging_notifications/retry'         => { value => $retry },
   }
 
   create_resources($name, $notification_options)

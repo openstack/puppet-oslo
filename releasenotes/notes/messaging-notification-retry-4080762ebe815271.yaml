@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``oslo::messaging::notification::retry`` parameter has been added.

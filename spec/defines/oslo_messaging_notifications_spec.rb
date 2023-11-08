@@ -11,6 +11,7 @@ describe 'oslo::messaging::notifications' do
         is_expected.to contain_keystone_config('oslo_messaging_notifications/driver').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_notifications/transport_url').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_keystone_config('oslo_messaging_notifications/topics').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_notifications/retry').with_value('<SERVICE DEFAULT>')
       end
 
     end
@@ -20,6 +21,7 @@ describe 'oslo::messaging::notifications' do
           { :driver        => ['messaging', 'messagingv2'],
             :transport_url => 'some_protocol://some_url',
             :topics        => ['foo', 'baa'],
+            :retry         => -1,
           }
       end
 
@@ -27,6 +29,7 @@ describe 'oslo::messaging::notifications' do
         is_expected.to contain_keystone_config('oslo_messaging_notifications/driver').with_value(['messaging', 'messagingv2'])
         is_expected.to contain_keystone_config('oslo_messaging_notifications/transport_url').with_value('some_protocol://some_url').with_secret(true)
         is_expected.to contain_keystone_config('oslo_messaging_notifications/topics').with_value('foo,baa')
+        is_expected.to contain_keystone_config('oslo_messaging_notifications/retry').with_value(-1)
       end
     end
 
