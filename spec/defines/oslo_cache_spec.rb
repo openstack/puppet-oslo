@@ -25,6 +25,7 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_pool_maxsize').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_pool_unused_timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_pool_connection_get_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/memcache_pool_flush_on_reconnect').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/tls_enabled').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/tls_cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/tls_certfile').with_value('<SERVICE DEFAULT>')
@@ -59,6 +60,7 @@ describe 'oslo::cache' do
           :memcache_pool_maxsize                => '10',
           :memcache_pool_unused_timeout         => '60',
           :memcache_pool_connection_get_timeout => '10',
+          :memcache_pool_flush_on_reconnect     => false,
           :tls_enabled                          => false,
           :tls_cafile                           => '/path/to/ssl/cafile',
           :tls_certfile                         => '/path/to/ssl/certfile',
@@ -91,6 +93,7 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_pool_maxsize').with_value('10')
         is_expected.to contain_keystone_config('cache/memcache_pool_unused_timeout').with_value('60')
         is_expected.to contain_keystone_config('cache/memcache_pool_connection_get_timeout').with_value('10')
+        is_expected.to contain_keystone_config('cache/memcache_pool_flush_on_reconnect').with_value(false)
         is_expected.to contain_keystone_config('cache/tls_enabled').with_value('false')
         is_expected.to contain_keystone_config('cache/tls_cafile').with_value('/path/to/ssl/cafile')
         is_expected.to contain_keystone_config('cache/tls_certfile').with_value('/path/to/ssl/certfile')

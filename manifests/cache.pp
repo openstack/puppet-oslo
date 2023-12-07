@@ -135,6 +135,11 @@
 #   client connection. (integer value)
 #   Defaults to $facts['os_service_default']
 #
+# [*memcache_pool_flush_on_reconnect*]
+#   (Optional) Global toggle if memcache will be flushed on reconnect.
+#   (oslo_cache.memcache_pool backend only)
+#   Defaults to $facts['os_service_default']
+#
 # [*tls_enabled*]
 #   (Optional) Global toggle for TLS usage when communicating with
 #   the caching servers.
@@ -225,6 +230,7 @@ define oslo::cache(
   $memcache_pool_maxsize                = $facts['os_service_default'],
   $memcache_pool_unused_timeout         = $facts['os_service_default'],
   $memcache_pool_connection_get_timeout = $facts['os_service_default'],
+  $memcache_pool_flush_on_reconnect     = $facts['os_service_default'],
   $tls_enabled                          = $facts['os_service_default'],
   $tls_cafile                           = $facts['os_service_default'],
   $tls_certfile                         = $facts['os_service_default'],
@@ -302,6 +308,7 @@ define oslo::cache(
     'cache/memcache_pool_maxsize'                => { value => $memcache_pool_maxsize },
     'cache/memcache_pool_unused_timeout'         => { value => $memcache_pool_unused_timeout },
     'cache/memcache_pool_connection_get_timeout' => { value => $memcache_pool_connection_get_timeout },
+    'cache/memcache_pool_flush_on_reconnect'     => { value => $memcache_pool_flush_on_reconnect },
     'cache/tls_enabled'                          => { value => $tls_enabled },
     'cache/tls_cafile'                           => { value => $tls_cafile },
     'cache/tls_certfile'                         => { value => $tls_certfile },
