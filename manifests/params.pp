@@ -9,7 +9,6 @@ class oslo::params {
 
   case $facts['os']['family'] {
     'RedHat': {
-      $sqlite_package_name            = undef
       $pymysql_package_name           = undef
       $python_memcache_package_name   = 'python3-memcached'
       $python_redis_package_name      = 'python3-redis'
@@ -18,7 +17,6 @@ class oslo::params {
       $python_pymemcache_package_name = 'python3-pymemcache'
     }
     'Debian': {
-      $sqlite_package_name            = 'python3-pysqlite2'
       $pymysql_package_name           = 'python3-pymysql'
       $python_memcache_package_name   = 'python3-memcache'
       $python_redis_package_name      = 'python3-redis'

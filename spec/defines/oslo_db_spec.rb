@@ -157,32 +157,6 @@ describe 'oslo::db' do
         end
       end
     end
-
-    context 'with sqlite backend' do
-      let :params do
-        { :connection => 'sqlite:///var/lib/db.db', }
-      end
-
-      it 'install the proper backend package' do
-        is_expected.to contain_package(platform_params[:pysqlite2_package_name]).with(
-          :ensure => 'present',
-          :name   => platform_params[:pysqlite2_package_name],
-          :tag    => 'openstack'
-        )
-      end
-
-      context 'with backend package management disabled' do
-        before do
-          params.merge!({
-            :manage_backend_package => false,
-          })
-        end
-
-        it 'does not install backend package' do
-          is_expected.not_to contain_package('python-pysqlite2')
-        end
-      end
-    end
   end
 
   shared_examples 'oslo-db on RedHat' do
@@ -211,13 +185,11 @@ describe 'oslo::db' do
           {
             :pymongo_package_name   => 'python3-pymongo',
             :pymysql_package_name   => 'python3-pymysql',
-            :pysqlite2_package_name => 'python3-pysqlite2',
           }
         when 'RedHat'
           {
             :pymongo_package_name   => 'python3-pymongo',
             :pymysql_package_name   => nil,
-            :pysqlite2_package_name => nil,
           }
         end
       end

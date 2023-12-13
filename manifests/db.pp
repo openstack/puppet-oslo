@@ -157,7 +157,7 @@ define oslo::db(
           require 'postgresql::lib::python'
         }
         /^sqlite:\/\//: {
-          $backend_package = $::oslo::params::sqlite_package_name
+          $backend_package = false
         }
         default: {
           fail('Unsupported backend configured')
