@@ -38,14 +38,14 @@ define oslo::coordination (
         ensure_packages('python-redis', {
           name   => $::oslo::params::python_redis_package_name,
           ensure => $package_ensure,
-          tag    => 'openstack',
+          tag    => ['openstack'],
         })
       }
       /^etcd3\+http[s]?:\/\//: {
         ensure_packages('python-etcd3gw', {
           name   => $::oslo::params::python_etcd3gw_package_name,
           ensure => $package_ensure,
-          tag    => 'openstack',
+          tag    => ['openstack'],
         })
       }
       /^etcd3:\/\//: {
@@ -54,7 +54,7 @@ define oslo::coordination (
           ensure_packages('python-etcd3', {
             name   => $::oslo::params::python_etcd3_package_name,
             ensure => $package_ensure,
-            tag    => 'openstack',
+            tag    => ['openstack'],
           })
         } else {
           warning('The python-etcd3 package is not available.')
@@ -64,7 +64,7 @@ define oslo::coordination (
         ensure_packages('python-pymemcache', {
           name   => $::oslo::params::python_pymemcache_package_name,
           ensure => $package_ensure,
-          tag    => 'openstack',
+          tag    => ['openstack'],
         })
       }
       default: {
