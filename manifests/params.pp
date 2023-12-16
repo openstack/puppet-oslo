@@ -13,7 +13,6 @@ class oslo::params {
       $python_memcache_package_name   = 'python3-memcached'
       $python_redis_package_name      = 'python3-redis'
       $python_etcd3gw_package_name    = 'python3-etcd3gw'
-      $python_etcd3_package_name      = undef
       $python_pymemcache_package_name = 'python3-pymemcache'
     }
     'Debian': {
@@ -21,7 +20,6 @@ class oslo::params {
       $python_memcache_package_name   = 'python3-memcache'
       $python_redis_package_name      = 'python3-redis'
       $python_etcd3gw_package_name    = 'python3-etcd3gw'
-      $python_etcd3_package_name      = 'python3-etcd3'
       $python_pymemcache_package_name = 'python3-pymemcache'
     }
     default: {

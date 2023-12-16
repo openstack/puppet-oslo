@@ -45,18 +45,6 @@ define oslo::coordination (
           tag    => ['openstack'],
         })
       }
-      /^etcd3:\/\//: {
-        warning('Support for the etcd3 driver has been deprecated.')
-        if $::oslo::params::python_etcd3_package_name {
-          ensure_packages('python-etcd3', {
-            name   => $::oslo::params::python_etcd3_package_name,
-            ensure => $package_ensure,
-            tag    => ['openstack'],
-          })
-        } else {
-          warning('The python-etcd3 package is not available.')
-        }
-      }
       /^memcached:\/\//: {
         ensure_packages('python-pymemcache', {
           name   => $::oslo::params::python_pymemcache_package_name,

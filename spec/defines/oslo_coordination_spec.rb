@@ -40,38 +40,6 @@ describe 'oslo::coordination' do
       end
     end
 
-    context 'with etcd3 backend' do
-      let :params do
-        { :backend_url => 'etcd3://localhost:2379' }
-      end
-
-      it 'configures etcd3gw backend' do
-        is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3://localhost:2379').with_secret(true)
-
-        if platform_params[:python_etcd3_package_name]
-          is_expected.to contain_package('python-etcd3').with(
-            :name   => platform_params[:python_etcd3_package_name],
-            :ensure => 'installed',
-            :tag    => ['openstack'],
-          )
-        else
-          is_expected.to_not contain_package('python-etcd3')
-        end
-      end
-
-      context 'with backend package management disabled' do
-        before do
-          params.merge!({
-            :manage_backend_package => false,
-          })
-        end
-
-        it 'does not install backend package' do
-          is_expected.to_not contain_package('python-etcd3')
-        end
-      end
-    end
-
     context 'with etcd3gw backend(http)' do
       let :params do
         { :backend_url => 'etcd3+http://localhost:2379' }
