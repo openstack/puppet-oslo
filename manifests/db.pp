@@ -156,7 +156,7 @@ define oslo::db(
         require 'postgresql::lib::python'
       }
       Oslo::Dbconn::Sqlite: {
-        $backend_package = $::oslo::params::sqlite_package_name
+        $backend_package = undef
       }
       default: {
         $backend_package = undef
