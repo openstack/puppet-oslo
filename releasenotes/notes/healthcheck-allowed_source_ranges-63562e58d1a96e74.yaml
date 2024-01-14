@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The ``oslo::healthcheck::allowed_source_ranges`` parameter has been added.
