@@ -14,6 +14,7 @@ class oslo::params {
       $python_redis_package_name      = 'python3-redis'
       $python_etcd3gw_package_name    = 'python3-etcd3gw'
       $python_pymemcache_package_name = 'python3-pymemcache'
+      $oslo_reports_package_name      = 'python3-oslo-reports'
     }
     'Debian': {
       $pymysql_package_name           = 'python3-pymysql'
@@ -21,6 +22,7 @@ class oslo::params {
       $python_redis_package_name      = 'python3-redis'
       $python_etcd3gw_package_name    = 'python3-etcd3gw'
       $python_pymemcache_package_name = 'python3-pymemcache'
+      $oslo_reports_package_name      = 'python3-oslo.reports'
     }
     default: {
       fail("Unsupported osfamily: ${facts['os']['family']}")
