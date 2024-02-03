@@ -278,30 +278,52 @@ define oslo::cache(
   }
 
   if $manage_backend_package {
-    if ($backend =~ /pylibmc/ ) {
-      ensure_packages('python-pylibmc', {
-        ensure => $package_ensure,
-        name   => $::oslo::params::pylibmc_package_name,
-        tag    => 'openstack',
-      })
-    } elsif ($backend =~ /\.memcache/ ) {
-      ensure_packages('python-memcache', {
-        ensure => $package_ensure,
-        name   => $::oslo::params::python_memcache_package_name,
-        tag    => ['openstack'],
-      })
-    } elsif ($backend =~ /\.pymemcache/ ) {
-      ensure_packages('python-pymemcache', {
-        ensure => $package_ensure,
-        name   => $::oslo::params::python_pymemcache_package_name,
-        tag    => ['openstack'],
-      })
-    } elsif ($backend =~ /\.etcd3gw/ ) {
-      ensure_packages('python-etcd3gw', {
-        name   => $::oslo::params::python_etcd3gw_package_name,
-        ensure => $package_ensure,
-        tag    => 'openstack',
-      })
+    case $backend {
+      'dogpile.cache.pylibmc': {
+        ensure_packages('python-pylibmc', {
+          ensure => $package_ensure,
+          name   => $::oslo::params::pylibmc_package_name,
+          tag    => 'openstack',
+        })
+      }
+      'dogpile.cache.bmemcached': {
+        ensure_packages('python-binary-memcached', {
+          name   => $::oslo::params::python_bmemcached_package_name,
+          ensure => $package_ensure,
+          tag    => ['openstack'],
+        })
+      }
+      'dogpile.cache.memcached', 'oslo_cache.memcache_pool': {
+        ensure_packages('python-memcache', {
+          ensure => $package_ensure,
+          name   => $::oslo::params::python_memcache_package_name,
+          tag    => ['openstack'],
+        })
+      }
+      'dogpile.cache.pymemcache': {
+        ensure_packages('python-pymemcache', {
+          ensure => $package_ensure,
+          name   => $::oslo::params::python_pymemcache_package_name,
+          tag    => ['openstack'],
+        })
+      }
+      'dogpile.cache.redis': {
+        ensure_packages('python-redis', {
+          name   => $::oslo::params::python_redis_package_name,
+          ensure => $package_ensure,
+          tag    => ['openstack'],
+        })
+      }
+      'oslo_cache.etcd3gw': {
+        ensure_packages('python-etcd3gw', {
+          name   => $::oslo::params::python_etcd3gw_package_name,
+          ensure => $package_ensure,
+          tag    => 'openstack',
+        })
+      }
+      default: {
+        # nothing to install
+      }
     }
   }
 

@@ -11,17 +11,19 @@ class oslo::params {
     'RedHat': {
       $pymysql_package_name           = undef
       $python_memcache_package_name   = 'python3-memcached'
+      $python_bmemcached_package_name = 'python3-binary-memcached'
+      $python_pymemcache_package_name = 'python3-pymemcache'
       $python_redis_package_name      = 'python3-redis'
       $python_etcd3gw_package_name    = 'python3-etcd3gw'
-      $python_pymemcache_package_name = 'python3-pymemcache'
       $oslo_reports_package_name      = 'python3-oslo-reports'
     }
     'Debian': {
       $pymysql_package_name           = 'python3-pymysql'
       $python_memcache_package_name   = 'python3-memcache'
+      $python_bmemcached_package_name = 'python3-binary-memcached'
+      $python_pymemcache_package_name = 'python3-pymemcache'
       $python_redis_package_name      = 'python3-redis'
       $python_etcd3gw_package_name    = 'python3-etcd3gw'
-      $python_pymemcache_package_name = 'python3-pymemcache'
       $oslo_reports_package_name      = 'python3-oslo.reports'
     }
     default: {

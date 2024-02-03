@@ -162,16 +162,16 @@ describe 'oslo::cache' do
       end
     end
 
-    context 'with memcache backend' do
+    context 'with memcached backend' do
       let :params do
         {
-          :backend          => 'dogpile.cache.memcache',
+          :backend          => 'dogpile.cache.memcached',
           :memcache_servers => ['host1:11211', 'host2:11211','[fd12:3456:789a:1::1]:11211'],
         }
       end
 
       it 'configures cache backend' do
-        is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.memcache')
+        is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.memcached')
         is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,inet6:[fd12:3456:789a:1::1]:11211')
         is_expected.to contain_package('python-memcache').with(
           :ensure => 'installed',
@@ -205,6 +205,53 @@ describe 'oslo::cache' do
 
         it 'does not install backend package' do
           is_expected.not_to contain_package('python-memcache')
+        end
+      end
+    end
+
+    context 'with bymemcache backend' do
+      let :params do
+        {
+          :backend          => 'dogpile.cache.bmemcached',
+          :memcache_servers => ['host1:11211', 'host2:11211','[fd12:3456:789a:1::1]:11211'],
+        }
+      end
+
+      it 'configures cache backend' do
+        is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.bmemcached')
+        is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,[fd12:3456:789a:1::1]:11211')
+        is_expected.to contain_package('python-binary-memcached').with(
+          :ensure => 'installed',
+          :name   => platform_params[:python_bmemcached_package_name],
+          :tag    => ['openstack'],
+        )
+      end
+
+      context 'with package_ensure set' do
+        before do
+          params.merge!({
+            :package_ensure => 'latest'
+          })
+        end
+
+        it 'ensures status of the package' do
+          is_expected.to contain_package('python-binary-memcached').with(
+            :ensure => 'latest',
+            :name   => platform_params[:python_bmemcached_package_name],
+            :tag    => ['openstack'],
+          )
+        end
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.to_not contain_package('python-binary-memcached')
         end
       end
     end
@@ -252,6 +299,53 @@ describe 'oslo::cache' do
 
         it 'does not install backend package' do
           is_expected.not_to contain_package('python-pymemcache')
+        end
+      end
+    end
+
+    context 'with redis backend' do
+      let :params do
+        {
+          :backend          => 'dogpile.cache.redis',
+          :memcache_servers => ['host1:11211', 'host2:11211','[fd12:3456:789a:1::1]:11211'],
+        }
+      end
+
+      it 'configures cache backend' do
+        is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.redis')
+        is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,[fd12:3456:789a:1::1]:11211')
+        is_expected.to contain_package('python-redis').with(
+          :ensure => 'installed',
+          :name   => platform_params[:python_redis_package_name],
+          :tag    => ['openstack'],
+        )
+      end
+
+      context 'with package_ensure set' do
+        before do
+          params.merge!({
+            :package_ensure => 'latest'
+          })
+        end
+
+        it 'ensures status of the package' do
+          is_expected.to contain_package('python-redis').with(
+            :ensure => 'latest',
+            :name   => platform_params[:python_redis_package_name],
+            :tag    => ['openstack'],
+          )
+        end
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-redis')
         end
       end
     end
@@ -329,15 +423,23 @@ describe 'oslo::cache' do
       let(:platform_params) do
         case facts[:os]['family']
         when 'Debian'
-          { :pylibmc_package_name           => 'python3-pylibmc',
+          {
+            :pylibmc_package_name           => 'python3-pylibmc',
             :python_memcache_package_name   => 'python3-memcache',
+            :python_bmemcached_package_name => 'python3-binary-memcached',
+            :python_pymemcache_package_name => 'python3-pymemcache',
+            :python_redis_package_name      => 'python3-redis',
             :python_etcd3gw_package_name    => 'python3-etcd3gw',
-            :python_pymemcache_package_name => 'python3-pymemcache' }
+          }
         when 'RedHat'
-          { :pylibmc_package_name           => 'python3-pylibmc',
+          {
+            :pylibmc_package_name           => 'python3-pylibmc',
             :python_memcache_package_name   => 'python3-memcached',
+            :python_bmemcached_package_name => 'python3-binary-memcached',
+            :python_pymemcache_package_name => 'python3-pymemcache',
+            :python_redis_package_name      => 'python3-redis',
             :python_etcd3gw_package_name    => 'python3-etcd3gw',
-            :python_pymemcache_package_name => 'python3-pymemcache' }
+          }
         end
       end
 
