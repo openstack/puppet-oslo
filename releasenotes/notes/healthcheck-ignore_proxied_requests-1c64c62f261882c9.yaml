@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``oslo::ignore_proxied_requests`` parameter has been added.

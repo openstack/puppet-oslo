@@ -15,6 +15,7 @@ describe 'oslo::healthcheck' do
         is_expected.to contain_keystone_config('healthcheck/detailed').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('healthcheck/backends').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('healthcheck/allowed_source_ranges').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('healthcheck/ignore_proxied_requests').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('healthcheck/disable_by_file_path').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('healthcheck/disable_by_file_paths').with_value('<SERVICE DEFAULT>')
       end
@@ -23,14 +24,15 @@ describe 'oslo::healthcheck' do
     context 'with parameters overridden' do
       let :params do
         {
-          :detailed              => true,
-          :backends              => ['disable_by_file', 'disable_by_files_ports'],
-          :allowed_source_ranges => ['10.0.0.0/24', '10.0.1.0/24'],
-          :disable_by_file_path  => '/etc/keystone/healthcheck/disabled',
-          :disable_by_file_paths => [
+          :detailed                => true,
+          :backends                => ['disable_by_file', 'disable_by_files_ports'],
+          :allowed_source_ranges   => ['10.0.0.0/24', '10.0.1.0/24'],
+          :disable_by_file_path    => '/etc/keystone/healthcheck/disabled',
+          :disable_by_file_paths   => [
             '5000:/etc/keystone/healthcheck/public-disabled',
             '35357:/etc/keystone/healthcheck/admin-disabled'
           ],
+          :ignore_proxied_requests => false,
         }
       end
 
@@ -42,6 +44,7 @@ describe 'oslo::healthcheck' do
         is_expected.to contain_keystone_config('healthcheck/allowed_source_ranges').with_value(
           '10.0.0.0/24,10.0.1.0/24'
         )
+        is_expected.to contain_keystone_config('healthcheck/ignore_proxied_requests').with_value('false')
         is_expected.to contain_keystone_config('healthcheck/disable_by_file_path').with_value(
           '/etc/keystone/healthcheck/disabled'
         )
