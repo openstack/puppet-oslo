@@ -140,6 +140,18 @@
 #   (oslo_cache.memcache_pool backend only)
 #   Defaults to $facts['os_service_default']
 #
+# [*memcache_sasl_enabled*]
+#   (Optional) Whether SASL is enabled in memcached
+#   Defaults to $facts['os_service_default']
+#
+# [*memcache_username*]
+#   (Optional) The user name for the memcached with SASL enabled
+#   Defaults to $facts['os_service_default']
+#
+# [*memcache_password*]
+#   (Optional) The password for the memcached with SASL enabled
+#   Defaults to $facts['os_service_default']
+#
 # [*tls_enabled*]
 #   (Optional) Global toggle for TLS usage when communicating with
 #   the caching servers.
@@ -231,6 +243,9 @@ define oslo::cache(
   $memcache_pool_unused_timeout         = $facts['os_service_default'],
   $memcache_pool_connection_get_timeout = $facts['os_service_default'],
   $memcache_pool_flush_on_reconnect     = $facts['os_service_default'],
+  $memcache_sasl_enabled                = $facts['os_service_default'],
+  $memcache_username                    = $facts['os_service_default'],
+  $memcache_password                    = $facts['os_service_default'],
   $tls_enabled                          = $facts['os_service_default'],
   $tls_cafile                           = $facts['os_service_default'],
   $tls_certfile                         = $facts['os_service_default'],
@@ -309,6 +324,9 @@ define oslo::cache(
     'cache/memcache_pool_unused_timeout'         => { value => $memcache_pool_unused_timeout },
     'cache/memcache_pool_connection_get_timeout' => { value => $memcache_pool_connection_get_timeout },
     'cache/memcache_pool_flush_on_reconnect'     => { value => $memcache_pool_flush_on_reconnect },
+    'cache/memcache_sasl_enabled'                => { value => $memcache_sasl_enabled },
+    'cache/memcache_username'                    => { value => $memcache_username },
+    'cache/memcache_password'                    => { value => $memcache_password, secret => true },
     'cache/tls_enabled'                          => { value => $tls_enabled },
     'cache/tls_cafile'                           => { value => $tls_cafile },
     'cache/tls_certfile'                         => { value => $tls_certfile },

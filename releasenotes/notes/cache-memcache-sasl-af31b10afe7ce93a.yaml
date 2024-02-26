@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``oslo::cache`` defined resource type now supports options to allow
+    memcached with SASL enabled.
