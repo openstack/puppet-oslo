@@ -29,6 +29,12 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_sasl_enabled').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_username').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_password').with_value('<SERVICE DEFAULT>').with_secret(true)
+        is_expected.to contain_keystone_config('cache/redis_server').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/redis_username').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/redis_password').with_value('<SERVICE DEFAULT>').with_secret(true)
+        is_expected.to contain_keystone_config('cache/redis_sentinels').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/redis_socket_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/redis_sentinel_service_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/tls_enabled').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/tls_cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/tls_certfile').with_value('<SERVICE DEFAULT>')
@@ -67,6 +73,12 @@ describe 'oslo::cache' do
           :memcache_sasl_enabled                => false,
           :memcache_username                    => 'sasluser',
           :memcache_password                    => 'saslpass',
+          :redis_server                         => 'localhost:6379',
+          :redis_username                       => 'redisuser',
+          :redis_password                       => 'redispass',
+          :redis_sentinels                      => ['host1:26379', 'host2:26379'],
+          :redis_socket_timeout                 => 1.0,
+          :redis_sentinel_service_name          => 'mymaster',
           :tls_enabled                          => false,
           :tls_cafile                           => '/path/to/ssl/cafile',
           :tls_certfile                         => '/path/to/ssl/certfile',
@@ -103,6 +115,12 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/memcache_sasl_enabled').with_value(false)
         is_expected.to contain_keystone_config('cache/memcache_username').with_value('sasluser')
         is_expected.to contain_keystone_config('cache/memcache_password').with_value('saslpass').with_secret(true)
+        is_expected.to contain_keystone_config('cache/redis_server').with_value('localhost:6379')
+        is_expected.to contain_keystone_config('cache/redis_username').with_value('redisuser')
+        is_expected.to contain_keystone_config('cache/redis_password').with_value('redispass').with_secret(true)
+        is_expected.to contain_keystone_config('cache/redis_sentinels').with_value('host1:26379,host2:26379')
+        is_expected.to contain_keystone_config('cache/redis_socket_timeout').with_value(1.0)
+        is_expected.to contain_keystone_config('cache/redis_sentinel_service_name').with_value('mymaster')
         is_expected.to contain_keystone_config('cache/tls_enabled').with_value('false')
         is_expected.to contain_keystone_config('cache/tls_cafile').with_value('/path/to/ssl/cafile')
         is_expected.to contain_keystone_config('cache/tls_certfile').with_value('/path/to/ssl/certfile')
@@ -306,14 +324,57 @@ describe 'oslo::cache' do
     context 'with redis backend' do
       let :params do
         {
-          :backend          => 'dogpile.cache.redis',
-          :memcache_servers => ['host1:11211', 'host2:11211','[fd12:3456:789a:1::1]:11211'],
+          :backend => 'dogpile.cache.redis',
         }
       end
 
       it 'configures cache backend' do
         is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.redis')
-        is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,[fd12:3456:789a:1::1]:11211')
+        is_expected.to contain_package('python-redis').with(
+          :ensure => 'installed',
+          :name   => platform_params[:python_redis_package_name],
+          :tag    => ['openstack'],
+        )
+      end
+
+      context 'with package_ensure set' do
+        before do
+          params.merge!({
+            :package_ensure => 'latest'
+          })
+        end
+
+        it 'ensures status of the package' do
+          is_expected.to contain_package('python-redis').with(
+            :ensure => 'latest',
+            :name   => platform_params[:python_redis_package_name],
+            :tag    => ['openstack'],
+          )
+        end
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.not_to contain_package('python-redis')
+        end
+      end
+    end
+
+    context 'with redis sentinel backend' do
+      let :params do
+        {
+          :backend => 'dogpile.cache.redis_sentinel',
+        }
+      end
+
+      it 'configures cache backend' do
+        is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.redis_sentinel')
         is_expected.to contain_package('python-redis').with(
           :ensure => 'installed',
           :name   => platform_params[:python_redis_package_name],

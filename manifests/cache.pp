@@ -152,6 +152,30 @@
 #   (Optional) The password for the memcached with SASL enabled
 #   Defaults to $facts['os_service_default']
 #
+# [*redis_server*]
+#   (Optional) Redis server in the format of "host:port".
+#   Defaults to $facts['os_service_default']
+#
+# [*redis_username*]
+#   (Optional) The user name for redis
+#   Defaults to $facts['os_service_default']
+#
+# [*redis_password*]
+#   (Optional) The password for redis
+#   Defaults to $facts['os_service_default']
+#
+# [*redis_sentinels*]
+#   (Optional) Redis sentinel servers in the format of host:port
+#   Defaults to $facts['os_service_default']
+#
+# [*redis_socket_timeout*]
+#   (Optional) Timeout in seconds for every call to a server
+#   Defaults to $facts['os_service_default']
+#
+# [*redis_sentinel_service_name*]
+#   (Optional) Service name of the redis sentinel cluster.
+#   Defaults to $facts['os_service_default']
+#
 # [*tls_enabled*]
 #   (Optional) Global toggle for TLS usage when communicating with
 #   the caching servers.
@@ -246,6 +270,12 @@ define oslo::cache(
   $memcache_sasl_enabled                = $facts['os_service_default'],
   $memcache_username                    = $facts['os_service_default'],
   $memcache_password                    = $facts['os_service_default'],
+  $redis_server                         = $facts['os_service_default'],
+  $redis_username                       = $facts['os_service_default'],
+  $redis_password                       = $facts['os_service_default'],
+  $redis_sentinels                      = $facts['os_service_default'],
+  $redis_socket_timeout                 = $facts['os_service_default'],
+  $redis_sentinel_service_name          = $facts['os_service_default'],
   $tls_enabled                          = $facts['os_service_default'],
   $tls_cafile                           = $facts['os_service_default'],
   $tls_certfile                         = $facts['os_service_default'],
@@ -307,7 +337,7 @@ define oslo::cache(
           tag    => ['openstack'],
         })
       }
-      'dogpile.cache.redis': {
+      'dogpile.cache.redis', 'dogpile.cache.redis_sentinel': {
         ensure_packages('python-redis', {
           name   => $::oslo::params::python_redis_package_name,
           ensure => $package_ensure,
@@ -349,6 +379,12 @@ define oslo::cache(
     'cache/memcache_sasl_enabled'                => { value => $memcache_sasl_enabled },
     'cache/memcache_username'                    => { value => $memcache_username },
     'cache/memcache_password'                    => { value => $memcache_password, secret => true },
+    'cache/redis_server'                         => { value => $redis_server },
+    'cache/redis_username'                       => { value => $redis_username },
+    'cache/redis_password'                       => { value => $redis_password, secret => true },
+    'cache/redis_sentinels'                      => { value => join(any2array($redis_sentinels), ',') },
+    'cache/redis_socket_timeout'                 => { value => $redis_socket_timeout },
+    'cache/redis_sentinel_service_name'          => { value => $redis_sentinel_service_name },
     'cache/tls_enabled'                          => { value => $tls_enabled },
     'cache/tls_cafile'                           => { value => $tls_cafile },
     'cache/tls_certfile'                         => { value => $tls_certfile },
