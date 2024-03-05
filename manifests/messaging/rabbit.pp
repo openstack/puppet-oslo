@@ -117,6 +117,10 @@
 #   (Optional) Use quorum queues in RabbitMQ.
 #   Defaults to $facts['os_service_default']
 #
+# [*rabbit_transient_quorum_queue*]
+#   (Optional) Use quorum queues for transients queues in RabbitMQ.
+#   Defaults to $facts['os_service_default']
+#
 # [*rabbit_quorum_delivery_limit*]
 #   (Optional) Each time a message is rdelivered to a consumer, a counter is
 #   incremented. Once the redelivery count exceeds the delivery limit
@@ -153,6 +157,7 @@ define oslo::messaging::rabbit(
   $heartbeat_rate                       = $facts['os_service_default'],
   $heartbeat_in_pthread                 = $facts['os_service_default'],
   $rabbit_quorum_queue                  = $facts['os_service_default'],
+  $rabbit_transient_quorum_queue        = $facts['os_service_default'],
   $rabbit_quorum_delivery_limit         = $facts['os_service_default'],
   $rabbit_quorum_max_memory_length      = $facts['os_service_default'],
   $rabbit_quorum_max_memory_bytes       = $facts['os_service_default'],
@@ -204,6 +209,7 @@ define oslo::messaging::rabbit(
     'oslo_messaging_rabbit/rabbit_qos_prefetch_count'            => { value => $rabbit_qos_prefetch_count },
     'oslo_messaging_rabbit/rabbit_ha_queues'                     => { value => $rabbit_ha_queues },
     'oslo_messaging_rabbit/rabbit_quorum_queue'                  => { value => $rabbit_quorum_queue },
+    'oslo_messaging_rabbit/rabbit_transient_quorum_queue'        => { value => $rabbit_transient_quorum_queue },
     'oslo_messaging_rabbit/rabbit_quorum_delivery_limit'         => { value => $rabbit_quorum_delivery_limit },
     'oslo_messaging_rabbit/rabbit_quorum_max_memory_length'      => { value => $rabbit_quorum_max_memory_length },
     'oslo_messaging_rabbit/rabbit_quorum_max_memory_bytes'       => { value => $rabbit_quorum_max_memory_bytes },

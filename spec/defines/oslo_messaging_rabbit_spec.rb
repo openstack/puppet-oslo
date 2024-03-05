@@ -25,6 +25,7 @@ describe 'oslo::messaging::rabbit' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/heartbeat_in_pthread').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_queue').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_transient_quorum_queue').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_delivery_limit').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_length').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_bytes').with_value('<SERVICE DEFAULT>')
@@ -41,6 +42,7 @@ describe 'oslo::messaging::rabbit' do
           :kombu_compression               => 'bz2',
           :rabbit_ha_queues                => true,
           :rabbit_quorum_queue             => true,
+          :rabbit_transient_quorum_queue   => true,
           :rabbit_quorum_delivery_limit    => 3,
           :rabbit_quorum_max_memory_length => 5,
           :rabbit_quorum_max_memory_bytes  => 1073741824,
@@ -55,6 +57,7 @@ describe 'oslo::messaging::rabbit' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_compression').with_value('bz2')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_queue').with_value(true)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_transient_quorum_queue').with_value(true)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_delivery_limit').with_value(3)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_length').with_value(5)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_bytes').with_value(1073741824)
