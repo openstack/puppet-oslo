@@ -15,6 +15,7 @@ class oslo::params {
       $python_pymemcache_package_name = 'python3-pymemcache'
       $python_redis_package_name      = 'python3-redis'
       $python_etcd3gw_package_name    = 'python3-etcd3gw'
+      $python_kazoo_package_name      = 'python3-kazoo'
       $oslo_reports_package_name      = 'python3-oslo-reports'
     }
     'Debian': {
@@ -24,6 +25,7 @@ class oslo::params {
       $python_pymemcache_package_name = 'python3-pymemcache'
       $python_redis_package_name      = 'python3-redis'
       $python_etcd3gw_package_name    = 'python3-etcd3gw'
+      $python_kazoo_package_name      = 'python3-kazoo'
       $oslo_reports_package_name      = 'python3-oslo.reports'
     }
     default: {

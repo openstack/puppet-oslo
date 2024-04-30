@@ -47,7 +47,11 @@ describe 'oslo::coordination' do
 
       it 'configures etcd3gw backend' do
         is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3+http://localhost:2379').with_secret(true)
-        is_expected.to contain_package('python-etcd3gw')
+        is_expected.to contain_package('python-etcd3gw').with(
+          :name   => platform_params[:python_etcd3gw_package_name],
+          :ensure => 'installed',
+          :tag    => ['openstack'],
+        )
       end
 
       context 'with backend package management disabled' do
@@ -70,7 +74,11 @@ describe 'oslo::coordination' do
 
       it 'configures etcd3gw backend' do
         is_expected.to contain_keystone_config('coordination/backend_url').with_value('etcd3+https://localhost:2379').with_secret(true)
-        is_expected.to contain_package('python-etcd3gw')
+        is_expected.to contain_package('python-etcd3gw').with(
+          :name   => platform_params[:python_etcd3gw_package_name],
+          :ensure => 'installed',
+          :tag    => ['openstack'],
+        )
       end
 
       context 'with backend package management disabled' do
@@ -114,6 +122,62 @@ describe 'oslo::coordination' do
       end
     end
 
+    context 'with zookeeper backend' do
+      let :params do
+        { :backend_url => 'zookeeper://localhost:2181' }
+      end
+
+      it 'configures memcache backend' do
+        is_expected.to contain_keystone_config('coordination/backend_url').with_value('zookeeper://localhost:2181').with_secret(true)
+
+        is_expected.to contain_package('python-kazoo').with(
+          :name   => platform_params[:python_kazoo_package_name],
+          :ensure => 'installed',
+          :tag    => ['openstack'],
+        )
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.to_not contain_package('python-kazoo')
+        end
+      end
+    end
+
+    context 'with kazoo backend' do
+      let :params do
+        { :backend_url => 'kazoo://localhost:2181' }
+      end
+
+      it 'configures memcache backend' do
+        is_expected.to contain_keystone_config('coordination/backend_url').with_value('kazoo://localhost:2181').with_secret(true)
+
+        is_expected.to contain_package('python-kazoo').with(
+          :name   => platform_params[:python_kazoo_package_name],
+          :ensure => 'installed',
+          :tag    => ['openstack'],
+        )
+      end
+
+      context 'with backend package management disabled' do
+        before do
+          params.merge!({
+            :manage_backend_package => false,
+          })
+        end
+
+        it 'does not install backend package' do
+          is_expected.to_not contain_package('python-kazoo')
+        end
+      end
+    end
+
     context 'with configuration management disabled' do
       let :params do
         { :backend_url   => 'redis://localhost:6379',
@@ -143,14 +207,19 @@ describe 'oslo::coordination' do
       let(:platform_params) do
         case facts[:os]['family']
         when 'Debian'
-          { :python_redis_package_name      => 'python3-redis',
-            :python_etcd3_package_name      => 'python3-etcd3',
+          {
+            :python_redis_package_name      => 'python3-redis',
             :python_etcd3gw_package_name    => 'python3-etcd3gw',
-            :python_pymemcache_package_name => 'python3-pymemcache' }
+            :python_pymemcache_package_name => 'python3-pymemcache',
+            :python_kazoo_package_name      => 'python3-kazoo'
+          }
         when 'RedHat'
-          { :python_redis_package_name      => 'python3-redis',
+          {
+            :python_redis_package_name      => 'python3-redis',
             :python_etcd3gw_package_name    => 'python3-etcd3gw',
-            :python_pymemcache_package_name => 'python3-pymemcache' }
+            :python_pymemcache_package_name => 'python3-pymemcache',
+            :python_kazoo_package_name      => 'python3-kazoo'
+          }
         end
       end
 

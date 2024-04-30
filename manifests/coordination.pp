@@ -52,6 +52,13 @@ define oslo::coordination (
           tag    => ['openstack'],
         })
       }
+      /^(kazoo|zookeeper):\/\//: {
+        ensure_packages('python-kazoo', {
+          name   => $::oslo::params::python_kazoo_package_name,
+          ensure => $package_ensure,
+          tag    => ['openstack'],
+        })
+      }
       default: {
         # Nothing to do
       }
