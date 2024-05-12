@@ -10,8 +10,8 @@ describe 'oslo::db' do
       it 'configure oslo_db default params' do
         is_expected.to contain_keystone_config('database/sqlite_synchronous').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/backend').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('database/connection').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('database/slave_connection').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('database/connection').with_value('<SERVICE DEFAULT>').with_secret(true)
+        is_expected.to contain_keystone_config('database/slave_connection').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_keystone_config('database/mysql_sql_mode').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/connection_recycle_time').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('database/max_pool_size').with_value('<SERVICE DEFAULT>')
@@ -35,7 +35,8 @@ describe 'oslo::db' do
         {
           :config_group            => 'custom_group',
           :backend                 => 'sqlalchemy',
-          :connection              => 'mysql+pymysql://db:db@localhost/db',
+          :connection              => 'mysql+pymysql://db:db@master/db',
+          :slave_connection        => 'mysql+pymysql://db:db@slave/db',
           :mysql_sql_mode          => 'TRADITIONAL',
           :connection_recycle_time => '3601',
           :max_pool_size           => '100',
@@ -55,8 +56,10 @@ describe 'oslo::db' do
       end
 
       it 'configures database parameters' do
+        is_expected.to contain_keystone_config('custom_group/sqlite_synchronous').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('custom_group/backend').with_value('sqlalchemy')
-        is_expected.to contain_keystone_config('custom_group/connection').with_value('mysql+pymysql://db:db@localhost/db').with_secret(true)
+        is_expected.to contain_keystone_config('custom_group/connection').with_value('mysql+pymysql://db:db@master/db').with_secret(true)
+        is_expected.to contain_keystone_config('custom_group/slave_connection').with_value('mysql+pymysql://db:db@slave/db').with_secret(true)
         is_expected.to contain_keystone_config('custom_group/mysql_sql_mode').with_value('TRADITIONAL')
         is_expected.to contain_keystone_config('custom_group/connection_recycle_time').with_value('3601')
         is_expected.to contain_keystone_config('custom_group/max_pool_size').with_value('100')

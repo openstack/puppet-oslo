@@ -54,7 +54,9 @@ describe 'oslo::privsep' do
         is_expected.to contain_keystone_config('mysection/user').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('mysection/group').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('mysection/capabilities').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('mysection/thread_pool_size').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('mysection/helper_command').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('mysection/logger_name').with_value('<SERVICE DEFAULT>')
       end
     end
 
