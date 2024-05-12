@@ -21,7 +21,7 @@ describe 'oslo::messaging::default' do
           {
             :executor_thread_pool_size => '64',
             :rpc_response_timeout      => '42',
-            :transport_url             => 'proto://url',
+            :transport_url             => 'fake://',
             :control_exchange          => 'openstack',
           }
       end
@@ -29,7 +29,7 @@ describe 'oslo::messaging::default' do
       it 'configure DEFAULT with overridden values' do
         is_expected.to contain_keystone_config('DEFAULT/executor_thread_pool_size').with_value('64')
         is_expected.to contain_keystone_config('DEFAULT/rpc_response_timeout').with_value('42')
-        is_expected.to contain_keystone_config('DEFAULT/transport_url').with_value('proto://url').with_secret(true)
+        is_expected.to contain_keystone_config('DEFAULT/transport_url').with_value('fake://').with_secret(true)
         is_expected.to contain_keystone_config('DEFAULT/control_exchange').with_value('openstack')
       end
     end
