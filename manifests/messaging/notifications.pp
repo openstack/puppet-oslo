@@ -33,15 +33,11 @@
 #   Defaults to $facts['os_service_default'].
 #
 define oslo::messaging::notifications(
-  $driver        = $facts['os_service_default'],
-  $transport_url = $facts['os_service_default'],
-  $topics        = $facts['os_service_default'],
-  $retry         = $facts['os_service_default'],
+  $driver                           = $facts['os_service_default'],
+  Oslo::TransportURL $transport_url = $facts['os_service_default'],
+  $topics                           = $facts['os_service_default'],
+  $retry                            = $facts['os_service_default'],
 ) {
-
-  if $transport_url =~ 'amqp://.+' {
-    warning('amqp1 driver support has been deprecated, because the driver is deprecated.')
-  }
 
   # When we have a string value for driver,  we keep passing it as string
   # to reduce any chance of breaking things in a backwards incompatible way
