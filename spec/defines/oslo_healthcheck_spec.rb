@@ -18,6 +18,7 @@ describe 'oslo::healthcheck' do
         is_expected.to contain_keystone_config('healthcheck/ignore_proxied_requests').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('healthcheck/disable_by_file_path').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('healthcheck/disable_by_file_paths').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('healthcheck/enable_by_file_paths').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -31,6 +32,10 @@ describe 'oslo::healthcheck' do
           :disable_by_file_paths   => [
             '5000:/etc/keystone/healthcheck/public-disabled',
             '35357:/etc/keystone/healthcheck/admin-disabled'
+          ],
+          :enable_by_file_paths    => [
+            '/etc/keystone/healthcheck/enabled0',
+            '/etc/keystone/healthcheck/enabled1'
           ],
           :ignore_proxied_requests => false,
         }
@@ -50,6 +55,9 @@ describe 'oslo::healthcheck' do
         )
         is_expected.to contain_keystone_config('healthcheck/disable_by_file_paths').with_value(
           '5000:/etc/keystone/healthcheck/public-disabled,35357:/etc/keystone/healthcheck/admin-disabled'
+        )
+        is_expected.to contain_keystone_config('healthcheck/enable_by_file_paths').with_value(
+          '/etc/keystone/healthcheck/enabled0,/etc/keystone/healthcheck/enabled1'
         )
       end
     end
