@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``oslo::messaging::rabbitmq::enable_cancel_on_failover`` parameter
+    has been added.

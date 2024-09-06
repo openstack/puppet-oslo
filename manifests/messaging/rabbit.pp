@@ -135,6 +135,11 @@
 #   (Optional) Limit the number of memory bytes used by the quorum queue.
 #   Defaults to $facts['os_service_default']
 #
+# [*enable_cancel_on_failover*]
+#   (Optional) Enable x-cancel-on-ha-failover flag so that rabbitmq server will
+#   cancel and notify consumers when queue is down.
+#   Defaults to $facts['os_service_default']
+#
 define oslo::messaging::rabbit(
   $amqp_durable_queues                  = $facts['os_service_default'],
   $kombu_ssl_version                    = $facts['os_service_default'],
@@ -161,6 +166,7 @@ define oslo::messaging::rabbit(
   $rabbit_quorum_delivery_limit         = $facts['os_service_default'],
   $rabbit_quorum_max_memory_length      = $facts['os_service_default'],
   $rabbit_quorum_max_memory_bytes       = $facts['os_service_default'],
+  $enable_cancel_on_failover            = $facts['os_service_default'],
 ){
 
   $kombu_ssl_ca_certs_set = (!is_service_default($kombu_ssl_ca_certs) and ($kombu_ssl_ca_certs))
@@ -213,6 +219,7 @@ define oslo::messaging::rabbit(
     'oslo_messaging_rabbit/rabbit_quorum_delivery_limit'         => { value => $rabbit_quorum_delivery_limit },
     'oslo_messaging_rabbit/rabbit_quorum_max_memory_length'      => { value => $rabbit_quorum_max_memory_length },
     'oslo_messaging_rabbit/rabbit_quorum_max_memory_bytes'       => { value => $rabbit_quorum_max_memory_bytes },
+    'oslo_messaging_rabbit/enable_cancel_on_failover'            => { value => $enable_cancel_on_failover },
     'oslo_messaging_rabbit/ssl_ca_file'                          => { value => $kombu_ssl_ca_certs },
     'oslo_messaging_rabbit/ssl_cert_file'                        => { value => $kombu_ssl_certfile },
     'oslo_messaging_rabbit/ssl_key_file'                         => { value => $kombu_ssl_keyfile },
