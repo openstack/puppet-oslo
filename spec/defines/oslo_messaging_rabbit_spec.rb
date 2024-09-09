@@ -33,6 +33,7 @@ describe 'oslo::messaging::rabbit' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/use_queue_manager').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/hostname').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/processname').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_stream_fanout').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -54,6 +55,7 @@ describe 'oslo::messaging::rabbit' do
           :use_queue_manager               => false,
           :hostname                        => 'node1.example.com',
           :processname                     => 'procname',
+          :rabbit_stream_fanout            => false,
         }
       end
 
@@ -73,6 +75,7 @@ describe 'oslo::messaging::rabbit' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/use_queue_manager').with_value(false)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/hostname').with_value('node1.example.com')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/processname').with_value('procname')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_stream_fanout').with_value(false)
       end
     end
 

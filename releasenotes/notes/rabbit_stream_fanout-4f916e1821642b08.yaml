@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``oslo::messaging::rabbit::rabbit_stream_fanout`` parmaeter has
+    been added.

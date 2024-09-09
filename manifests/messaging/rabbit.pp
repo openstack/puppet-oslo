@@ -152,6 +152,11 @@
 #   (Optional) Process name used by queue manager.
 #   Defaults to $facts['os_service_default']
 #
+# [*rabbit_stream_fanout*]
+#   (Optional) Use stream queues in RabbitMQ (x-queue-type: stream) for
+#   fanout queues.
+#   Defaults to $facts['os_service_default']
+#
 define oslo::messaging::rabbit(
   $amqp_durable_queues                  = $facts['os_service_default'],
   $kombu_ssl_version                    = $facts['os_service_default'],
@@ -182,6 +187,7 @@ define oslo::messaging::rabbit(
   $use_queue_manager                    = $facts['os_service_default'],
   $hostname                             = $facts['os_service_default'],
   $processname                          = $facts['os_service_default'],
+  $rabbit_stream_fanout                 = $facts['os_service_default'],
 ){
 
   $kombu_ssl_ca_certs_set = (!is_service_default($kombu_ssl_ca_certs) and ($kombu_ssl_ca_certs))
@@ -238,6 +244,7 @@ define oslo::messaging::rabbit(
     'oslo_messaging_rabbit/use_queue_manager'                    => { value => $use_queue_manager },
     'oslo_messaging_rabbit/hostname'                             => { value => $hostname },
     'oslo_messaging_rabbit/processname'                          => { value => $processname },
+    'oslo_messaging_rabbit/rabbit_stream_fanout'                 => { value => $rabbit_stream_fanout },
     'oslo_messaging_rabbit/ssl_ca_file'                          => { value => $kombu_ssl_ca_certs },
     'oslo_messaging_rabbit/ssl_cert_file'                        => { value => $kombu_ssl_certfile },
     'oslo_messaging_rabbit/ssl_key_file'                         => { value => $kombu_ssl_keyfile },
