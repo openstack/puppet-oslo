@@ -30,6 +30,9 @@ describe 'oslo::messaging::rabbit' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_length').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_bytes').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/enable_cancel_on_failover').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/use_queue_manager').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/hostname').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/processname').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -48,6 +51,9 @@ describe 'oslo::messaging::rabbit' do
           :rabbit_quorum_max_memory_length => 5,
           :rabbit_quorum_max_memory_bytes  => 1073741824,
           :enable_cancel_on_failover       => false,
+          :use_queue_manager               => false,
+          :hostname                        => 'node1.example.com',
+          :processname                     => 'procname',
         }
       end
 
@@ -64,6 +70,9 @@ describe 'oslo::messaging::rabbit' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_length').with_value(5)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/rabbit_quorum_max_memory_bytes').with_value(1073741824)
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/enable_cancel_on_failover').with_value(false)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/use_queue_manager').with_value(false)
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/hostname').with_value('node1.example.com')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/processname').with_value('procname')
       end
     end
 
