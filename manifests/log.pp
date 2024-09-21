@@ -31,10 +31,6 @@
 #   If set to $facts['os_service_default'], it will not log to any directory.
 #   Defaults to $facts['os_service_default']
 #
-# [*watch_log_file*]
-#   (Optional) Uses logging handler designed to watch file system (boolean value).
-#   Defaults to $facts['os_service_default']
-#
 # [*use_syslog*]
 #   (Optional) Use syslog for logging (boolean value).
 #   Defaults to $facts['os_service_default']
@@ -110,13 +106,18 @@
 #   (Optional) Enables or disables fatal status of deprecations (boolean value).
 #   Defaults to $facts['os_service_default']
 #
+# DEPRECATED PARAMETERS
+#
+# [*watch_log_file*]
+#   (Optional) Uses logging handler designed to watch file system (boolean value).
+#   Defaults to undef
+#
 define oslo::log(
   $debug                         = $facts['os_service_default'],
   $log_config_append             = $facts['os_service_default'],
   $log_date_format               = $facts['os_service_default'],
   $log_file                      = $facts['os_service_default'],
   $log_dir                       = $facts['os_service_default'],
-  $watch_log_file                = $facts['os_service_default'],
   $use_syslog                    = $facts['os_service_default'],
   $use_journal                   = $facts['os_service_default'],
   $use_json                      = $facts['os_service_default'],
@@ -132,7 +133,16 @@ define oslo::log(
   $instance_format               = $facts['os_service_default'],
   $instance_uuid_format          = $facts['os_service_default'],
   $fatal_deprecations            = $facts['os_service_default'],
+  # DEPRECATED PARMETERS
+  $watch_log_file                = undef,
 ){
+
+  if $watch_log_file {
+    warning('The watch_log_file parameter has been deprecated and has no effect.')
+    $watch_log_file_real = $watch_log_file
+  } else {
+    $watch_log_file_real = $facts['os_service_default']
+  }
 
   $default_log_levels_real = $default_log_levels ? {
     Hash    => join(sort(join_keys_to_values($default_log_levels, '=')), ','),
@@ -154,7 +164,7 @@ define oslo::log(
     'DEFAULT/log_date_format'               => { value => $log_date_format },
     'DEFAULT/log_file'                      => { value => $log_file },
     'DEFAULT/log_dir'                       => { value => $log_dir },
-    'DEFAULT/watch_log_file'                => { value => $watch_log_file },
+    'DEFAULT/watch_log_file'                => { value => $watch_log_file_real },
     'DEFAULT/use_syslog'                    => { value => $use_syslog },
     'DEFAULT/use_journal'                   => { value => $use_journal },
     'DEFAULT/use_json'                      => { value => $use_json },
