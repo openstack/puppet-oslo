@@ -137,8 +137,9 @@ define oslo::log(
   $watch_log_file                = undef,
 ){
 
-  if $watch_log_file {
-    warning('The watch_log_file parameter has been deprecated and has no effect.')
+  if $watch_log_file != undef {
+    warning("The watch_log_file parameter has been deprecated \
+and will be removed in a future release.")
     $watch_log_file_real = $watch_log_file
   } else {
     $watch_log_file_real = $facts['os_service_default']
