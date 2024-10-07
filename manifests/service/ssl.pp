@@ -47,7 +47,7 @@ define oslo::service::ssl (
   $service_options = {
     'ssl/ca_file'   => { value => $ca_file },
     'ssl/cert_file' => { value => $cert_file },
-    'ssl/ciphers'   => { value => $ciphers },
+    'ssl/ciphers'   => { value => join(any2array($ciphers), ':') },
     'ssl/key_file'  => { value => $key_file },
     'ssl/version'   => { value => $version },
   }

@@ -59,6 +59,17 @@ describe 'oslo::service::ssl' do
         should raise_error(Puppet::Error)
       end
     end
+
+    context 'with list values' do
+      let :params do
+        {
+          :ciphers => ['HIGH', '!RC4', '!MD5', '!aNULL', '!eNULL', '!EXP', '!LOW', '!MEDIUM'],
+        }
+      end
+      it 'configures ssl parameters' do
+        is_expected.to contain_keystone_config('ssl/ciphers').with_value('HIGH:!RC4:!MD5:!aNULL:!eNULL:!EXP:!LOW:!MEDIUM')
+      end
+    end
   end
 
   on_supported_os({
