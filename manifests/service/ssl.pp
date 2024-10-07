@@ -40,6 +40,10 @@ define oslo::service::ssl (
   $version   = $facts['os_service_default'],
 ) {
 
+  if is_service_default($cert_file) != is_service_default($key_file) {
+    fail('Both of cert_file and key_file should be set or unset.')
+  }
+
   $service_options = {
     'ssl/ca_file'   => { value => $ca_file },
     'ssl/cert_file' => { value => $cert_file },

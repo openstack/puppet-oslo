@@ -35,6 +35,30 @@ describe 'oslo::service::ssl' do
         is_expected.to contain_keystone_config('ssl/version').with_value('TLSv1')
       end
     end
+
+    context 'with only cert_file' do
+      let :params do
+        {
+          :cert_file => '/path/to/cert/file',
+        }
+      end
+
+      it 'fails because of incomplete input' do
+        should raise_error(Puppet::Error)
+      end
+    end
+
+    context 'with only key_file' do
+      let :params do
+        {
+          :key_file => '/path/to/key/file',
+        }
+      end
+
+      it 'fails because of incomplete input' do
+        should raise_error(Puppet::Error)
+      end
+    end
   end
 
   on_supported_os({
