@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``oslo::cache::backend_expiration_time`` parameter has been added.

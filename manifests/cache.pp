@@ -50,6 +50,11 @@
 #   (integer value)
 #   Defaults to $facts['os_service_default']
 #
+# [*backend_expiration_time*]
+#   (Optional) Expiration time in cache backend to purge expired records
+#   automatically.
+#   Defaults to $facts['os_service_default']
+#
 # [*backend*]
 #   (Optional) Dogpile.cache backend module. It is recommended that
 #   Memcache with pooling (oslo_cache.memcache_pool) or Redis
@@ -251,6 +256,7 @@
 define oslo::cache(
   $config_prefix                        = $facts['os_service_default'],
   $expiration_time                      = $facts['os_service_default'],
+  $backend_expiration_time              = $facts['os_service_default'],
   $backend                              = $facts['os_service_default'],
   $backend_argument                     = $facts['os_service_default'],
   $proxies                              = $facts['os_service_default'],
@@ -360,6 +366,7 @@ define oslo::cache(
   $cache_options = {
     'cache/config_prefix'                        => { value => $config_prefix },
     'cache/expiration_time'                      => { value => $expiration_time },
+    'cache/backend_expiration_time'              => { value => $backend_expiration_time },
     'cache/backend'                              => { value => $backend },
     'cache/backend_argument'                     => { value => $backend_argument },
     'cache/proxies'                              => { value => join(any2array($proxies), ',') },

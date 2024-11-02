@@ -10,6 +10,7 @@ describe 'oslo::cache' do
       it 'configure oslo_cache default params' do
         is_expected.to contain_keystone_config('cache/config_prefix').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/expiration_time').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/backend_expiration_time').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/backend').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/backend_argument').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/proxies').with_value('<SERVICE DEFAULT>')
@@ -53,7 +54,8 @@ describe 'oslo::cache' do
       let :params do
         {
           :config_prefix                        => 'cache.oslo',
-          :expiration_time                      => '600',
+          :expiration_time                      => 600,
+          :backend_expiration_time              => 700,
           :backend                              => 'dogpile.cache.null',
           :backend_argument                     => ['arg1:val1', 'arg2:val2'],
           :proxies                              => ['proxy1', 'proxy2'],
@@ -95,7 +97,8 @@ describe 'oslo::cache' do
 
       it 'configures cache section' do
         is_expected.to contain_keystone_config('cache/config_prefix').with_value('cache.oslo')
-        is_expected.to contain_keystone_config('cache/expiration_time').with_value('600')
+        is_expected.to contain_keystone_config('cache/expiration_time').with_value(600)
+        is_expected.to contain_keystone_config('cache/backend_expiration_time').with_value(700)
         is_expected.to contain_keystone_config('cache/backend').with_value('dogpile.cache.null')
         is_expected.to contain_keystone_config('cache/backend_argument').with_value(['arg1:val1', 'arg2:val2'])
         is_expected.to contain_keystone_config('cache/proxies').with_value('proxy1,proxy2')
