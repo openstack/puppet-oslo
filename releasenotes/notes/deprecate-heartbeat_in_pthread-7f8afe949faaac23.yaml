@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``oslo::messaging::rabbit::heartbeat_in_pthread`` parameter has been
+    deprecated and will be removed in a future release.

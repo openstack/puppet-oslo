@@ -103,16 +103,6 @@
 #   we check the heartbeat. (integer value)
 #   Defaults to $facts['os_service_default']
 #
-# [*heartbeat_in_pthread*]
-#   (Optional) EXPERIMENTAL: Run the health check heartbeat thread
-#   through a native python thread. By default if this
-#   option isn't provided the  health check heartbeat will
-#   inherit the execution model from the parent process. By
-#   example if the parent process have monkey patched the
-#   stdlib by using eventlet/greenlet then the heartbeat
-#   will be run through a green thread.
-#   Defaults to $facts['os_service_default']
-#
 # [*rabbit_quorum_queue*]
 #   (Optional) Use quorum queues in RabbitMQ.
 #   Defaults to $facts['os_service_default']
@@ -157,6 +147,18 @@
 #   fanout queues.
 #   Defaults to $facts['os_service_default']
 #
+# DEPRECATED PARAMETERS
+#
+# [*heartbeat_in_pthread*]
+#   (Optional) EXPERIMENTAL: Run the health check heartbeat thread
+#   through a native python thread. By default if this
+#   option isn't provided the  health check heartbeat will
+#   inherit the execution model from the parent process. By
+#   example if the parent process have monkey patched the
+#   stdlib by using eventlet/greenlet then the heartbeat
+#   will be run through a green thread.
+#   Defaults to undef
+#
 define oslo::messaging::rabbit(
   $amqp_durable_queues                  = $facts['os_service_default'],
   $kombu_ssl_version                    = $facts['os_service_default'],
@@ -177,7 +179,6 @@ define oslo::messaging::rabbit(
   $rabbit_transient_queues_ttl          = $facts['os_service_default'],
   $heartbeat_timeout_threshold          = $facts['os_service_default'],
   $heartbeat_rate                       = $facts['os_service_default'],
-  $heartbeat_in_pthread                 = $facts['os_service_default'],
   $rabbit_quorum_queue                  = $facts['os_service_default'],
   $rabbit_transient_quorum_queue        = $facts['os_service_default'],
   $rabbit_quorum_delivery_limit         = $facts['os_service_default'],
@@ -188,7 +189,13 @@ define oslo::messaging::rabbit(
   $hostname                             = $facts['os_service_default'],
   $processname                          = $facts['os_service_default'],
   $rabbit_stream_fanout                 = $facts['os_service_default'],
+  # DEPRECATED PARAMETERS
+  $heartbeat_in_pthread                 = undef,
 ){
+
+  if $heartbeat_in_pthread != undef {
+    warning('The heartbeat_in_pthread parameter is deprecated.')
+  }
 
   $kombu_ssl_ca_certs_set = (!is_service_default($kombu_ssl_ca_certs) and ($kombu_ssl_ca_certs))
   $kombu_ssl_certfile_set = (!is_service_default($kombu_ssl_certfile) and ($kombu_ssl_certfile))
@@ -221,7 +228,7 @@ define oslo::messaging::rabbit(
   $rabbit_options = {
     'oslo_messaging_rabbit/amqp_durable_queues'                  => { value => $amqp_durable_queues },
     'oslo_messaging_rabbit/heartbeat_rate'                       => { value => $heartbeat_rate },
-    'oslo_messaging_rabbit/heartbeat_in_pthread'                 => { value => $heartbeat_in_pthread },
+    'oslo_messaging_rabbit/heartbeat_in_pthread'                 => { value => pick($heartbeat_in_pthread, $facts['os_service_default']) },
     'oslo_messaging_rabbit/heartbeat_timeout_threshold'          => { value => $heartbeat_timeout_threshold },
     'oslo_messaging_rabbit/kombu_compression'                    => { value => $kombu_compression },
     'oslo_messaging_rabbit/kombu_failover_strategy'              => { value => $kombu_failover_strategy },
