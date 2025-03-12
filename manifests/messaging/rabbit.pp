@@ -11,6 +11,10 @@
 #   (optional) Define queues as "durable" to rabbitmq. (boolean value)
 #   Defaults to $facts['os_service_default']
 #
+#  [*amqp_auto_delete*]
+#   (optional) Define if transient queues should be auto-deleted (boolean value)
+#   Defaults to $facts['os_service_default']
+#
 # [*kombu_ssl_version*]
 #   (Optional) SSL version to use (valid only if SSL enabled). '
 #   Valid values are TLSv1 and SSLv23. SSLv2, SSLv3, TLSv1_1,
@@ -161,6 +165,7 @@
 #
 define oslo::messaging::rabbit(
   $amqp_durable_queues                  = $facts['os_service_default'],
+  $amqp_auto_delete                     = $facts['os_service_default'],
   $kombu_ssl_version                    = $facts['os_service_default'],
   $kombu_ssl_keyfile                    = $facts['os_service_default'],
   $kombu_ssl_certfile                   = $facts['os_service_default'],
@@ -227,6 +232,7 @@ define oslo::messaging::rabbit(
 
   $rabbit_options = {
     'oslo_messaging_rabbit/amqp_durable_queues'                  => { value => $amqp_durable_queues },
+    'oslo_messaging_rabbit/amqp_auto_delete'                     => { value => $amqp_auto_delete },
     'oslo_messaging_rabbit/heartbeat_rate'                       => { value => $heartbeat_rate },
     'oslo_messaging_rabbit/heartbeat_in_pthread'                 => { value => pick($heartbeat_in_pthread, $facts['os_service_default']) },
     'oslo_messaging_rabbit/heartbeat_timeout_threshold'          => { value => $heartbeat_timeout_threshold },

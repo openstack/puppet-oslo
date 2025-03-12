@@ -9,6 +9,7 @@ describe 'oslo::messaging::rabbit' do
     context 'with default parameters' do
       it 'configure oslo_messaging_rabbit default params' do
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/amqp_durable_queues').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('oslo_messaging_rabbit/amqp_auto_delete').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_missing_consumer_retry_timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('oslo_messaging_rabbit/kombu_failover_strategy').with_value('<SERVICE DEFAULT>')
