@@ -1,5 +1,5 @@
 ---
 features:
   - |
-    A new parameter `amqp_auto_delete` has been added to allow automatic
+    A new parameter ``amqp_auto_delete`` has been added to allow automatic
     deletion of transient queues.
