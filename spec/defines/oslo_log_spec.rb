@@ -13,7 +13,6 @@ describe 'oslo::log' do
         is_expected.to contain_keystone_config('DEFAULT/log_date_format').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('DEFAULT/log_file').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('DEFAULT/log_dir').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_keystone_config('DEFAULT/watch_log_file').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('DEFAULT/use_syslog').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('DEFAULT/use_journal').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('DEFAULT/use_json').with_value('<SERVICE DEFAULT>')
@@ -39,7 +38,6 @@ describe 'oslo::log' do
           :log_date_format               => '%Y-%m-%d %H:%M:%S',
           :log_file                      => '/var/log/keystone/keystone.log',
           :log_dir                       => '/var/log/keystone',
-          :watch_log_file                => true,
           :use_syslog                    => true,
           :use_journal                   => true,
           :use_json                      => true,
@@ -67,7 +65,6 @@ describe 'oslo::log' do
         is_expected.to contain_keystone_config('DEFAULT/log_date_format').with_value('%Y-%m-%d %H:%M:%S')
         is_expected.to contain_keystone_config('DEFAULT/log_file').with_value('/var/log/keystone/keystone.log')
         is_expected.to contain_keystone_config('DEFAULT/log_dir').with_value('/var/log/keystone')
-        is_expected.to contain_keystone_config('DEFAULT/watch_log_file').with_value(true)
         is_expected.to contain_keystone_config('DEFAULT/use_syslog').with_value(true)
         is_expected.to contain_keystone_config('DEFAULT/use_journal').with_value(true)
         is_expected.to contain_keystone_config('DEFAULT/use_json').with_value(true)

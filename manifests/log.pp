@@ -106,12 +106,6 @@
 #   (Optional) Enables or disables fatal status of deprecations (boolean value).
 #   Defaults to $facts['os_service_default']
 #
-# DEPRECATED PARAMETERS
-#
-# [*watch_log_file*]
-#   (Optional) Uses logging handler designed to watch file system (boolean value).
-#   Defaults to undef
-#
 define oslo::log(
   $debug                         = $facts['os_service_default'],
   $log_config_append             = $facts['os_service_default'],
@@ -133,17 +127,7 @@ define oslo::log(
   $instance_format               = $facts['os_service_default'],
   $instance_uuid_format          = $facts['os_service_default'],
   $fatal_deprecations            = $facts['os_service_default'],
-  # DEPRECATED PARMETERS
-  $watch_log_file                = undef,
 ){
-
-  if $watch_log_file != undef {
-    warning("The watch_log_file parameter has been deprecated \
-and will be removed in a future release.")
-    $watch_log_file_real = $watch_log_file
-  } else {
-    $watch_log_file_real = $facts['os_service_default']
-  }
 
   $default_log_levels_real = $default_log_levels ? {
     Hash    => join(sort(join_keys_to_values($default_log_levels, '=')), ','),
@@ -165,7 +149,6 @@ and will be removed in a future release.")
     'DEFAULT/log_date_format'               => { value => $log_date_format },
     'DEFAULT/log_file'                      => { value => $log_file },
     'DEFAULT/log_dir'                       => { value => $log_dir },
-    'DEFAULT/watch_log_file'                => { value => $watch_log_file_real },
     'DEFAULT/use_syslog'                    => { value => $use_syslog },
     'DEFAULT/use_journal'                   => { value => $use_journal },
     'DEFAULT/use_json'                      => { value => $use_json },
