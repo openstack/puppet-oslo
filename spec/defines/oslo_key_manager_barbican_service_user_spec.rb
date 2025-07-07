@@ -66,10 +66,10 @@ describe 'oslo::key_manager::barbican::service_user' do
     end
 
     context 'without password required parameter' do
-      let :params do
+      before do
         params.delete(:password)
       end
-      it { expect { is_expected.to raise_error(Puppet::Error) } }
+      it { is_expected.to raise_error(Puppet::Error) }
     end
 
     context 'with system_scope' do
