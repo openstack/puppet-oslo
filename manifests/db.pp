@@ -164,7 +164,7 @@ define oslo::db(
     }
 
     if $backend_package {
-      ensure_packages($backend_package, {
+      stdlib::ensure_packages($backend_package, {
         ensure => $backend_package_ensure,
         name   => $backend_package,
         tag    => 'openstack',
