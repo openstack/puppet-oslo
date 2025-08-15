@@ -47,7 +47,7 @@ define oslo::reports(
   }
 
   if $manage_package {
-    ensure_packages( 'oslo.reports', {
+    stdlib::ensure_packages( 'oslo.reports', {
       name   => $::oslo::params::oslo_reports_package_name,
       ensure => $package_ensure,
       tag    => ['openstack'],
