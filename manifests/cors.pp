@@ -54,7 +54,7 @@ define oslo::cors(
     'cors/expose_headers'    => { value => join(any2array($expose_headers), ',') },
     'cors/max_age'           => { value => $max_age },
     'cors/allow_methods'     => { value => join(any2array($allow_methods), ',') },
-    'cors/allow_headers'     => { value => join(any2array($allow_headers), ',') }
+    'cors/allow_headers'     => { value => join(any2array($allow_headers), ',') },
   }
   create_resources($name, $cors_options)
 }

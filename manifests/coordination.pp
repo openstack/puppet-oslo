@@ -33,28 +33,28 @@ define oslo::coordination (
     case $backend_url {
       /^redis:\/\//: {
         stdlib::ensure_packages('python-redis', {
-          name   => $::oslo::params::python_redis_package_name,
+          name   => $oslo::params::python_redis_package_name,
           ensure => $package_ensure,
           tag    => ['openstack'],
         })
       }
       /^etcd3\+http[s]?:\/\//: {
         stdlib::ensure_packages('python-etcd3gw', {
-          name   => $::oslo::params::python_etcd3gw_package_name,
+          name   => $oslo::params::python_etcd3gw_package_name,
           ensure => $package_ensure,
           tag    => ['openstack'],
         })
       }
       /^memcached:\/\//: {
         stdlib::ensure_packages('python-pymemcache', {
-          name   => $::oslo::params::python_pymemcache_package_name,
+          name   => $oslo::params::python_pymemcache_package_name,
           ensure => $package_ensure,
           tag    => ['openstack'],
         })
       }
       /^(kazoo|zookeeper):\/\//: {
         stdlib::ensure_packages('python-kazoo', {
-          name   => $::oslo::params::python_kazoo_package_name,
+          name   => $oslo::params::python_kazoo_package_name,
           ensure => $package_ensure,
           tag    => ['openstack'],
         })

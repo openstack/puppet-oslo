@@ -318,13 +318,13 @@ define oslo::cache(
       'dogpile.cache.pylibmc': {
         stdlib::ensure_packages('python-pylibmc', {
           ensure => $package_ensure,
-          name   => $::oslo::params::pylibmc_package_name,
+          name   => $oslo::params::pylibmc_package_name,
           tag    => 'openstack',
         })
       }
       'dogpile.cache.bmemcached': {
         stdlib::ensure_packages('python-binary-memcached', {
-          name   => $::oslo::params::python_bmemcached_package_name,
+          name   => $oslo::params::python_bmemcached_package_name,
           ensure => $package_ensure,
           tag    => ['openstack'],
         })
@@ -332,27 +332,27 @@ define oslo::cache(
       'dogpile.cache.memcached', 'oslo_cache.memcache_pool': {
         stdlib::ensure_packages('python-memcache', {
           ensure => $package_ensure,
-          name   => $::oslo::params::python_memcache_package_name,
+          name   => $oslo::params::python_memcache_package_name,
           tag    => ['openstack'],
         })
       }
       'dogpile.cache.pymemcache': {
         stdlib::ensure_packages('python-pymemcache', {
           ensure => $package_ensure,
-          name   => $::oslo::params::python_pymemcache_package_name,
+          name   => $oslo::params::python_pymemcache_package_name,
           tag    => ['openstack'],
         })
       }
       'dogpile.cache.redis', 'dogpile.cache.redis_sentinel': {
         stdlib::ensure_packages('python-redis', {
-          name   => $::oslo::params::python_redis_package_name,
+          name   => $oslo::params::python_redis_package_name,
           ensure => $package_ensure,
           tag    => ['openstack'],
         })
       }
       'oslo_cache.etcd3gw': {
         stdlib::ensure_packages('python-etcd3gw', {
-          name   => $::oslo::params::python_etcd3gw_package_name,
+          name   => $oslo::params::python_etcd3gw_package_name,
           ensure => $package_ensure,
           tag    => 'openstack',
         })

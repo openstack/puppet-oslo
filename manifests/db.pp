@@ -146,7 +146,7 @@ define oslo::db(
         require 'mysql::bindings'
         require 'mysql::bindings::python'
         if $connection =~ /^mysql\+pymysql/ {
-          $backend_package = $::oslo::params::pymysql_package_name
+          $backend_package = $oslo::params::pymysql_package_name
         } else {
           $backend_package = undef
         }

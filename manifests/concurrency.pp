@@ -23,7 +23,7 @@ define oslo::concurrency(
 ) {
   $concurrency_options = {
     'oslo_concurrency/disable_process_locking' => { value => $disable_process_locking },
-    'oslo_concurrency/lock_path'               => { value => $lock_path }
+    'oslo_concurrency/lock_path'               => { value => $lock_path },
   }
 
   create_resources($name, $concurrency_options)
