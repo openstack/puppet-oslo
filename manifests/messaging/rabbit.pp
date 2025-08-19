@@ -163,7 +163,7 @@
 #   will be run through a green thread.
 #   Defaults to undef
 #
-define oslo::messaging::rabbit(
+define oslo::messaging::rabbit (
   $amqp_durable_queues                  = $facts['os_service_default'],
   $amqp_auto_delete                     = $facts['os_service_default'],
   $kombu_ssl_version                    = $facts['os_service_default'],
@@ -196,8 +196,7 @@ define oslo::messaging::rabbit(
   $rabbit_stream_fanout                 = $facts['os_service_default'],
   # DEPRECATED PARAMETERS
   $heartbeat_in_pthread                 = undef,
-){
-
+) {
   if $heartbeat_in_pthread != undef {
     warning('The heartbeat_in_pthread parameter is deprecated.')
   }

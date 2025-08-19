@@ -66,7 +66,6 @@ define oslo::privsep (
   $helper_command   = $facts['os_service_default'],
   $logger_name      = $facts['os_service_default'],
 ) {
-
   $privsep_options = {
     "${config_group}/user"             => { value => $user },
     "${config_group}/group"            => { value => $group },
@@ -75,6 +74,5 @@ define oslo::privsep (
     "${config_group}/helper_command"   => { value => $helper_command },
     "${config_group}/logger_name"      => { value => $logger_name },
   }
-
   create_resources($config, $privsep_options)
 }

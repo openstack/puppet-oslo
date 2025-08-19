@@ -71,7 +71,7 @@
 #  (Optional) Always use this endpoint URL for requests for this client.
 #  Defaults to $facts['os_service_default'].
 #
-define oslo::limit(
+define oslo::limit (
   String[1] $username,
   String[1] $password,
   Optional[String[1]] $endpoint_id           = undef,
@@ -90,7 +90,6 @@ define oslo::limit(
   $region_name                               = $facts['os_service_default'],
   $endpoint_override                         = $facts['os_service_default'],
 ) {
-
   if delete_undef_values([$endpoint_id, $endpoint_service_name, $endpoint_service_type]) == [] {
     fail('Either endpoint_id, endpoint_service_name or endpoint_service_type is required')
   }

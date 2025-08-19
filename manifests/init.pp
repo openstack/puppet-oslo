@@ -5,7 +5,5 @@
 # === Parameters
 #
 class oslo {
-
   include oslo::params
-
 }

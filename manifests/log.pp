@@ -106,7 +106,7 @@
 #   (Optional) Enables or disables fatal status of deprecations (boolean value).
 #   Defaults to $facts['os_service_default']
 #
-define oslo::log(
+define oslo::log (
   $debug                         = $facts['os_service_default'],
   $log_config_append             = $facts['os_service_default'],
   $log_date_format               = $facts['os_service_default'],
@@ -127,8 +127,7 @@ define oslo::log(
   $instance_format               = $facts['os_service_default'],
   $instance_uuid_format          = $facts['os_service_default'],
   $fatal_deprecations            = $facts['os_service_default'],
-){
-
+) {
   $default_log_levels_real = $default_log_levels ? {
     Hash    => join(sort(join_keys_to_values($default_log_levels, '=')), ','),
     Array   => join(sort($default_log_levels), ','),

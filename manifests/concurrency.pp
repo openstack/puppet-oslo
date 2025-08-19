@@ -17,7 +17,7 @@
 #  If external locks are used, a lock path must be set. (string value)
 #  Defaults to $facts['os_service_default'].
 #
-define oslo::concurrency(
+define oslo::concurrency (
   $disable_process_locking = $facts['os_service_default'],
   $lock_path               = $facts['os_service_default'],
 ) {

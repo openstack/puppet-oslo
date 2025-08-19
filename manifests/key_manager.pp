@@ -12,14 +12,12 @@
 #   (Optional) Specify the key manager implementation.
 #   Defaults to $facts['os_service_default']
 #
-define oslo::key_manager(
+define oslo::key_manager (
   $config  = $name,
   $backend = $facts['os_service_default'],
 ) {
-
   $key_manager_options = {
     'key_manager/backend' => { value => $backend },
   }
-
   create_resources($config, $key_manager_options)
 }

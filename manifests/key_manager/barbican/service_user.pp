@@ -66,7 +66,7 @@
 #  (Optional) The region in which the identity server can be found.
 #  Defaults to $facts['os_service_default'].
 #
-define oslo::key_manager::barbican::service_user(
+define oslo::key_manager::barbican::service_user (
   $username,
   $password,
   $auth_url,
@@ -82,7 +82,6 @@ define oslo::key_manager::barbican::service_user(
   $keyfile                 = $facts['os_service_default'],
   $region_name             = $facts['os_service_default'],
 ) {
-
   if is_service_default($system_scope) {
     $project_name_real        = $project_name
     $project_domain_name_real = $project_domain_name
@@ -94,20 +93,20 @@ define oslo::key_manager::barbican::service_user(
   }
 
   $service_user_options = {
-    'barbican_service_user/auth_type'           => {'value' => $auth_type},
-    'barbican_service_user/auth_version'        => {'value' => $auth_version},
-    'barbican_service_user/cafile'              => {'value' => $cafile},
-    'barbican_service_user/certfile'            => {'value' => $certfile},
-    'barbican_service_user/keyfile'             => {'value' => $keyfile},
-    'barbican_service_user/region_name'         => {'value' => $region_name},
-    'barbican_service_user/auth_url'            => {'value' => $auth_url},
-    'barbican_service_user/username'            => {'value' => $username},
-    'barbican_service_user/password'            => {'value' => $password, 'secret' => true},
-    'barbican_service_user/user_domain_name'    => {'value' => $user_domain_name},
-    'barbican_service_user/project_name'        => {'value' => $project_name_real},
-    'barbican_service_user/project_domain_name' => {'value' => $project_domain_name_real},
-    'barbican_service_user/system_scope'        => {'value' => $system_scope},
-    'barbican_service_user/insecure'            => {'value' => $insecure},
+    'barbican_service_user/auth_type'           => { 'value' => $auth_type },
+    'barbican_service_user/auth_version'        => { 'value' => $auth_version },
+    'barbican_service_user/cafile'              => { 'value' => $cafile },
+    'barbican_service_user/certfile'            => { 'value' => $certfile },
+    'barbican_service_user/keyfile'             => { 'value' => $keyfile },
+    'barbican_service_user/region_name'         => { 'value' => $region_name },
+    'barbican_service_user/auth_url'            => { 'value' => $auth_url },
+    'barbican_service_user/username'            => { 'value' => $username },
+    'barbican_service_user/password'            => { 'value' => $password, 'secret' => true },
+    'barbican_service_user/user_domain_name'    => { 'value' => $user_domain_name },
+    'barbican_service_user/project_name'        => { 'value' => $project_name_real },
+    'barbican_service_user/project_domain_name' => { 'value' => $project_domain_name_real },
+    'barbican_service_user/system_scope'        => { 'value' => $system_scope },
+    'barbican_service_user/insecure'            => { 'value' => $insecure },
   }
 
   create_resources($name, $service_user_options)

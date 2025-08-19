@@ -22,7 +22,7 @@
 #   (string value)
 #   Defaults to $facts['os_service_default'].
 #
-define oslo::middleware(
+define oslo::middleware (
   # sizelimit
   $max_request_body_size        = $facts['os_service_default'],
   # http_proxy_to_wsgi

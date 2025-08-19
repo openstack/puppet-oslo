@@ -111,7 +111,7 @@
 #   (Optional) Whether to manage the configuration parameters.
 #   Defaults to true.
 #
-define oslo::db(
+define oslo::db (
   $config                         = $name,
   String[1] $config_group         = 'database',
   $sqlite_synchronous             = $facts['os_service_default'],
@@ -137,7 +137,6 @@ define oslo::db(
   $mysql_enable_ndb               = $facts['os_service_default'],
   Boolean $manage_config          = true,
 ) {
-
   include oslo::params
 
   if $manage_backend_package {
@@ -194,7 +193,6 @@ define oslo::db(
       "${config_group}/db_max_retries"          => { value => $db_max_retries },
       "${config_group}/mysql_enable_ndb"        => { value => $mysql_enable_ndb },
     }
-
     create_resources($config, $database_options)
   }
 }

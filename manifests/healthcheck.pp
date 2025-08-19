@@ -37,7 +37,7 @@
 #   plugin.
 #   Defaults to $facts['os_service_default']
 #
-define oslo::healthcheck(
+define oslo::healthcheck (
   $detailed                = $facts['os_service_default'],
   $backends                = $facts['os_service_default'],
   $allowed_source_ranges   = $facts['os_service_default'],
@@ -46,7 +46,6 @@ define oslo::healthcheck(
   $disable_by_file_paths   = $facts['os_service_default'],
   $enable_by_file_paths    = $facts['os_service_default'],
 ) {
-
   $backends_real = join(any2array($backends), ',')
   $allowed_source_ranges_real = join(any2array($allowed_source_ranges), ',')
   $disable_by_file_paths_real = join(any2array($disable_by_file_paths), ',')

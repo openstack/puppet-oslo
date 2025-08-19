@@ -32,13 +32,12 @@
 #   message, which failed to be delivered due to a recoverable error.
 #   Defaults to $facts['os_service_default'].
 #
-define oslo::messaging::notifications(
+define oslo::messaging::notifications (
   $driver                           = $facts['os_service_default'],
   Oslo::TransportURL $transport_url = $facts['os_service_default'],
   $topics                           = $facts['os_service_default'],
   $retry                            = $facts['os_service_default'],
 ) {
-
   # When we have a string value for driver,  we keep passing it as string
   # to reduce any chance of breaking things in a backwards incompatible way
   $driver_real = $driver ? {

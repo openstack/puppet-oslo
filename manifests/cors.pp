@@ -39,7 +39,7 @@
 #   (list value)
 #   Defaults to $facts['os_service_default'].
 #
-define oslo::cors(
+define oslo::cors (
   $allowed_origin    = $facts['os_service_default'],
   $allow_credentials = $facts['os_service_default'],
   $expose_headers    = $facts['os_service_default'],
@@ -47,7 +47,6 @@ define oslo::cors(
   $allow_methods     = $facts['os_service_default'],
   $allow_headers     = $facts['os_service_default'],
 ) {
-
   $cors_options = {
     'cors/allowed_origin'    => { value => join(any2array($allowed_origin), ',') },
     'cors/allow_credentials' => { value => $allow_credentials },

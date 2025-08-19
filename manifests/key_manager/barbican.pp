@@ -52,7 +52,6 @@ define oslo::key_manager::barbican (
   $barbican_region_name    = $facts['os_service_default'],
   $send_service_user_token = $facts['os_service_default'],
 ) {
-
   $barbican_options = {
     'barbican/barbican_endpoint'       => { value => $barbican_endpoint },
     'barbican/barbican_api_version'    => { value => $barbican_api_version },

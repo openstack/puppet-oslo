@@ -30,13 +30,12 @@
 #   Defaults to $facts['os_service_default'].
 #
 
-define oslo::messaging::default(
+define oslo::messaging::default (
   $executor_thread_pool_size        = $facts['os_service_default'],
   $rpc_response_timeout             = $facts['os_service_default'],
   Oslo::TransportURL $transport_url = $facts['os_service_default'],
   $control_exchange                 = $facts['os_service_default'],
 ) {
-
   $default_options = {
     'DEFAULT/executor_thread_pool_size' => { value => $executor_thread_pool_size },
     'DEFAULT/rpc_response_timeout'      => { value => $rpc_response_timeout },

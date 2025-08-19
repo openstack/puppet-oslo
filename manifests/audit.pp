@@ -22,10 +22,9 @@ define oslo::audit (
   $audit_map_file  = $facts['os_service_default'],
   $ignore_req_list = $facts['os_service_default'],
 ) {
-
   $options = {
-    'audit/audit_map_file'  => {'value' => $audit_map_file},
-    'audit/ignore_req_list' => {'value' => join(any2array($ignore_req_list), ',')},
+    'audit/audit_map_file'  => { 'value' => $audit_map_file },
+    'audit/ignore_req_list' => { 'value' => join(any2array($ignore_req_list), ',') },
   }
   create_resources($config, $options)
 }

@@ -38,7 +38,6 @@ define oslo::service (
   $log_options                 = $facts['os_service_default'],
   $run_external_periodic_tasks = $facts['os_service_default'],
 ) {
-
   $service_options = {
     'DEFAULT/backdoor_port'               => { value => $backdoor_port },
     'DEFAULT/backdoor_socket'             => { value => $backdoor_socket },
@@ -46,6 +45,5 @@ define oslo::service (
     'DEFAULT/log_options'                 => { value => $log_options },
     'DEFAULT/run_external_periodic_tasks' => { value => $run_external_periodic_tasks },
   }
-
   create_resources($name, $service_options)
 }

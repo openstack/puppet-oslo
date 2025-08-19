@@ -253,7 +253,7 @@
 #   (Optional) ensure state for package.
 #   Defaults to 'present'
 #
-define oslo::cache(
+define oslo::cache (
   $config_prefix                        = $facts['os_service_default'],
   $expiration_time                      = $facts['os_service_default'],
   $backend_expiration_time              = $facts['os_service_default'],
@@ -295,8 +295,7 @@ define oslo::cache(
   $dead_timeout                         = $facts['os_service_default'],
   Boolean $manage_backend_package       = true,
   $package_ensure                       = 'present',
-){
-
+) {
   include oslo::params
 
   if is_service_default($memcache_servers) {
@@ -404,6 +403,5 @@ define oslo::cache(
     'cache/hashclient_retry_delay'               => { value => $hashclient_retry_delay },
     'cache/dead_timeout'                         => { value => $dead_timeout },
   }
-
   create_resources($name, $cache_options)
 }

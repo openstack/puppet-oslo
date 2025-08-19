@@ -26,10 +26,9 @@ define oslo::coordination (
   $package_ensure                 = 'present',
   Boolean $manage_config          = true,
 ) {
-
   include oslo::params
 
-  if $manage_backend_package and !is_service_default($backend_url){
+  if $manage_backend_package and !is_service_default($backend_url) {
     case $backend_url {
       /^redis:\/\//: {
         stdlib::ensure_packages('python-redis', {

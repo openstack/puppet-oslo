@@ -29,7 +29,7 @@
 #   (Optional) Manage oslo.reports package.
 #   Defaults to false
 #
-define oslo::reports(
+define oslo::reports (
   $config                      = $name,
   $log_dir                     = $facts['os_service_default'],
   $file_event_handler          = $facts['os_service_default'],
@@ -37,14 +37,7 @@ define oslo::reports(
   $package_ensure              = 'present',
   Boolean $manage_package      = false,
 ) {
-
   include oslo::params
-
-  $oslo_reports_options = {
-    'oslo_reports/log_dir'                     => { value => $log_dir },
-    'oslo_reports/file_event_handler'          => { value => $file_event_handler },
-    'oslo_reports/file_event_handler_interval' => { value => $file_event_handler_interval },
-  }
 
   if $manage_package {
     stdlib::ensure_packages( 'oslo.reports', {
@@ -54,5 +47,10 @@ define oslo::reports(
     })
   }
 
+  $oslo_reports_options = {
+    'oslo_reports/log_dir'                     => { value => $log_dir },
+    'oslo_reports/file_event_handler'          => { value => $file_event_handler },
+    'oslo_reports/file_event_handler_interval' => { value => $file_event_handler_interval },
+  }
   create_resources($config, $oslo_reports_options)
 }

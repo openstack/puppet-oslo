@@ -51,7 +51,6 @@ define oslo::service::wsgi (
   $wsgi_keep_alive        = $facts['os_service_default'],
   $wsgi_log_format        = $facts['os_service_default'],
 ) {
-
   $service_options = {
     'DEFAULT/api_paste_config'       => { value => $api_paste_config },
     'DEFAULT/client_socket_timeout'  => { value => $client_socket_timeout },
@@ -61,6 +60,5 @@ define oslo::service::wsgi (
     'DEFAULT/wsgi_keep_alive'        => { value => $wsgi_keep_alive },
     'DEFAULT/wsgi_log_format'        => { value => $wsgi_log_format },
   }
-
   create_resources($name, $service_options)
 }
