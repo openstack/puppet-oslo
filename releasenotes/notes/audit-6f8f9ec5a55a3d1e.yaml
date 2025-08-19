@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``oslo::audit`` defined resource type has been added.
