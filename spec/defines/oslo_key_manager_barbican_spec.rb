@@ -20,6 +20,11 @@ describe 'oslo::key_manager::barbican' do
         is_expected.to contain_keystone_config('barbican/barbican_endpoint_type').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican/barbican_region_name').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican/send_service_user_token').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('barbican/insecure').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('barbican/cafile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('barbican/certfile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('barbican/keyfile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('barbican/timeout').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -34,6 +39,11 @@ describe 'oslo::key_manager::barbican' do
           :barbican_endpoint_type  => 'public',
           :barbican_region_name    => 'regionOne',
           :send_service_user_token => true,
+          :insecure                => false,
+          :cafile                  => 'cafile.pem',
+          :certfile                => 'certfile.crt',
+          :keyfile                 => 'somekey.key',
+          :timeout                 => 60,
         }
       end
 
@@ -46,6 +56,11 @@ describe 'oslo::key_manager::barbican' do
         is_expected.to contain_keystone_config('barbican/barbican_endpoint_type').with_value('public')
         is_expected.to contain_keystone_config('barbican/barbican_region_name').with_value('regionOne')
         is_expected.to contain_keystone_config('barbican/send_service_user_token').with_value(true)
+        is_expected.to contain_keystone_config('barbican/insecure').with_value(false)
+        is_expected.to contain_keystone_config('barbican/cafile').with_value('cafile.pem')
+        is_expected.to contain_keystone_config('barbican/certfile').with_value('certfile.crt')
+        is_expected.to contain_keystone_config('barbican/keyfile').with_value('somekey.key')
+        is_expected.to contain_keystone_config('barbican/timeout').with_value(60)
       end
     end
   end
