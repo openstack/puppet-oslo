@@ -26,6 +26,7 @@ describe 'oslo::key_manager::barbican::service_user' do
         is_expected.to contain_keystone_config('barbican_service_user/cafile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican_service_user/certfile').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican_service_user/keyfile').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('barbican_service_user/timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('barbican_service_user/region_name').with_value('<SERVICE DEFAULT>')
       end
     end
@@ -45,6 +46,7 @@ describe 'oslo::key_manager::barbican::service_user' do
           :cafile              => 'cafile.pem',
           :certfile            => 'certfile.crt',
           :keyfile             => 'somekey.key',
+          :timeout             => 60,
           :region_name         => 'MyRegion',
         })
       end
@@ -61,6 +63,7 @@ describe 'oslo::key_manager::barbican::service_user' do
         is_expected.to contain_keystone_config('barbican_service_user/cafile').with_value(params[:cafile])
         is_expected.to contain_keystone_config('barbican_service_user/certfile').with_value(params[:certfile])
         is_expected.to contain_keystone_config('barbican_service_user/keyfile').with_value(params[:keyfile])
+        is_expected.to contain_keystone_config('barbican_service_user/timeout').with_value(params[:timeout])
         is_expected.to contain_keystone_config('barbican_service_user/region_name').with_value(params[:region_name])
       end
     end

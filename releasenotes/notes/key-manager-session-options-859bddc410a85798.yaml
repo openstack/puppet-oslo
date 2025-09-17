@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    The following parameters have been added to
+    the ``oslo::key_manager::barbican`` defined resource type.
+
+    - ``insecure``
+    - ``cafile``
+    - ``certfile``
+    - ``keyfile``
+
+  - |
+    The new ``oslo::key_manager::barbican::service_type::timeout`` parameter
+    has been added.
