@@ -8,7 +8,8 @@ features:
     - ``cafile``
     - ``certfile``
     - ``keyfile``
+    - ``timeout``
 
   - |
-    The new ``oslo::key_manager::barbican::service_type::timeout`` parameter
+    The new ``oslo::key_manager::barbican::service_user::timeout`` parameter
     has been added.
