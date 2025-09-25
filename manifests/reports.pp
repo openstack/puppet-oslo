@@ -30,12 +30,12 @@
 #   Defaults to false
 #
 define oslo::reports (
-  $config                      = $name,
-  $log_dir                     = $facts['os_service_default'],
-  $file_event_handler          = $facts['os_service_default'],
-  $file_event_handler_interval = $facts['os_service_default'],
-  $package_ensure              = 'present',
-  Boolean $manage_package      = false,
+  $config                                 = $name,
+  $log_dir                                = $facts['os_service_default'],
+  $file_event_handler                     = $facts['os_service_default'],
+  $file_event_handler_interval            = $facts['os_service_default'],
+  Stdlib::Ensure::Package $package_ensure = present,
+  Boolean $manage_package                 = false,
 ) {
   include oslo::params
 
