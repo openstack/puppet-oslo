@@ -45,6 +45,8 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/retry_attempts').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/retry_delay').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/hashclient_retry_attempts').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/hashclient_retry_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/hashclient_dead_timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/hashclient_retry_delay').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/dead_timeout').with_value('<SERVICE DEFAULT>')
       end
@@ -90,8 +92,10 @@ describe 'oslo::cache' do
           :retry_attempts                       => 2,
           :retry_delay                          => 0,
           :hashclient_retry_attempts            => 2,
-          :hashclient_retry_delay               => 1,
-          :dead_timeout                         => 60,
+          :hashclient_retry_timeout             => 1,
+          :hashclient_dead_timeout              => 60,
+          :hashclient_retry_delay               => 3,
+          :dead_timeout                         => 61,
         }
       end
 
@@ -133,8 +137,10 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/retry_attempts').with_value('2')
         is_expected.to contain_keystone_config('cache/retry_delay').with_value('0')
         is_expected.to contain_keystone_config('cache/hashclient_retry_attempts').with_value('2')
-        is_expected.to contain_keystone_config('cache/hashclient_retry_delay').with_value('1')
-        is_expected.to contain_keystone_config('cache/dead_timeout').with_value('60')
+        is_expected.to contain_keystone_config('cache/hashclient_retry_timeout').with_value('1')
+        is_expected.to contain_keystone_config('cache/hashclient_dead_timeout').with_value('60')
+        is_expected.to contain_keystone_config('cache/hashclient_retry_delay').with_value('3')
+        is_expected.to contain_keystone_config('cache/dead_timeout').with_value('61')
       end
     end
 

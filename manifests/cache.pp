@@ -235,12 +235,12 @@
 #   the HashClient's internal mechanisms.
 #   Default to $facts['os_service_default']
 #
-# [*hashclient_retry_delay*]
+# [*hashclient_retry_timeout*]
 #   (Optional) Time in seconds that should pass between
 #   retry attempts in the HashClient's internal mechanisms.
 #   Default to $facts['os_service_default']
 #
-# [*dead_timeout*]
+# [*hashclient_dead_timeout*]
 #   (Optional) Time in seconds before attempting to add a node
 #   back in the pool in the HashClient's internal mechanisms.
 #   Default to $facts['os_service_default']
@@ -252,6 +252,18 @@
 # [*package_ensure*]
 #   (Optional) ensure state for package.
 #   Defaults to 'present'
+#
+# DEPRECATED PARAMETERS
+#
+# [*hashclient_retry_delay*]
+#   (Optional) Time in seconds that should pass between
+#   retry attempts in the HashClient's internal mechanisms.
+#   Default to undef
+#
+# [*dead_timeout*]
+#   (Optional) Time in seconds before attempting to add a node
+#   back in the pool in the HashClient's internal mechanisms.
+#   Default to undef
 #
 define oslo::cache (
   $config_prefix                          = $facts['os_service_default'],
@@ -291,12 +303,31 @@ define oslo::cache (
   $retry_attempts                         = $facts['os_service_default'],
   $retry_delay                            = $facts['os_service_default'],
   $hashclient_retry_attempts              = $facts['os_service_default'],
-  $hashclient_retry_delay                 = $facts['os_service_default'],
-  $dead_timeout                           = $facts['os_service_default'],
+  $hashclient_retry_timeout               = $facts['os_service_default'],
+  $hashclient_dead_timeout                = $facts['os_service_default'],
   Boolean $manage_backend_package         = true,
   Stdlib::Ensure::Package $package_ensure = present,
+  # DEPRECATED PARAMETERS
+  $hashclient_retry_delay                 = undef,
+  $dead_timeout                           = undef,
 ) {
   include oslo::params
+
+  if $hashclient_retry_delay != undef {
+    warning("The hashclient_retry_delay parameter is deprecated. \
+Use the hashclient_retry_timeout parameter instead.")
+    $hashclient_retry_delay_real = $hashclient_retry_delay
+  } else {
+    $hashclient_retry_delay_real = $facts['os_service_default']
+  }
+
+  if $dead_timeout != undef {
+    warning("The dead_timeout parameter is deprecated. \
+Use the hashclient_dead_timeout`` parameter instead.")
+    $dead_timeout_real = $dead_timeout
+  } else {
+    $dead_timeout_real = $facts['os_service_default']
+  }
 
   if is_service_default($memcache_servers) {
     $memcache_servers_real = $memcache_servers
@@ -400,8 +431,10 @@ define oslo::cache (
     'cache/retry_attempts'                       => { value => $retry_attempts },
     'cache/retry_delay'                          => { value => $retry_delay },
     'cache/hashclient_retry_attempts'            => { value => $hashclient_retry_attempts },
-    'cache/hashclient_retry_delay'               => { value => $hashclient_retry_delay },
-    'cache/dead_timeout'                         => { value => $dead_timeout },
+    'cache/hashclient_retry_timeout'             => { value => $hashclient_retry_timeout },
+    'cache/hashclient_dead_timeout'              => { value => $hashclient_dead_timeout },
+    'cache/hashclient_retry_delay'               => { value => $hashclient_retry_delay_real },
+    'cache/dead_timeout'                         => { value => $dead_timeout_real },
   }
   create_resources($name, $cache_options)
 }
