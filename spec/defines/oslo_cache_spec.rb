@@ -16,6 +16,9 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/proxies').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/enabled').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/debug_cache_backend').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/socket_timeout').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/username').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_keystone_config('cache/password').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_keystone_config('cache/memcache_servers').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_dead_retry').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_keystone_config('cache/memcache_socket_timeout').with_value('<SERVICE DEFAULT>')
@@ -63,9 +66,12 @@ describe 'oslo::cache' do
           :proxies                              => ['proxy1', 'proxy2'],
           :enabled                              => true,
           :debug_cache_backend                  => true,
+          :socket_timeout                       => 3.0,
+          :username                             => 'user',
+          :password                             => 'pass',
           :memcache_servers                     => ['host1:11211', 'host2:11211','[fd12:3456:789a:1::1]:11211'],
           :memcache_dead_retry                  => '300',
-          :memcache_socket_timeout              => '3.0',
+          :memcache_socket_timeout              => 3.1,
           :enable_socket_keepalive              => false,
           :socket_keepalive_idle                => 1,
           :socket_keepalive_interval            => 1,
@@ -81,7 +87,7 @@ describe 'oslo::cache' do
           :redis_username                       => 'redisuser',
           :redis_password                       => 'redispass',
           :redis_sentinels                      => ['host1:26379', 'host2:26379'],
-          :redis_socket_timeout                 => 1.0,
+          :redis_socket_timeout                 => 3.2,
           :redis_sentinel_service_name          => 'mymaster',
           :tls_enabled                          => false,
           :tls_cafile                           => '/path/to/ssl/cafile',
@@ -108,9 +114,12 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/proxies').with_value('proxy1,proxy2')
         is_expected.to contain_keystone_config('cache/enabled').with_value('true')
         is_expected.to contain_keystone_config('cache/debug_cache_backend').with_value('true')
+        is_expected.to contain_keystone_config('cache/socket_timeout').with_value(3.0)
+        is_expected.to contain_keystone_config('cache/username').with_value('user')
+        is_expected.to contain_keystone_config('cache/password').with_value('pass').with_secret(true)
         is_expected.to contain_keystone_config('cache/memcache_servers').with_value('host1:11211,host2:11211,[fd12:3456:789a:1::1]:11211')
         is_expected.to contain_keystone_config('cache/memcache_dead_retry').with_value('300')
-        is_expected.to contain_keystone_config('cache/memcache_socket_timeout').with_value('3.0')
+        is_expected.to contain_keystone_config('cache/memcache_socket_timeout').with_value(3.1)
         is_expected.to contain_keystone_config('cache/enable_socket_keepalive').with_value('false')
         is_expected.to contain_keystone_config('cache/socket_keepalive_idle').with_value('1')
         is_expected.to contain_keystone_config('cache/socket_keepalive_interval').with_value('1')
@@ -126,7 +135,7 @@ describe 'oslo::cache' do
         is_expected.to contain_keystone_config('cache/redis_username').with_value('redisuser')
         is_expected.to contain_keystone_config('cache/redis_password').with_value('redispass').with_secret(true)
         is_expected.to contain_keystone_config('cache/redis_sentinels').with_value('host1:26379,host2:26379')
-        is_expected.to contain_keystone_config('cache/redis_socket_timeout').with_value(1.0)
+        is_expected.to contain_keystone_config('cache/redis_socket_timeout').with_value(3.2)
         is_expected.to contain_keystone_config('cache/redis_sentinel_service_name').with_value('mymaster')
         is_expected.to contain_keystone_config('cache/tls_enabled').with_value('false')
         is_expected.to contain_keystone_config('cache/tls_cafile').with_value('/path/to/ssl/cafile')

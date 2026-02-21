@@ -84,6 +84,18 @@
 #   Typically this should be left set to false. (boolean value)
 #   Defaults to $facts['os_service_default']
 #
+# [*socket_timeout*]
+#   (Optional) Timeout in seconds for every call to a server.
+#   Defaults to $facts['os_service_default']
+#
+# [*username*]
+#   (Optional) The user name for authentication to backend.
+#   Defaults to $facts['os_service_default']
+#
+# [*password*]
+#   (Optional) The password for authentication to backend.
+#   Defaults to $facts['os_service_default']
+#
 # [*memcache_servers*]
 #   (Optional) Memcache servers in the format of "host:port".
 #   (dogpile.cache.memcache and oslo_cache.memcache_pool backends only).
@@ -94,12 +106,6 @@
 #   (Optional) Number of seconds memcached server is considered dead before
 #   it is tried again. (dogpile.cache.memcache and oslo_cache.memcache_pool
 #   backends only). (integer value)
-#   Defaults to $facts['os_service_default']
-#
-# [*memcache_socket_timeout*]
-#   (Optional) Timeout in seconds for every call to a server.
-#   (dogpile.cache.memcache and oslo_cache.memcache_pool backends only).
-#   (floating point value)
 #   Defaults to $facts['os_service_default']
 #
 # [*enable_socket_keepalive*]
@@ -149,32 +155,12 @@
 #   (Optional) Whether SASL is enabled in memcached
 #   Defaults to $facts['os_service_default']
 #
-# [*memcache_username*]
-#   (Optional) The user name for the memcached with SASL enabled
-#   Defaults to $facts['os_service_default']
-#
-# [*memcache_password*]
-#   (Optional) The password for the memcached with SASL enabled
-#   Defaults to $facts['os_service_default']
-#
 # [*redis_server*]
 #   (Optional) Redis server in the format of "host:port".
 #   Defaults to $facts['os_service_default']
 #
-# [*redis_username*]
-#   (Optional) The user name for redis
-#   Defaults to $facts['os_service_default']
-#
-# [*redis_password*]
-#   (Optional) The password for redis
-#   Defaults to $facts['os_service_default']
-#
 # [*redis_sentinels*]
 #   (Optional) Redis sentinel servers in the format of host:port
-#   Defaults to $facts['os_service_default']
-#
-# [*redis_socket_timeout*]
-#   (Optional) Timeout in seconds for every call to a server
 #   Defaults to $facts['os_service_default']
 #
 # [*redis_sentinel_service_name*]
@@ -265,6 +251,32 @@
 #   back in the pool in the HashClient's internal mechanisms.
 #   Default to undef
 #
+# [*memcache_username*]
+#   (Optional) The user name for the memcached with SASL enabled
+#   Default to undef
+#
+# [*memcache_password*]
+#   (Optional) The password for the memcached with SASL enabled
+#   Default to undef
+#
+# [*redis_username*]
+#   (Optional) The user name for redis
+#   Default to undef
+#
+# [*redis_password*]
+#   (Optional) The password for redis
+#   Default to undef
+#
+# [*memcache_socket_timeout*]
+#   (Optional) Timeout in seconds for every call to a server.
+#   (dogpile.cache.memcache and oslo_cache.memcache_pool backends only).
+#   (floating point value)
+#   Default to undef
+#
+# [*redis_socket_timeout*]
+#   (Optional) Timeout in seconds for every call to a server
+#   Default to undef
+#
 define oslo::cache (
   $config_prefix                          = $facts['os_service_default'],
   $expiration_time                        = $facts['os_service_default'],
@@ -274,9 +286,11 @@ define oslo::cache (
   $proxies                                = $facts['os_service_default'],
   $enabled                                = $facts['os_service_default'],
   $debug_cache_backend                    = $facts['os_service_default'],
+  $socket_timeout                         = $facts['os_service_default'],
+  $username                               = $facts['os_service_default'],
+  $password                               = $facts['os_service_default'],
   $memcache_servers                       = $facts['os_service_default'],
   $memcache_dead_retry                    = $facts['os_service_default'],
-  $memcache_socket_timeout                = $facts['os_service_default'],
   $enable_socket_keepalive                = $facts['os_service_default'],
   $socket_keepalive_idle                  = $facts['os_service_default'],
   $socket_keepalive_interval              = $facts['os_service_default'],
@@ -286,13 +300,8 @@ define oslo::cache (
   $memcache_pool_connection_get_timeout   = $facts['os_service_default'],
   $memcache_pool_flush_on_reconnect       = $facts['os_service_default'],
   $memcache_sasl_enabled                  = $facts['os_service_default'],
-  $memcache_username                      = $facts['os_service_default'],
-  $memcache_password                      = $facts['os_service_default'],
   $redis_server                           = $facts['os_service_default'],
-  $redis_username                         = $facts['os_service_default'],
-  $redis_password                         = $facts['os_service_default'],
   $redis_sentinels                        = $facts['os_service_default'],
-  $redis_socket_timeout                   = $facts['os_service_default'],
   $redis_sentinel_service_name            = $facts['os_service_default'],
   $tls_enabled                            = $facts['os_service_default'],
   $tls_cafile                             = $facts['os_service_default'],
@@ -310,6 +319,12 @@ define oslo::cache (
   # DEPRECATED PARAMETERS
   $hashclient_retry_delay                 = undef,
   $dead_timeout                           = undef,
+  $memcache_username                      = undef,
+  $memcache_password                      = undef,
+  $redis_username                         = undef,
+  $redis_password                         = undef,
+  $memcache_socket_timeout                = undef,
+  $redis_socket_timeout                   = undef,
 ) {
   include oslo::params
 
@@ -327,6 +342,15 @@ Use the hashclient_dead_timeout`` parameter instead.")
     $dead_timeout_real = $dead_timeout
   } else {
     $dead_timeout_real = $facts['os_service_default']
+  }
+
+  ['username', 'password', 'socket_timeout'].each |String $common_opt| {
+    ['memcache', 'redis'].each |String $backend| {
+      if getvar("${backend}_${common_opt}") != undef {
+        warning("The ${backend}_${common_opt} parameter is deprecated. \
+Use the ${common_opt} parameter instead")
+      }
+    }
   }
 
   if is_service_default($memcache_servers) {
@@ -402,9 +426,12 @@ Use the hashclient_dead_timeout`` parameter instead.")
     'cache/proxies'                              => { value => join(any2array($proxies), ',') },
     'cache/enabled'                              => { value => $enabled },
     'cache/debug_cache_backend'                  => { value => $debug_cache_backend },
+    'cache/socket_timeout'                       => { value => $socket_timeout },
+    'cache/username'                             => { value => $username },
+    'cache/password'                             => { value => $password, secret => true },
     'cache/memcache_servers'                     => { value => $memcache_servers_real },
     'cache/memcache_dead_retry'                  => { value => $memcache_dead_retry },
-    'cache/memcache_socket_timeout'              => { value => $memcache_socket_timeout },
+    'cache/memcache_socket_timeout'              => { value => pick($memcache_socket_timeout, $facts['os_service_default']) },
     'cache/enable_socket_keepalive'              => { value => $enable_socket_keepalive },
     'cache/socket_keepalive_idle'                => { value => $socket_keepalive_idle },
     'cache/socket_keepalive_interval'            => { value => $socket_keepalive_interval },
@@ -414,13 +441,13 @@ Use the hashclient_dead_timeout`` parameter instead.")
     'cache/memcache_pool_connection_get_timeout' => { value => $memcache_pool_connection_get_timeout },
     'cache/memcache_pool_flush_on_reconnect'     => { value => $memcache_pool_flush_on_reconnect },
     'cache/memcache_sasl_enabled'                => { value => $memcache_sasl_enabled },
-    'cache/memcache_username'                    => { value => $memcache_username },
-    'cache/memcache_password'                    => { value => $memcache_password, secret => true },
+    'cache/memcache_username'                    => { value => pick($memcache_username, $facts['os_service_default']) },
+    'cache/memcache_password'                    => { value => pick($memcache_password, $facts['os_service_default']), secret => true },
     'cache/redis_server'                         => { value => $redis_server },
-    'cache/redis_username'                       => { value => $redis_username },
-    'cache/redis_password'                       => { value => $redis_password, secret => true },
+    'cache/redis_username'                       => { value => pick($redis_username, $facts['os_service_default']) },
+    'cache/redis_password'                       => { value => pick($redis_password, $facts['os_service_default']), secret => true },
     'cache/redis_sentinels'                      => { value => join(any2array($redis_sentinels), ',') },
-    'cache/redis_socket_timeout'                 => { value => $redis_socket_timeout },
+    'cache/redis_socket_timeout'                 => { value => pick($redis_socket_timeout, $facts['os_service_default']) },
     'cache/redis_sentinel_service_name'          => { value => $redis_sentinel_service_name },
     'cache/tls_enabled'                          => { value => $tls_enabled },
     'cache/tls_cafile'                           => { value => $tls_cafile },
