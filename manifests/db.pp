@@ -107,35 +107,41 @@
 #   Cluster (NDB).
 #   Defaults to $facts['os_service_default']
 #
+# [*connection_parameters*]
+#   (Optional) URL parameters to append onto the connection URL at connect time;
+#   can either be specified as a String or a Hash
+#   Defaults to $facts['os_service_default']
+#
 # [*manage_config*]
 #   (Optional) Whether to manage the configuration parameters.
 #   Defaults to true.
 #
 define oslo::db (
-  $config                                         = $name,
-  String[1] $config_group                         = 'database',
-  $sqlite_synchronous                             = $facts['os_service_default'],
-  $backend                                        = $facts['os_service_default'],
-  Boolean $manage_backend_package                 = true,
-  Stdlib::Ensure::Package $backend_package_ensure = present,
-  Oslo::Dbconn $connection                        = $facts['os_service_default'],
-  Oslo::Dbconn $slave_connection                  = $facts['os_service_default'],
-  $mysql_sql_mode                                 = $facts['os_service_default'],
-  $connection_recycle_time                        = $facts['os_service_default'],
-  $max_pool_size                                  = $facts['os_service_default'],
-  $max_retries                                    = $facts['os_service_default'],
-  $retry_interval                                 = $facts['os_service_default'],
-  $max_overflow                                   = $facts['os_service_default'],
-  $connection_debug                               = $facts['os_service_default'],
-  $connection_trace                               = $facts['os_service_default'],
-  $pool_timeout                                   = $facts['os_service_default'],
-  $use_db_reconnect                               = $facts['os_service_default'],
-  $db_retry_interval                              = $facts['os_service_default'],
-  $db_inc_retry_interval                          = $facts['os_service_default'],
-  $db_max_retry_interval                          = $facts['os_service_default'],
-  $db_max_retries                                 = $facts['os_service_default'],
-  $mysql_enable_ndb                               = $facts['os_service_default'],
-  Boolean $manage_config                          = true,
+  $config                                          = $name,
+  String[1] $config_group                          = 'database',
+  $sqlite_synchronous                              = $facts['os_service_default'],
+  $backend                                         = $facts['os_service_default'],
+  Boolean $manage_backend_package                  = true,
+  Stdlib::Ensure::Package $backend_package_ensure  = present,
+  Oslo::Dbconn $connection                         = $facts['os_service_default'],
+  Oslo::Dbconn $slave_connection                   = $facts['os_service_default'],
+  $mysql_sql_mode                                  = $facts['os_service_default'],
+  $connection_recycle_time                         = $facts['os_service_default'],
+  $max_pool_size                                   = $facts['os_service_default'],
+  $max_retries                                     = $facts['os_service_default'],
+  $retry_interval                                  = $facts['os_service_default'],
+  $max_overflow                                    = $facts['os_service_default'],
+  $connection_debug                                = $facts['os_service_default'],
+  $connection_trace                                = $facts['os_service_default'],
+  $pool_timeout                                    = $facts['os_service_default'],
+  $use_db_reconnect                                = $facts['os_service_default'],
+  $db_retry_interval                               = $facts['os_service_default'],
+  $db_inc_retry_interval                           = $facts['os_service_default'],
+  $db_max_retry_interval                           = $facts['os_service_default'],
+  $db_max_retries                                  = $facts['os_service_default'],
+  $mysql_enable_ndb                                = $facts['os_service_default'],
+  Oslo::Dbconn::Conn_params $connection_parameters = $facts['os_service_default'],
+  Boolean $manage_config                           = true,
 ) {
   include oslo::params
 
@@ -174,6 +180,12 @@ removed in a future release")
     }
   }
 
+  if $connection_parameters =~ Hash {
+    $_connection_parameters = join_keys_to_values($connection_parameters,'=').join('&')
+  } else {
+    $_connection_parameters = $connection_parameters
+  }
+
   if $manage_config {
     $database_options = {
       "${config_group}/sqlite_synchronous"      => { value => $sqlite_synchronous },
@@ -195,6 +207,7 @@ removed in a future release")
       "${config_group}/db_max_retry_interval"   => { value => $db_max_retry_interval },
       "${config_group}/db_max_retries"          => { value => $db_max_retries },
       "${config_group}/mysql_enable_ndb"        => { value => $mysql_enable_ndb },
+      "${config_group}/connection_parameters"   => { value => $_connection_parameters },
     }
     create_resources($config, $database_options)
   }

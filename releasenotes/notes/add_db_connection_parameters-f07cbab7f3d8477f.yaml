@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Add possibility to specify db connection parameters.
