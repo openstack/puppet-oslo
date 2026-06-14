@@ -156,13 +156,6 @@ define oslo::db (
           $backend_package = undef
         }
       }
-      Oslo::Dbconn::Postgres: {
-        warning("Support for PostgreSQL has been deprecated and will be \
-removed in a future release")
-
-        $backend_package = undef
-        require 'postgresql::lib::python'
-      }
       Oslo::Dbconn::Sqlite: {
         $backend_package = undef
       }

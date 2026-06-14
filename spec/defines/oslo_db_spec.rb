@@ -101,36 +101,6 @@ describe 'oslo::db' do
       it { is_expected.to contain_keystone_config('database/connection').with_value('mysql+pymysql://db:db@localhost/db').with_secret(true) }
     end
 
-    context 'with postgresql backend' do
-      let :params do
-        { :connection => 'postgresql://db:db@localhost/db', }
-      end
-
-      it { is_expected.to contain_keystone_config('database/connection').with_value('postgresql://db:db@localhost/db').with_secret(true) }
-      it { is_expected.to contain_class('postgresql::lib::python') }
-
-      context 'with backend package management disabled' do
-        before do
-          params.merge!({
-            :manage_backend_package => false,
-          })
-        end
-
-        it 'does not install backend package' do
-          is_expected.not_to contain_class('postgresql::lib::python')
-        end
-      end
-    end
-
-    context 'with postgresql backend + drivername' do
-      let :params do
-        { :connection => 'postgresql+psycopg2://db:db@localhost/db' }
-      end
-
-      it { is_expected.to contain_keystone_config('database/connection').with_value('postgresql+psycopg2://db:db@localhost/db').with_secret(true) }
-      it { is_expected.to contain_class('postgresql::lib::python') }
-    end
-
     context 'with incorrect database_connection string' do
       let :params do
         { :connection => 'foo://db:db@localhost/db', }
@@ -189,11 +159,7 @@ describe 'oslo::db' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({
-          # puppet-postgresql requires the service_provider fact provided by
-          # puppetlabs-postgresql.
-          :service_provider => 'systemd'
-        }))
+        facts.merge!(OSDefaults.get_facts())
       end
 
       let (:platform_params) do

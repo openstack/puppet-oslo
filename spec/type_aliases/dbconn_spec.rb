@@ -5,8 +5,6 @@ describe 'Oslo::Dbconn' do
     context 'with valid types' do
       [
         'mysql+pymysql://db:db@localhost/db',
-        'postgresql://db:db@localhost/db',
-        'postgresql+psycopg2://db:db@localhost/db',
         'sqlite:///var/lib/db.db',
         '<SERVICE DEFAULT>',
       ].each do |value|
@@ -22,6 +20,8 @@ describe 'Oslo::Dbconn' do
       [
         'foo://db:db@localhost/db',
         'foo+pymysql://db:db@localhost/db',
+        'postgresql://db:db@localhost/db',
+        'postgresql+psycopg2://db:db@localhost/db',
         'mongodb://db:db@localhost/db',
         true,
         false,
