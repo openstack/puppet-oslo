@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``oslo::db::mysql_enable_ndb`` parameter has been deprecated and has
+    no effect now.

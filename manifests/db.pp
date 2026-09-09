@@ -102,11 +102,6 @@
 #   before error is raised. Set to -1 to specify an infinite retry count.
 #   Defaults to $facts['os_service_default']
 #
-# [*mysql_enable_ndb*]
-#   (Optional) If True, transparently enables support for handling MySQL
-#   Cluster (NDB).
-#   Defaults to $facts['os_service_default']
-#
 # [*connection_parameters*]
 #   (Optional) URL parameters to append onto the connection URL at connect time;
 #   can either be specified as a String or a Hash
@@ -115,6 +110,13 @@
 # [*manage_config*]
 #   (Optional) Whether to manage the configuration parameters.
 #   Defaults to true.
+#
+# DEPRECATED PARAMETERS
+#
+# [*mysql_enable_ndb*]
+#   (Optional) If True, transparently enables support for handling MySQL
+#   Cluster (NDB).
+#   Defaults to undef
 #
 define oslo::db (
   $config                                          = $name,
@@ -139,11 +141,16 @@ define oslo::db (
   $db_inc_retry_interval                           = $facts['os_service_default'],
   $db_max_retry_interval                           = $facts['os_service_default'],
   $db_max_retries                                  = $facts['os_service_default'],
-  $mysql_enable_ndb                                = $facts['os_service_default'],
   Oslo::Dbconn::Conn_params $connection_parameters = $facts['os_service_default'],
   Boolean $manage_config                           = true,
+  # DEPRECATED PARAMETERS
+  $mysql_enable_ndb                                = undef,
 ) {
   include oslo::params
+
+  if $mysql_enable_ndb != undef {
+    warning('The mysql_enable_ndb parameter is deprecated and has no effect')
+  }
 
   if $manage_backend_package {
     case $connection {
@@ -199,7 +206,6 @@ define oslo::db (
       "${config_group}/db_inc_retry_interval"   => { value => $db_inc_retry_interval },
       "${config_group}/db_max_retry_interval"   => { value => $db_max_retry_interval },
       "${config_group}/db_max_retries"          => { value => $db_max_retries },
-      "${config_group}/mysql_enable_ndb"        => { value => $mysql_enable_ndb },
       "${config_group}/connection_parameters"   => { value => $_connection_parameters },
     }
     create_resources($config, $database_options)
