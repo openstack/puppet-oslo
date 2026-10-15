@@ -7,10 +7,6 @@
 #
 # === Parameters:
 #
-# [*enforce_scope*]
-#  (Optional) Whether or not to enforce scope when evaluating policies.
-#  Defaults to $facts['os_service_default'].
-#
 # [*enforce_new_defaults*]
 #  (Optional) Whether or not to use old deprecated defaults when evaluating
 #  policies.
@@ -33,15 +29,30 @@
 #  Missing or empty directories are ignored. (list value)
 #  Defaults to $facts['os_service_default'].
 #
+# DEPRECATED PARAMETERS
+#
+# [*enforce_scope*]
+#  (Optional) Whether or not to enforce scope when evaluating policies.
+#  Defaults to $facts['os_service_default'].
+#
 define oslo::policy (
-  $enforce_scope        = $facts['os_service_default'],
   $enforce_new_defaults = $facts['os_service_default'],
   $policy_file          = $facts['os_service_default'],
   $policy_default_rule  = $facts['os_service_default'],
   $policy_dirs          = $facts['os_service_default'],
+  # DEPRECATED PARAMETERS
+  $enforce_scope        = undef,
 ) {
+  if $enforce_scope != undef {
+    warning('The enforce_scope parameter is deprecated')
+  }
+  $enforce_scope_real = $enforce_scope ? {
+    undef   => $facts['os_service_default'],
+    default => $enforce_scope,
+  }
+
   $policy_options = {
-    'oslo_policy/enforce_scope'        => { value => $enforce_scope },
+    'oslo_policy/enforce_scope'        => { value => $enforce_scope_real },
     'oslo_policy/enforce_new_defaults' => { value => $enforce_new_defaults },
     'oslo_policy/policy_file'          => { value => $policy_file },
     'oslo_policy/policy_default_rule'  => { value => $policy_default_rule },
